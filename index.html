@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TypeMind — The Intelligent Communication Platform</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- GSAP Animation Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            background: '#030712',
+            surface: 'rgba(15, 23, 42, 0.65)',
+            border: 'rgba(255, 255, 255, 0.18)',
+            accent: '#38bdf8',
+            purpleAccent: '#c084fc',
+          }
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --background: #030712;
+      --surface: rgba(15, 23, 42, 0.65);
+      --border: rgba(255, 255, 255, 0.18);
+      --accent: #38bdf8;
+      --glow-shadow: rgba(56, 189, 248, 0.45);
+      --nav-tint: rgba(56, 189, 248, 0.15);
+      --nav-border: rgba(56, 189, 248, 0.45);
+      --island-bg: rgba(6, 10, 20, 0.88);
+    }
+
+    body {
+      background-color: var(--background);
+      color: #f8fafc;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      overflow-x: hidden;
+    }
+
+    /* ── GOOGLE STITCH DOT GRID MATRIX ── */
+    .stitch-dot-grid {
+      position: fixed; inset: 0; z-index: -25;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1.5px, transparent 1.5px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+
+    /* ── 3D FIXED FLUID CANVAS ── */
+    #fluid-canvas {
+      position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -20;
+      pointer-events: none; filter: blur(65px); opacity: 0; transform: scale(1.02);
+      will-change: transform, opacity;
+      transition: opacity 2.5s cubic-bezier(0.16, 1, 0.3, 1), transform 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #fluid-canvas.aurora-live { opacity: 0.65; transform: scale(1); }
+    #fluid-canvas.water-recede { opacity: 0.05 !important; transform: scale(0.97) translateY(20px); }
+
+    /* ── Siri-Style Shimmer Text Effect ── */
+    .apple-siri-shimmer {
+      background: linear-gradient(135deg, #ffffff 0%, #38bdf8 20%, #ffffff 40%, #c084fc 60%, #ffffff 80%, #38bdf8 100%);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: siriShimmerFlow 4s linear infinite;
+      filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.5));
+    }
+    @keyframes siriShimmerFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ── Synchronized Tidal Heading Shimmer ── */
+    .tidal-heading { transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1); color: #ffffff; }
+    .default-shimmer {
+      background: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #ffffff 100%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gentleFlow 6s ease infinite alternate;
+    }
+    @keyframes gentleFlow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+    .tidal-heading.is-shining {
+      background: linear-gradient(135deg, #ffffff 0%, #38bdf8 20%, #ffffff 40%, #c084fc 60%, #ffffff 80%, #38bdf8 100%);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: siriShimmerFlow 3s linear infinite;
+      filter: drop-shadow(0 0 35px rgba(56, 189, 248, 0.65)) drop-shadow(0 0 15px rgba(192, 132, 252, 0.45));
+      transform: scale(1.015);
+    }
+
+    /* ── Splash Screen Engine ── */
+    #splash-screen {
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform; cursor: pointer;
+    }
+    .splash-flex-container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; position: relative; }
+
+    #merge-grid { position: absolute; width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; z-index: 20; pointer-events: none; }
+    .brand-circle {
+      position: absolute; width: 84px; height: 84px; border-radius: 9999px; background: rgba(15, 23, 42, 0.95);
+      border: 2px solid rgba(255, 255, 255, 0.2); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(56, 189, 248, 0.2);
+      display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0.2); transition: all 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #merge-grid.is-active .pos-tl { transform: translate(-95px, -95px) scale(1); opacity: 1; transition-delay: 0.0s; }
+    #merge-grid.is-active .pos-tr { transform: translate(95px, -95px) scale(1); opacity: 1; transition-delay: 0.15s; }
+    #merge-grid.is-active .pos-bl { transform: translate(-95px, 95px) scale(1); opacity: 1; transition-delay: 0.3s; }
+    #merge-grid.is-active .pos-br { transform: translate(95px, 95px) scale(1); opacity: 1; transition-delay: 0.45s; }
+    #merge-grid.is-merging .brand-circle {
+      transform: translate(0px, 0px) scale(0.15) rotate(180deg) !important; opacity: 0 !important; filter: blur(8px);
+      transition: all 1.0s cubic-bezier(0.5, 0, 0.2, 1) !important;
+    }
+
+    #merge-caption { position: absolute; bottom: -150px; opacity: 0; transform: translateY(15px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); z-index: 25; }
+    #merge-caption.show-caption { opacity: 1; transform: translateY(0px); }
+    #merge-caption.hide-caption { opacity: 0; transform: scale(0.8); filter: blur(4px); }
+
+    .splash-logo-outer { flex-shrink: 0; transform: scale(0); opacity: 0; perspective: 1200px; z-index: 30; }
+    .splash-logo-outer.start-reveal { animation: logoEnter 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    @keyframes logoEnter {
+      0% { transform: scale(0.2); opacity: 0; filter: blur(12px); }
+      70% { transform: scale(1.06); opacity: 1; filter: blur(0px); }
+      100% { transform: scale(1); opacity: 1; filter: blur(0px); }
+    }
+
+    .splash-logo-inner {
+      position: relative; width: 170px; height: 170px; transform-style: preserve-3d; transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 40px var(--glow-shadow); border-radius: 9999px; animation: logoPulse 2s 2.2s infinite alternate ease-in-out;
+    }
+    @media (min-width: 640px) { .splash-logo-inner { width: 220px; height: 220px; } }
+    @keyframes logoPulse {
+      0% { box-shadow: 0 0 30px var(--glow-shadow); }
+      100% { box-shadow: 0 0 65px var(--glow-shadow), 0 0 25px var(--accent); }
+    }
+
+    .splash-front, .splash-back {
+      position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 9999px; object-fit: contain;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden; border: 3px solid var(--accent); padding: 12px; background: #080e1e;
+    }
+    .splash-back { transform: rotateY(180deg); object-fit: cover; padding: 0px; }
+
+    .splash-text-wrapper {
+      max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap; transition: all 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateX(-20px) scale(0.95); filter: blur(5px);
+    }
+    .splash-flex-container.expand .splash-text-wrapper { max-width: 500px; opacity: 1; margin-left: 1.8rem; transform: translateX(0) scale(1); filter: blur(0); }
+    .splash-flex-container.absorb .splash-text-wrapper { max-width: 0; opacity: 0; margin-left: 0; transform: translateX(-40px) scale(0.6); filter: blur(10px); transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    /* ── Main Content Reveal Transition ── */
+    #main-content-flow { opacity: 0; transform: translateY(40px); transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), transform 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+    #main-content-flow.content-visible { opacity: 1; transform: translateY(0); }
+
+    .reveal-node { opacity: 0; filter: blur(12px); transform: translateY(40px) scale(0.97); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity; }
+    .reveal-node.is-visible { opacity: 1; filter: blur(0px); transform: translateY(0px) scale(1); }
+
+    /* ── Dynamic Island Navigation ── */
+    #nav-island-wrapper { position: fixed; top: 16px; left: 0; right: 0; z-index: 10000; display: flex; justify-content: center; pointer-events: none; transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    .nav-island {
+      pointer-events: auto; background: var(--island-bg); backdrop-filter: blur(50px) saturate(180%); border: 1.5px solid var(--nav-border);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.2), 0 25px 60px -10px rgba(0,0,0,0.85), 0 0 40px -5px var(--nav-tint);
+      border-radius: 9999px; width: 92%; max-width: 980px; height: 66px; position: relative; overflow: hidden; transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-island.is-collapsed { width: 340px; height: 50px; border-color: rgba(255,255,255,0.18); box-shadow: inset 0 1px 1px rgba(255,255,255,0.15), 0 15px 35px -5px rgba(0,0,0,0.6), 0 0 30px var(--nav-tint); }
+    .nav-view { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; white-space: nowrap; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+    .nav-expanded-view { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
+    .nav-island.is-collapsed .nav-expanded-view { opacity: 0; transform: scale(0.88) translateY(-12px); pointer-events: none; }
+    .nav-compact-view { opacity: 0; transform: scale(0.88) translateY(12px); pointer-events: none; }
+    .nav-island.is-collapsed .nav-compact-view { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
+    
+    .nav-link { padding: 6px 14px; border-radius: 9999px; font-weight: 600; font-size: 0.85rem; color: #cbd5e1; transition: all 0.3s ease; }
+    .nav-link:hover, .nav-link.active-section { color: #38bdf8; background: var(--nav-tint); border: 1px solid var(--nav-border); box-shadow: 0 0 15px var(--glow-shadow); transform: translateY(-1px); }
+
+    /* ── APPLE VISION-OS VIBRANT COLOR-CODED GLASS CARDS ── */
+    .spotlight-card {
+      position: relative; overflow: hidden; --mouse-x: 50%; --mouse-y: 50%;
+      backdrop-filter: blur(40px) saturate(190%); -webkit-backdrop-filter: blur(40px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.35), inset 0 -1px 1px rgba(255, 255, 255, 0.05);
+      transform: translateY(0px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s ease, box-shadow 0.5s ease;
+      will-change: transform;
+    }
+    .spotlight-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.9), inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 0 40px rgba(56, 189, 248, 0.25);
+      z-index: 10;
+    }
+    .spotlight-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.12), transparent 45%);
+      z-index: 1; pointer-events: none; opacity: 0; transition: opacity 0.5s ease;
+    }
+    .spotlight-card:hover::before { opacity: 1; }
+
+    /* ── SECTION 02: ACCORDION TABS ── */
+    #island-drop-box {
+      position: absolute; top: 0; left: 50%; transform: translate(-50%, -300px);
+      z-index: 50; display: flex; align-items: center; justify-content: center;
+      background: rgba(10, 15, 30, 0.95); border: 2px solid var(--accent);
+      box-shadow: 0 0 50px rgba(56, 189, 248, 0.6); overflow: hidden; pointer-events: none; white-space: nowrap;
+    }
+    #tabs-column { opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+    .apple-tab-btn {
+      width: 100%; text-align: left; padding: 16px 22px; border-radius: 20px;
+      background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #94a3b8; font-weight: 600; font-size: 1.05rem; display: flex;
+      align-items: center; justify-content: space-between;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; overflow: hidden;
+      will-change: transform, background;
+    }
+    .apple-tab-btn:hover { background: rgba(255, 255, 255, 0.08); color: #f8fafc; border-color: rgba(255, 255, 255, 0.25); transform: translateX(4px); }
+    .apple-tab-btn.is-bulky {
+      transform: scale(1.05) translateX(12px) !important; padding: 22px 28px !important;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.3) 0%, rgba(192, 132, 252, 0.2) 100%) !important;
+      border-color: rgba(56, 189, 248, 0.8) !important; color: #ffffff !important;
+      box-shadow: 0 15px 45px rgba(56, 189, 248, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.5) !important; z-index: 30;
+    }
+    .apple-tab-btn.is-bulky .tab-title-text {
+      background: linear-gradient(135deg, #ffffff 0%, #38bdf8 30%, #ffffff 60%, #c084fc 100%);
+      background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: siriShimmerFlow 3s linear infinite; font-weight: 800;
+    }
+    @keyframes intenseShimmerBurst {
+      0% { box-shadow: 0 0 0 rgba(56, 189, 248, 0); background: rgba(15, 23, 42, 0.5); border-color: rgba(255,255,255,0.08); }
+      40% { box-shadow: 0 0 60px rgba(56, 189, 248, 1), 0 0 25px #c084fc; background: linear-gradient(135deg, rgba(56, 189, 248, 0.75) 0%, rgba(192, 132, 252, 0.65) 100%); border-color: #ffffff; transform: scale(1.03); color: #ffffff; }
+      100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.15); background: rgba(15, 23, 42, 0.5); border-color: rgba(255,255,255,0.08); transform: scale(1); }
+    }
+    .shimmer-burst-glow { animation: intenseShimmerBurst 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
+
+    /* ── TYPING CURSOR FOR PRIVACY SECTION ── */
+    .typing-cursor::after {
+      content: '|'; display: inline-block; margin-left: 4px; color: #38bdf8;
+      animation: blinkCursor 0.8s infinite; font-weight: bold;
+    }
+    @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* ── APPLE VISION-OS GLASS MEDALLION & MECHANICAL LOCK (SECTION 05 UPGRADE) ── */
+    .apple-glass-medallion {
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.75), rgba(15, 23, 42, 0.85));
+      backdrop-filter: blur(60px) saturate(220%);
+      -webkit-backdrop-filter: blur(60px) saturate(220%);
+      border: 1.5px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.95), inset 0 1px 3px rgba(255, 255, 255, 0.45);
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+      will-change: transform;
+    }
+    
+    .lock-optical-sheen {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        115deg,
+        transparent 0%,
+        transparent 35%,
+        rgba(255, 255, 255, 0.9) 48%,
+        rgba(16, 185, 129, 1.0) 50%,
+        rgba(255, 255, 255, 0.9) 52%,
+        transparent 65%,
+        transparent 100%
+      );
+      transform: translateX(-150%);
+      pointer-events: none; z-index: 30;
+    }
+  </style>
+</head>
+<body class="selection:bg-cyan-500/30 selection:text-white">
+
+  <!-- ================= PHASE 1: SPLASH SCREEN ================= -->
+  <div id="splash-screen" class="fixed inset-0 z-[999999] bg-slate-950 flex flex-col items-center justify-center select-none" title="Click anywhere to skip intro">
+    <div class="stitch-dot-grid opacity-60"></div>
+    <div id="splash-flex" class="splash-flex-container relative z-10 w-full px-6 flex-row pointer-events-none">
+      <div id="merge-grid">
+        <div class="brand-circle pos-tl border-blue-500/50 shadow-blue-500/30">
+          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 1 0 1 0 10 10H12V2z" fill="#4285F4"/><path d="M12 2a10 10 0 0 1 10 10h-5a5 5 0 0 0-5-5V2z" fill="#EA4335"/><path d="M2 12a10 10 0 0 0 10 10v-5a5 5 0 0 1-5-5H2z" fill="#34A853"/><path d="M2 12a10 10 0 0 1 10-10v5a5 5 0 0 0-5 5H2z" fill="#FBBC05"/><rect x="7" y="10" width="10" height="6" rx="1" fill="white"/><circle cx="9" cy="12" r="0.8" fill="#4285F4"/><circle cx="12" cy="12" r="0.8" fill="#4285F4"/><circle cx="15" cy="12" r="0.8" fill="#4285F4"/></svg>
+        </div>
+        <div class="brand-circle pos-tr border-cyan-400/50 shadow-cyan-500/30 bg-blue-600">
+          <svg class="w-9 h-9 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-9 3h2v2h-2V7zm0 3h2v2h-2v-2zM8 7h2v2H8V7zm0 3h2v2H8v-2zm-3 0h2v2H5v-2zm0-3h2v2H5V7zm3 9H6v-2h2v2zm8 0H9v-2h7v2zm2-3h-2v-2h2v2zm0-3h-2V7h2v2z"/></svg>
+        </div>
+        <div class="brand-circle pos-bl border-indigo-400/50 shadow-indigo-500/30 bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400">
+          <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 18h16M4 14h16M4 10h10M4 6h8" stroke="white"/><circle cx="17" cy="8" r="3" fill="#38bdf8" stroke="white" stroke-width="1.5"/></svg>
+        </div>
+        <div class="brand-circle pos-br border-emerald-500/50 shadow-emerald-500/30 bg-emerald-500">
+          <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 17c-3.87 0-7-3.13-7-7s3.13-7 7-7c1.74 0 3.34.64 4.58 1.7L14.7 8.56c-.73-.63-1.68-1.02-2.7-1.02-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5c2.14 0 3.93-1.5 4.37-3.54H12V10.5h6.86c.09.48.14.99.14 1.5 0 3.87-3.13 7-7 7z"/></svg>
+        </div>
+        <div id="merge-caption" class="px-5 py-2 rounded-full bg-slate-900/90 border border-cyan-500/40 text-cyan-400 font-mono text-xs sm:text-sm font-extrabold uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(56,189,248,0.25)] whitespace-nowrap">Evolving Traditional Keyboards...</div>
+      </div>
+      <div id="splash-logo-outer" class="splash-logo-outer">
+        <div id="splash-logo-inner" class="splash-logo-inner">
+          <img src="https://i.ibb.co/Z7dkFRG/Gemini-Generated-Image-gfpw51gfpw51gfpw.png" alt="TypeMind Logo" class="splash-front" />
+          <img src="https://i.ibb.co/XrNLQwSC/Whats-App-Image-2026-07-01-at-1-15-10-PM.jpg" alt="Face" class="splash-back" />
+        </div>
+      </div>
+      <div class="splash-text-wrapper">
+        <h1 class="text-5xl sm:text-7xl font-black tracking-tighter default-shimmer pb-1 leading-none">TypeMind</h1>
+        <p class="text-slate-400 text-xs sm:text-sm font-bold tracking-[0.15em] mt-2 font-mono uppercase">AI <span class="text-cyan-400 mx-1">/</span> Communication Platform</p>
+      </div>
+    </div>
+    <div class="absolute bottom-6 right-6 z-50 pointer-events-none opacity-70 animate-pulse flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/80 border border-white/10 text-xs font-mono text-slate-400 shadow-lg">
+      <span>Click anywhere to skip intro</span> <i class="fa-solid fa-arrow-right-long text-cyan-400"></i>
+    </div>
+  </div>
+
+  <!-- ── FULL-SCREEN FIXED 3D BACKGROUND ── -->
+  <div class="stitch-dot-grid"></div>
+  <canvas id="fluid-canvas"></canvas>
+
+  <!-- ================= PHASE 2: ADAPTIVE DYNAMIC ISLAND ================= -->
+  <div id="nav-island-wrapper">
+    <nav id="dynamic-island-nav" class="nav-island">
+      <div class="nav-view nav-expanded-view">
+        <a href="#top" class="flex items-center gap-3 group">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 p-[1.5px] flex items-center justify-center">
+            <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center font-black text-xs text-cyan-400">TM</div>
+          </div>
+          <span class="font-extrabold tracking-tight text-white text-base">TypeMind</span>
+        </a>
+        <div class="hidden md:flex items-center gap-1">
+          <a href="#top" class="nav-link active-section" data-section="top">Vision</a>
+          <a href="#philosophy" class="nav-link" data-section="philosophy">Philosophy</a>
+          <a href="#features" class="nav-link" data-section="features">Core Features</a>
+          <a href="#models" class="nav-link" data-section="models">AI Architecture</a>
+          <a href="#plans" class="nav-link" data-section="plans">Plans</a>
+          <a href="#privacy" class="nav-link" data-section="privacy">Privacy</a>
+          <a href="#download" class="nav-link text-cyan-400 font-bold" data-section="download"><i class="fa-solid fa-download mr-1"></i> Download</a>
+        </div>
+        <a href="#download" class="px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs rounded-full shadow-[0_0_20px_rgba(56,189,248,0.4)] transition-all">Get App</a>
+      </div>
+      <div class="nav-view nav-compact-view">
+        <div class="flex items-center gap-2.5">
+          <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 p-[1px] flex items-center justify-center">
+            <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center font-bold text-[10px] text-cyan-400">TM</div>
+          </div>
+          <span class="font-bold text-sm text-white">TypeMind</span>
+        </div>
+        <span id="compact-badge" class="px-3 py-1 bg-cyan-500/15 border border-cyan-500/40 rounded-full text-[11px] text-cyan-400 font-mono font-bold uppercase tracking-wider"><i class="fa-solid fa-brain mr-1"></i> <span>VISION</span></span>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ================= PHASE 3: MAIN WEBSITE CONTENT ================= -->
+  <main id="main-content-flow">
+    
+    <!-- Hero Section -->
+    <section id="top" class="min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 relative z-10 text-center" data-section-name="VISION">
+      <div id="bouncing-logo" class="mb-6 z-20">
+        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-gradient-to-tr from-cyan-400 via-blue-500 to-purple-600 p-[2.5px] shadow-[0_0_45px_rgba(56,189,248,0.5)]">
+          <div class="w-full h-full bg-[#080e1e] rounded-[22px] p-3 flex items-center justify-center overflow-hidden">
+            <img src="https://i.ibb.co/Z7dkFRG/Gemini-Generated-Image-gfpw51gfpw51gfpw.png" alt="TypeMind Logo" class="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(56,189,248,0.8)]" />
+          </div>
+        </div>
+      </div>
+      <h1 class="text-6xl sm:text-8xl md:text-9xl font-black tracking-tighter tidal-heading default-shimmer z-10 leading-none pb-2 drop-shadow-2xl">TypeMind</h1>
+      <div class="mt-8 max-w-3xl mx-auto p-8 sm:p-10 rounded-3xl spotlight-card bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-blue-950/80 border-cyan-500/30 z-10 relative group shadow-2xl">
+        <p class="text-lg sm:text-2xl text-slate-200 font-medium leading-relaxed">TypeMind learns how you communicate, understands your intent, and helps you express your ideas more effectively—<span class="text-cyan-400 font-bold">without changing your voice.</span></p>
+      </div>
+      <div class="mt-12 flex flex-wrap items-center justify-center gap-4 z-10">
+        <a href="#features" class="px-8 py-4 bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:scale-105 text-white font-bold rounded-full shadow-[0_10px_30px_rgba(56,189,248,0.4)] transition-all flex items-center gap-3">Explore The 6 Core Features <i class="fa-solid fa-arrow-down"></i></a>
+        <a href="#download" class="px-8 py-4 bg-slate-900/80 hover:bg-slate-800 border border-white/15 hover:border-cyan-400 text-white font-bold rounded-full transition-all">Download Platform</a>
+      </div>
+    </section>
+
+    <!-- Core Philosophy Section -->
+    <section id="philosophy" class="py-24 px-6 max-w-7xl mx-auto relative z-10" data-section-name="PHILOSOPHY">
+      <div class="reveal-node text-center max-w-3xl mx-auto mb-16">
+        <span class="font-mono text-xs font-bold text-cyan-400 tracking-widest uppercase bg-cyan-500/10 border border-cyan-500/30 px-3.5 py-1.5 rounded-full">01 — The Paradigm Shift</span>
+        <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-4 tidal-heading">Why Traditional Keyboards Are Broken</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+        <div class="spotlight-card p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-red-950/70 via-slate-900/90 to-rose-950/70 border-red-500/30 hover:border-red-500/60 flex flex-col justify-between reveal-node group" style="transition-delay: 0.1s;">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 font-bold mb-6 shadow-[0_0_20px_rgba(239,68,68,0.2)]"><i class="fa-solid fa-keyboard text-xl"></i></div>
+            <span class="text-xs font-mono font-bold text-red-400 tracking-wider uppercase">Other Keyboards</span>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-white mt-1 mb-6">"What word comes next?"</h3>
+            <ul class="space-y-4 text-slate-300 text-sm sm:text-base border-t border-white/10 pt-6">
+              <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-xmark"></i></span> <span>No Adaptive Persona Mode</span></li>
+              <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-xmark"></i></span> <span>No Live Context Detection</span></li>
+              <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-xmark"></i></span> <span>No Personal AI Memory</span></li>
+              <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-xmark"></i></span> <span>No Goal-Based Writing</span></li>
+              <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-xmark"></i></span> <span>No Personal AI Studio</span></li>
+              <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-xmark"></i></span> <span>No Cross-App AI Actions</span></li>
+            </ul>
+          </div>
+          <div class="mt-8 pt-4 border-t border-white/10 flex items-center gap-2 text-red-400 text-xs font-mono font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> High workflow friction & robotic rewrites</div>
+        </div>
+        <div class="spotlight-card p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-cyan-950/70 via-slate-900/90 to-blue-950/70 border-cyan-500/40 hover:border-cyan-400 flex flex-col justify-between reveal-node group shadow-[0_0_40px_rgba(56,189,248,0.15)]" style="transition-delay: 0.2s;">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-bold mb-6 shadow-[0_0_20px_rgba(56,189,248,0.3)]"><i class="fa-solid fa-brain text-xl"></i></div>
+            <span class="text-xs font-mono font-bold text-cyan-400 tracking-wider uppercase">TypeMind Platform</span>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-white mt-1 mb-6">"What is the user trying to communicate?"</h3>
+            <ul class="space-y-4 text-slate-100 text-sm sm:text-base font-medium border-t border-white/10 pt-6">
+              <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-check"></i></span> <span class="text-white">Adaptive Persona Mode</span></li>
+              <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-check"></i></span> <span class="text-white">Live Context Detection</span></li>
+              <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-check"></i></span> <span class="text-white">Personal AI Memory</span></li>
+              <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-check"></i></span> <span class="text-white">Goal-Based Writing</span></li>
+              <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-check"></i></span> <span class="text-white">Personal AI Studio</span></li>
+              <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-check"></i></span> <span class="text-white">Cross-App AI Actions</span></li>
+            </ul>
+          </div>
+          <div class="mt-8 pt-4 border-t border-white/10 flex items-center gap-2 text-cyan-400 text-xs font-mono font-bold"><i class="fa-solid fa-shield-check"></i> Zero app-switching. Total voice preservation.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Features Section -->
+    <section id="features" class="py-24 px-6 max-w-7xl mx-auto relative z-10" data-section-name="FEATURES">
+      <div class="reveal-node mb-12 text-center">
+        <span class="font-mono text-xs font-bold text-purple-400 tracking-widest uppercase bg-purple-500/10 border border-purple-500/30 px-3.5 py-1.5 rounded-full">02 — Product Capabilities</span>
+        <h2 class="text-4xl sm:text-6xl font-black tracking-tight mt-4 tidal-heading">The Six Core Features</h2>
+        <p class="text-slate-400 max-w-xl mx-auto mt-3 text-base leading-relaxed">Click any bulky feature button below to smoothly slide out its interactive AI workspace card.</p>
+      </div>
+      <div id="features-interactive" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative min-h-[500px]">
+        <div id="island-drop-box" class="w-14 h-14 rounded-full">
+          <div class="drop-logo w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-black font-black text-xs mr-2 shrink-0">TM</div>
+          <span class="drop-text text-lg font-black tracking-tight opacity-0 pr-3">✨ The Six Core Features</span>
+        </div>
+        <div id="tabs-column" class="lg:col-span-5 flex flex-col gap-3.5 sticky top-28 z-20">
+          <button class="apple-tab-btn" data-feature="1"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">01</span><span class="tab-title-text">Adaptive Persona Mode</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
+          <button class="apple-tab-btn" data-feature="2"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">02</span><span class="tab-title-text">Live Context Detection</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
+          <button class="apple-tab-btn" data-feature="3"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">03</span><span class="tab-title-text">Personal AI Memory</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
+          <button class="apple-tab-btn" data-feature="4"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">04</span><span class="tab-title-text">Goal-Based Writing</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
+          <button class="apple-tab-btn" data-feature="5"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">05</span><span class="tab-title-text">Personal AI Studio</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
+          <button class="apple-tab-btn" data-feature="6"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">06</span><span class="tab-title-text">Cross-App AI Actions</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
+        </div>
+        <div id="stage-column" class="lg:col-span-7 sticky top-28 z-10 min-h-[440px]">
+          <div id="active-card-stage" class="w-full hidden"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Architecture Section -->
+    <section id="models" class="py-24 px-6 max-w-7xl mx-auto relative z-10" data-section-name="ARCHITECTURE">
+      <div class="reveal-node text-center max-w-3xl mx-auto mb-16">
+        <span class="font-mono text-xs font-bold text-cyan-400 tracking-widest uppercase bg-cyan-500/10 border border-cyan-500/30 px-3.5 py-1.5 rounded-full">03 — Intelligence Layer</span>
+        <h2 class="text-4xl sm:text-6xl font-black tracking-tight mt-4 tidal-heading">Dual-Model Architecture</h2>
+        <p class="text-slate-400 mt-4 text-base">TypeMind orchestrates between two specialized AI reasoning pipelines depending on task complexity and latency constraints.</p>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+        <div class="spotlight-card p-10 sm:p-12 rounded-3xl bg-gradient-to-br from-blue-950/70 via-slate-900/90 to-indigo-950/70 border-blue-500/40 flex flex-col justify-between reveal-node">
+          <div>
+            <div class="flex items-center justify-between mb-8"><span class="px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/40 text-blue-400 font-mono text-xs font-bold shadow-[0_0_15px_rgba(59,130,246,0.3)]">AURA Engine</span><span class="text-xs font-mono text-slate-400">Ultra-Low Latency (~150ms)</span></div>
+            <h3 class="text-3xl font-extrabold text-white">Adaptive User Response Architecture</h3>
+            <p class="text-slate-200 mt-4 leading-relaxed">Designed for real-time everyday communication. AURA powers rapid auto-completions, instant tone matching, and quick messaging assistance without slowing down typing flow.</p>
+            <ul class="mt-8 space-y-3 text-sm text-slate-300">
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-blue-400"></i> Fast messaging & social media replies</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-blue-400"></i> Grammar, punctuation, and flow polish</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-blue-400"></i> Available across all Lite, Pro & Enterprise tiers</li>
+            </ul>
+          </div>
+          <div class="mt-10 pt-6 border-t border-white/10 flex items-center justify-between text-xs font-mono text-slate-400"><span>Powered by lightweight LLM APIs</span><span class="text-blue-400 font-bold">Default Pipeline</span></div>
+        </div>
+        <div class="spotlight-card p-10 sm:p-12 rounded-3xl bg-gradient-to-br from-purple-950/70 via-slate-900/90 to-fuchsia-950/70 border-purple-500/40 flex flex-col justify-between reveal-node">
+          <div>
+            <div class="flex items-center justify-between mb-8"><span class="px-4 py-1.5 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-xs font-bold shadow-[0_0_15px_rgba(192,132,252,0.4)]">PRISM Engine</span><span class="text-xs font-mono text-purple-300">Deep Reasoning & Synthesis</span></div>
+            <h3 class="text-3xl font-extrabold text-white">Personalized Reasoning & Intent Synthesis Model</h3>
+            <p class="text-slate-200 mt-4 leading-relaxed">Engineered for complex, multi-paragraph communication. PRISM analyzes emotional nuances, strategic negotiation goals, and enterprise guidelines to synthesize profound long-form content.</p>
+            <ul class="mt-8 space-y-3 text-sm text-slate-200">
+              <li class="flex items-center gap-3"><i class="fa-solid fa-sparkles text-purple-400"></i> Advanced goal-based persuasion & negotiation</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-sparkles text-purple-400"></i> Deep historical memory integration & tone mimicry</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-sparkles text-purple-400"></i> Exclusive to TypeMind Pro & Enterprise tiers</li>
+            </ul>
+          </div>
+          <div class="mt-10 pt-6 border-t border-white/10 flex items-center justify-between text-xs font-mono text-slate-400"><span>Powered by high-reasoning LLM APIs</span><span class="text-purple-400 font-bold">Premium Pipeline</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Plans Section -->
+    <section id="plans" class="py-24 px-6 max-w-7xl mx-auto relative z-10" data-section-name="PLANS">
+      <div class="reveal-node text-center max-w-3xl mx-auto mb-16">
+        <span class="font-mono text-xs font-bold text-emerald-400 tracking-widest uppercase bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1.5 rounded-full">04 — Deployment Tiers</span>
+        <h2 class="text-4xl sm:text-6xl font-black tracking-tight mt-4 tidal-heading">Product Plans</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+        <div class="spotlight-card p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-slate-900/80 to-slate-950/80 border-white/10 flex flex-col justify-between reveal-node">
+          <div>
+            <span class="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">TypeMind Lite</span>
+            <div class="text-4xl font-black text-white mt-2 mb-6">Free <span class="text-xs font-normal text-slate-400 font-mono">/ Forever</span></div>
+            <p class="text-slate-300 text-sm mb-8 leading-relaxed">Essential intelligent typing assistance for casual communicators.</p>
+            <ul class="space-y-4 text-sm text-slate-300">
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400"></i> Powered by AURA Engine</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400"></i> Basic Adaptive Persona Mode</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400"></i> Standard Grammar & Flow Polish</li>
+              <li class="flex items-center gap-3 text-slate-600"><i class="fa-solid fa-xmark"></i> PRISM Advanced Reasoning</li>
+            </ul>
+          </div>
+          <a href="#download" class="mt-8 block text-center py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition-all">Get Started Free</a>
+        </div>
+        <div class="spotlight-card p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-cyan-950/80 via-slate-900/90 to-blue-950/80 border-cyan-500 shadow-[0_0_45px_rgba(56,189,248,0.25)] flex flex-col justify-between reveal-node relative">
+          <div class="absolute -top-3 right-8 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-[10px] font-mono font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-md">Most Popular</div>
+          <div>
+            <span class="text-xs font-mono font-bold text-cyan-400 uppercase tracking-widest">TypeMind Pro</span>
+            <div class="text-4xl font-black text-white mt-2 mb-6">Premium</div>
+            <p class="text-slate-200 text-sm mb-8 leading-relaxed">Full access to deep reasoning, persona customization, and local memory.</p>
+            <ul class="space-y-4 text-sm text-slate-100">
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Powered by AURA & PRISM</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Full Personal AI Memory & Style Learning</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Goal-Based Writing & Cross-App Actions</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Built-in Personal AI Studio</li>
+            </ul>
+          </div>
+          <a href="#download" class="mt-8 block text-center py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm shadow-[0_0_20px_rgba(56,189,248,0.4)] transition-all">Start Pro Trial</a>
+        </div>
+        <div class="spotlight-card p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-slate-900/80 to-purple-950/50 border-white/10 flex flex-col justify-between reveal-node">
+          <div>
+            <span class="text-xs font-mono font-bold text-purple-400 uppercase tracking-widest">TypeMind Enterprise</span>
+            <div class="text-4xl font-black text-white mt-2 mb-6">Business</div>
+            <p class="text-slate-300 text-sm mb-8 leading-relaxed">Tailored communication governance for teams, managers, and organizations.</p>
+            <ul class="space-y-4 text-sm text-slate-300">
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> Everything in Pro Tier</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> Company-Specific Policy Guardrails</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> Shared Organizational Knowledge Bases</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> Advanced Privacy & Local Deployment</li>
+            </ul>
+          </div>
+          <a href="#download" class="mt-8 block text-center py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition-all">Contact Sales</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 05: APPLE KEYNOTE BIOMETRIC LOCK & SPATIAL ENGINE ================= -->
+    <section id="privacy" class="py-24 px-6 max-w-5xl mx-auto relative z-10 min-h-[640px] flex flex-col justify-center" data-section-name="PRIVACY">
+      <div class="reveal-node text-center mb-10">
+        <span class="font-mono text-xs font-bold text-emerald-400 tracking-widest uppercase bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1.5 rounded-full">05 — Security Architecture</span>
+        <div class="mt-4 flex justify-center items-center gap-4">
+          <button id="replay-privacy-btn" class="px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 font-mono text-xs font-bold transition-all flex items-center gap-2 border border-white/15 shadow-lg active:scale-95">
+            <i class="fa-solid fa-rotate-right text-emerald-400"></i> Replay Apple Keynote Sequence
+          </button>
+        </div>
+      </div>
+
+      <!-- The Main Stage -->
+      <div id="privacy-animation-stage" class="relative w-full min-h-[480px] flex flex-col items-center justify-center p-8 sm:p-12 rounded-3xl spotlight-card bg-gradient-to-br from-slate-900/90 via-[#080e1e]/95 to-slate-900/90 border-emerald-500/40 overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)]">
+        
+        <!-- Phase A: Question Title -->
+        <h2 id="priv-title-question" class="text-4xl sm:text-6xl font-black text-white absolute opacity-0 scale-90 text-center px-4 drop-shadow-[0_0_35px_rgba(16,185,129,0.6)]">What about Privacy?</h2>
+
+        <!-- Phase B: Point 1 Typing -->
+        <div id="priv-point-1" class="absolute inset-x-8 top-1/2 -translate-y-1/2 flex flex-col items-center text-center opacity-0 pointer-events-none">
+          <div class="text-2xl sm:text-4xl font-extrabold text-emerald-400 font-mono mb-4 min-h-[40px]"><span id="type-target-1" class="typing-cursor"></span></div>
+          <p id="sub-target-1" class="text-lg sm:text-2xl text-slate-200 font-medium opacity-0 transform translate-y-6 transition-all duration-500">TypeMind behaves like a normal keyboard.</p>
+        </div>
+
+        <!-- Phase C: Point 2 & Checkmark -->
+        <div id="priv-point-2" class="absolute inset-x-8 top-1/2 -translate-y-1/2 flex flex-col items-center text-center opacity-0 pointer-events-none">
+          <div class="flex items-center justify-center gap-3 text-2xl sm:text-4xl font-extrabold text-cyan-400 font-mono mb-4">
+            <span>2. Personal AI Memory stays on the device</span>
+            <span class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 shadow-[0_0_20px_rgba(16,185,129,0.5)]"><i class="fa-solid fa-check"></i></span>
+          </div>
+          <p class="text-lg sm:text-2xl text-slate-200 font-medium">End-to-end encryption.</p>
+        </div>
+
+        <!-- Phase D: Point 3 & Live Toggling macOS Settings Box -->
+        <div id="priv-point-3" class="absolute inset-x-8 top-1/2 -translate-y-1/2 flex flex-col items-center text-center opacity-0 pointer-events-none">
+          <div class="text-2xl sm:text-4xl font-extrabold text-purple-400 font-mono mb-6">3. User controls everything</div>
+          <div class="bg-slate-950/95 border border-purple-500/50 p-6 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] text-left font-mono text-sm sm:text-base space-y-3 w-80 max-w-full text-slate-200 relative overflow-hidden backdrop-blur-xl">
+            <div class="text-xs text-purple-300 font-bold uppercase tracking-wider pb-2 border-b border-white/10 flex items-center justify-between"><span>Settings Panel</span><span class="w-2 h-2 rounded-full bg-purple-400 animate-ping"></span></div>
+            <div class="setting-item flex items-center gap-3 text-emerald-400 opacity-40"><i class="fa-regular fa-square text-lg check-icon"></i> <span>Enable AI</span></div>
+            <div class="setting-item flex items-center gap-3 text-slate-400 opacity-40"><i class="fa-regular fa-square text-lg check-icon"></i> <span>Disable AI</span></div>
+            <div class="setting-item flex items-center gap-3 text-cyan-400 opacity-40"><i class="fa-regular fa-square text-lg check-icon"></i> <span>Clear Memory</span></div>
+            <div class="setting-item flex items-center gap-3 text-red-400 opacity-40"><i class="fa-regular fa-square text-lg check-icon"></i> <span>Delete History</span></div>
+          </div>
+        </div>
+
+        <!-- Phase E: Apple VisionOS Glass Medallion & Mechanical Lock Engine -->
+        <div id="priv-logo-lock" class="absolute inset-0 flex flex-col items-center justify-center opacity-0 pointer-events-none z-20">
+          
+          <div id="apple-medallion-box" class="apple-glass-medallion w-40 h-40 sm:w-48 sm:h-48 rounded-[40px] p-8 flex items-center justify-center transform scale-75 opacity-0 relative">
+            
+            <!-- Apple Pay style expanding ripple rings -->
+            <circle id="apple-ring-1" class="absolute w-full h-full rounded-[40px] border-2 border-emerald-400 pointer-events-none opacity-0 scale-100" style="inset: 0;"></circle>
+            <circle id="apple-ring-2" class="absolute w-full h-full rounded-[40px] border border-cyan-400 pointer-events-none opacity-0 scale-100" style="inset: 0;"></circle>
+
+            <!-- Optical Laser Sheen -->
+            <div id="lock-sheen-sweep" class="lock-optical-sheen"></div>
+
+            <!-- Stage 1: Clean TypeMind Logo -->
+            <div id="stage-logo-wrap" class="absolute inset-8 flex items-center justify-center transition-all duration-300">
+              <img src="https://i.ibb.co/Z7dkFRG/Gemini-Generated-Image-gfpw51gfpw51gfpw.png" alt="TypeMind Logo" class="w-full h-full object-contain filter drop-shadow-[0_0_20px_rgba(56,189,248,0.8)]" />
+            </div>
+
+            <!-- Stage 2: Mechanical SVG Lock with Snapping Shackle -->
+            <div id="stage-lock-wrap" class="absolute inset-6 flex items-center justify-center opacity-0 transform rotateY(-90deg) pointer-events-none">
+              <svg viewBox="0 0 100 100" class="w-24 h-24 sm:w-28 sm:h-28 overflow-visible">
+                <!-- The Mechanical Shackle (Top Loop) -->
+                <path id="lock-shackle" d="M 30 46 V 26 C 30 14, 70 14, 70 26 V 46" fill="none" stroke="#cbd5e1" stroke-width="9" stroke-linecap="round" style="transform: translateY(-16px); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), stroke 0.3s ease;" />
+                <!-- The Lock Body -->
+                <rect id="lock-body" x="16" y="42" width="68" height="50" rx="16" fill="#1e293b" stroke="#cbd5e1" stroke-width="4" style="transition: all 0.3s ease;" />
+                <circle id="lock-keyhole" cx="50" cy="62" r="5" fill="#38bdf8" style="transition: fill 0.3s ease;" />
+                <path id="lock-stem" d="M 50 67 V 77" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" style="transition: stroke 0.3s ease;" />
+              </svg>
+            </div>
+
+          </div>
+
+          <!-- Keynote Header Text -->
+          <div id="apple-unlock-text" class="mt-6 font-mono text-xs sm:text-sm font-bold text-emerald-400 tracking-[0.2em] uppercase opacity-0 transform translate-y-3 bg-emerald-500/10 border border-emerald-500/40 px-5 py-2 rounded-full shadow-[0_0_25px_rgba(16,185,129,0.4)] flex items-center gap-2">
+            <i class="fa-solid fa-shield-check text-base"></i> <span>Security Hardware Verified</span>
+          </div>
+
+        </div>
+
+        <!-- Phase F: Continuous Unfold into Security Columns -->
+        <div id="priv-final-card" class="w-full opacity-0 pointer-events-none transform translate-y-8 transition-all duration-700 flex flex-col justify-between">
+          <div class="text-center mb-8">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-[0_0_35px_rgba(16,185,129,0.4)]"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Zero-Compromise Security</h3>
+            <p class="text-slate-300 text-sm sm:text-base mt-2">Privacy is hardcoded directly into our core architecture.</p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+            <div class="security-pillar p-6 rounded-2xl bg-slate-950/90 border border-white/10 flex items-start gap-4 hover:border-emerald-500/50 transition-all shadow-xl">
+              <i class="fa-solid fa-lock text-emerald-400 mt-1 text-xl shrink-0"></i>
+              <div><div class="font-bold text-white text-base">1. Sensitive Fields Ignored</div><div class="text-slate-300 text-xs sm:text-sm mt-1.5 leading-relaxed">Passwords, OTPs, and banking inputs are natively bypassed. TypeMind behaves like a normal keyboard.</div></div>
+            </div>
+            <div class="security-pillar p-6 rounded-2xl bg-slate-950/90 border border-white/10 flex items-start gap-4 hover:border-cyan-500/50 transition-all shadow-xl">
+              <i class="fa-solid fa-microchip text-cyan-400 mt-1 text-xl shrink-0"></i>
+              <div><div class="font-bold text-white text-base">2. On-Device Memory</div><div class="text-slate-300 text-xs sm:text-sm mt-1.5 leading-relaxed">Personal AI memory stays strictly on your device with end-to-end encryption.</div></div>
+            </div>
+            <div class="security-pillar p-6 rounded-2xl bg-slate-950/90 border border-white/10 flex items-start gap-4 hover:border-purple-500/50 transition-all shadow-xl">
+              <i class="fa-solid fa-user-shield text-purple-400 mt-1 text-xl shrink-0"></i>
+              <div><div class="font-bold text-white text-base">3. Total User Control</div><div class="text-slate-300 text-xs sm:text-sm mt-1.5 leading-relaxed">Toggle AI on/off instantly, clear memory, or wipe history with a single tap.</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Download Hub Section -->
+    <section id="download" class="py-24 px-6 max-w-6xl mx-auto relative z-10 min-h-[500px] flex flex-col justify-center items-center text-center" data-section-name="DOWNLOAD">
+      <div class="reveal-node mb-12">
+        <span class="font-mono text-xs font-bold text-cyan-400 tracking-widest uppercase bg-cyan-500/10 border border-cyan-500/30 px-3.5 py-1.5 rounded-full">06 — Cross-Platform Deployment</span>
+        <h2 class="text-4xl sm:text-6xl font-black tracking-tight mt-4 tidal-heading">Experience TypeMind Today</h2>
+        <p class="text-slate-400 max-w-xl mx-auto mt-3 text-base">Tap the glowing hub below to unpack installers for all your desktop and mobile operating systems.</p>
+      </div>
+      <div id="download-trigger-box" class="my-8 reveal-node">
+        <button id="download-trigger-btn" class="group relative px-10 py-6 rounded-3xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 p-[2px] shadow-[0_0_60px_rgba(56,189,248,0.6)] hover:shadow-[0_0_90px_rgba(56,189,248,0.9)] transition-all transform hover:scale-105 active:scale-95">
+          <div class="w-full h-full bg-[#080e1e] rounded-[22px] px-8 py-5 flex items-center justify-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-500 p-1 shrink-0"><img src="https://i.ibb.co/Z7dkFRG/Gemini-Generated-Image-gfpw51gfpw51gfpw.png" alt="Logo" class="w-full h-full object-contain" /></div>
+            <span class="text-2xl sm:text-4xl font-black text-white apple-siri-shimmer tracking-tight">Download TypeMind</span>
+            <i class="fa-solid fa-arrow-pointer text-cyan-400 animate-bounce ml-2 text-xl"></i>
+          </div>
+        </button>
+        <div class="mt-4 text-xs font-mono text-slate-400">Click button to reveal platform downloads</div>
+      </div>
+      <div id="platform-cards-grid" class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 hidden opacity-0">
+        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-cyan-400 flex flex-col items-center justify-between text-center group transition-all">
+          <div>
+            <div class="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white text-4xl mb-6 mx-auto group-hover:scale-110 transition-transform shadow-[0_0_25px_rgba(255,255,255,0.2)]"><i class="fa-brands fa-apple"></i></div>
+            <h3 class="text-2xl font-extrabold text-white">Apple iOS</h3><p class="text-slate-400 text-xs font-mono mt-1">Requires iOS 16.0 or later</p>
+          </div>
+          <div class="mt-8 w-full py-3 rounded-xl bg-cyan-500/20 group-hover:bg-cyan-500 text-cyan-300 group-hover:text-black font-bold text-sm transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> App Store</div>
+        </a>
+        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-emerald-400 flex flex-col items-center justify-between text-center group transition-all">
+          <div>
+            <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-4xl mb-6 mx-auto group-hover:scale-110 transition-transform shadow-[0_0_25px_rgba(16,185,129,0.25)]"><i class="fa-brands fa-android"></i></div>
+            <h3 class="text-2xl font-extrabold text-white">Android</h3><p class="text-slate-400 text-xs font-mono mt-1">Requires Android 11.0+</p>
+          </div>
+          <div class="mt-8 w-full py-3 rounded-xl bg-emerald-500/20 group-hover:bg-emerald-500 text-emerald-300 group-hover:text-black font-bold text-sm transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> Google Play</div>
+        </a>
+        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-blue-400 flex flex-col items-center justify-between text-center group transition-all">
+          <div>
+            <div class="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-4xl mb-6 mx-auto group-hover:scale-110 transition-transform shadow-[0_0_25px_rgba(59,130,246,0.25)]"><i class="fa-brands fa-windows"></i></div>
+            <h3 class="text-2xl font-extrabold text-white">Windows</h3><p class="text-slate-400 text-xs font-mono mt-1">Windows 11 / 10 (64-bit)</p>
+          </div>
+          <div class="mt-8 w-full py-3 rounded-xl bg-blue-500/20 group-hover:bg-blue-500 text-blue-300 group-hover:text-black font-bold text-sm transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> Download .EXE</div>
+        </a>
+        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-amber-400 flex flex-col items-center justify-between text-center group transition-all">
+          <div>
+            <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-4xl mb-6 mx-auto group-hover:scale-110 transition-transform shadow-[0_0_25px_rgba(245,158,11,0.25)]"><i class="fa-brands fa-linux"></i></div>
+            <h3 class="text-2xl font-extrabold text-white">Linux</h3><p class="text-slate-400 text-xs font-mono mt-1">AppImage / Debian / Ubuntu</p>
+          </div>
+          <div class="mt-8 w-full py-3 rounded-xl bg-amber-500/20 group-hover:bg-amber-500 text-amber-300 group-hover:text-black font-bold text-sm transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> Download Package</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/10 text-center text-slate-500 text-xs font-mono relative z-10">
+      <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3 text-white font-bold text-sm">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 p-0.5 flex items-center justify-center"><img src="https://i.ibb.co/Z7dkFRG/Gemini-Generated-Image-gfpw51gfpw51gfpw.png" alt="Logo" class="w-full h-full object-contain" /></div>
+          <span>TypeMind Platform</span>
+        </div>
+        <p>© 2026 TypeMind. Engineered as a high-performance communication OS.</p>
+        <div class="flex gap-6 text-slate-400"><a href="#privacy" class="hover:text-cyan-400 transition-colors">Security Guardrails</a><a href="#features" class="hover:text-cyan-400 transition-colors">Core Features</a><a href="#download" class="hover:text-cyan-400 transition-colors">Download Hub</a></div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ================= MASTER CHOREOGRAPHY ENGINE ================= -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      const splashScreen = document.getElementById('splash-screen'), splashFlex = document.getElementById('splash-flex');
+      const mergeGrid = document.getElementById('merge-grid'), mergeCaption = document.getElementById('merge-caption');
+      const splashLogoOuter = document.getElementById('splash-logo-outer'), splashLogoInner = document.getElementById('splash-logo-inner');
+      const mainContent = document.getElementById('main-content-flow'), fluidCanvas = document.getElementById('fluid-canvas');
+      const tidalHeadings = document.querySelectorAll('.tidal-heading');
+      
+      let introTimeouts = [], isIntroSkipped = false, hasTideLoopStarted = false;
+
+      function startTidalBreathingLoop() {
+        if (hasTideLoopStarted) return;
+        hasTideLoopStarted = true;
+        const flowDuration = 5000, recedeDuration = 3500;
+        function cycleTide() {
+          if (fluidCanvas) fluidCanvas.classList.add('water-recede');
+          tidalHeadings.forEach(h => h.classList.add('is-shining'));
+          setTimeout(() => {
+            if (fluidCanvas) fluidCanvas.classList.remove('water-recede');
+            tidalHeadings.forEach(h => h.classList.remove('is-shining'));
+          }, recedeDuration);
+        }
+        setInterval(cycleTide, flowDuration + recedeDuration);
+      }
+
+      function unlockMainContent() {
+        if (mainContent) mainContent.classList.add('content-visible');
+        document.body.style.overflow = 'auto';
+        gsap.to("#bouncing-logo", { y: 16, duration: 0.6, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        startTidalBreathingLoop();
+      }
+
+      if (splashScreen && splashFlex) {
+        introTimeouts.push(setTimeout(() => { if (mergeGrid) mergeGrid.classList.add('is-active'); if (mergeCaption) mergeCaption.classList.add('show-caption'); }, 200));
+        introTimeouts.push(setTimeout(() => { if (mergeGrid) mergeGrid.classList.add('is-merging'); if (mergeCaption) { mergeCaption.classList.remove('show-caption'); mergeCaption.classList.add('hide-caption'); } }, 2400));
+        introTimeouts.push(setTimeout(() => { if (mergeGrid) mergeGrid.style.display = 'none'; if (splashLogoOuter) splashLogoOuter.classList.add('start-reveal'); }, 3400));
+        introTimeouts.push(setTimeout(() => { if (splashLogoInner) splashLogoInner.style.transform = 'rotateY(180deg)'; }, 5200));
+        introTimeouts.push(setTimeout(() => { splashFlex.classList.add('expand'); }, 6400));
+        introTimeouts.push(setTimeout(() => { splashFlex.classList.remove('expand'); splashFlex.classList.add('absorb'); }, 8600)); 
+        introTimeouts.push(setTimeout(() => { splashScreen.style.opacity = '0'; splashScreen.style.transform = 'scale(1.08)'; splashScreen.style.pointerEvents = 'none'; }, 9500)); 
+        introTimeouts.push(setTimeout(() => { if (fluidCanvas) fluidCanvas.classList.add('aurora-live'); }, 10200));
+        introTimeouts.push(setTimeout(() => { unlockMainContent(); }, 11200)); 
+        introTimeouts.push(setTimeout(() => { if (splashScreen.parentNode) splashScreen.remove(); }, 11500)); 
+      }
+
+      splashScreen.addEventListener('click', () => {
+        if (isIntroSkipped) return;
+        isIntroSkipped = true;
+        introTimeouts.forEach(clearTimeout);
+        gsap.to(splashScreen, { opacity: 0, scale: 1.05, duration: 0.5, ease: "power2.out", onComplete: () => { if (splashScreen.parentNode) splashScreen.remove(); } });
+        if (fluidCanvas) fluidCanvas.classList.add('aurora-live');
+        unlockMainContent();
+      });
+
+      // Section 02 Accordion Drop
+      let hasSection02Played = false;
+      const section02Observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting && !hasSection02Played) { hasSection02Played = true; triggerIslandDropAnimation(); } });
+      }, { threshold: 0.25 });
+      if (document.getElementById('features')) section02Observer.observe(document.getElementById('features'));
+
+      function triggerIslandDropAnimation() {
+        const dropBox = document.getElementById('island-drop-box'), dropText = dropBox.querySelector('.drop-text'), tabsColumn = document.getElementById('tabs-column'), tabBtns = document.querySelectorAll('.apple-tab-btn');
+        gsap.fromTo(dropBox, { y: -380, scale: 0.2, opacity: 0, borderRadius: "999px", width: "56px" }, { y: 60, scale: 1.1, opacity: 1, duration: 0.8, ease: "back.out(1.5)" });
+        gsap.to(dropBox, { width: "350px", borderRadius: "24px", duration: 0.6, delay: 0.8, ease: "power3.out", onStart: () => { gsap.to(dropText, { opacity: 1, duration: 0.3 }); }, onComplete: () => { dropText.classList.add('apple-siri-shimmer'); } });
+        gsap.to(dropBox, { x: -220, y: 120, opacity: 0, scale: 0.8, duration: 0.7, delay: 2.2, ease: "power2.inOut", onComplete: () => { dropBox.style.display = 'none'; } });
+        gsap.fromTo(tabBtns, { x: -100, opacity: 0, scale: 0.8 }, { x: 0, opacity: 1, scale: 1, duration: 0.5, stagger: 0.1, delay: 2.4, ease: "back.out(1.4)", onStart: () => { tabsColumn.style.opacity = "1"; tabsColumn.style.pointerEvents = "auto"; }, onComplete: () => { document.querySelector('.apple-tab-btn[data-feature="1"]').click(); } });
+      }
+
+      // Feature Cards
+      const featureData = {
+        "1": { icon: "fa-masks-theater", color: "indigo", bgGradient: "from-indigo-950/80 via-slate-900/90 to-blue-950/80", title: "Adaptive Persona Mode", desc: "Automatically calibrates tone, formality, and sentence structure depending on the active recipient without changing your underlying message.", tags: ["Manager", "Client", "Friend", "Professor"] },
+        "2": { icon: "fa-location-dot", color: "cyan", bgGradient: "from-cyan-950/80 via-slate-900/90 to-blue-950/80", title: "Live Context Detection", desc: "Understands the application environment where you are typing and dynamically formats suggestions to fit standard professional conventions.", tags: ["Gmail", "Slack", "LinkedIn", "WhatsApp"] },
+        "3": { icon: "fa-fingerprint", color: "purple", bgGradient: "from-purple-950/80 via-slate-900/90 to-fuchsia-950/80", title: "Personal AI Memory", desc: "Learns your unique communication habits, frequently used idioms, greeting styles, and emoji patterns over time so AI drafts sound genuinely yours.", tags: ["Emoji Habits", "Sign-offs", "Vocabulary"] },
+        "4": { icon: "fa-bullseye", color: "emerald", bgGradient: "from-emerald-950/80 via-slate-900/90 to-teal-950/80", title: "Goal-Based Writing", desc: "Instead of guessing random words, select an objective. TypeMind generates complete, strategically framed responses optimized for that specific outcome.", tags: ["Apologize", "Negotiate", "Reject Politely"] },
+        "5": { icon: "fa-wand-magic-sparkles", color: "rose", bgGradient: "from-rose-950/80 via-slate-900/90 to-pink-950/80", title: "Personal AI Studio", desc: "A built-in lightweight creative workspace accessible directly from the keyboard layer for drafting structured content without switching apps.", tags: ["LinkedIn Posts", "Emails", "AI Prompts"] },
+        "6": { icon: "fa-bolt", color: "amber", bgGradient: "from-amber-950/80 via-slate-900/90 to-orange-950/80", title: "Cross-App AI Actions", desc: "Recognizes intent within natural conversation and triggers actionable workflows, turning your keyboard into an active productivity OS.", tags: ["Create Calendar Event", "Share Location"] }
+      };
+
+      const stageCardWrapper = document.getElementById('active-card-stage'), tabButtons = document.querySelectorAll('.apple-tab-btn');
+      let currentActiveTabId = null;
+
+      function renderCardHTML(data) {
+        return `<div class="spotlight-card p-8 sm:p-12 rounded-3xl bg-gradient-to-br ${data.bgGradient} border-${data.color}-500/50 shadow-[0_0_60px_rgba(56,189,248,0.25)] flex flex-col justify-between min-h-[440px]"><div><div class="w-14 h-14 rounded-2xl bg-${data.color}-500/20 border border-${data.color}-500/40 text-${data.color}-400 flex items-center justify-center font-bold mb-8 shadow-[0_0_25px_rgba(56,189,248,0.35)]"><i class="fa-solid ${data.icon} text-2xl"></i></div><span class="text-xs font-mono font-semibold text-${data.color}-400 uppercase tracking-widest">Active Workspace Canvas</span><h3 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 mb-4">${data.title}</h3><p class="text-slate-200 text-base sm:text-lg leading-relaxed">${data.desc}</p></div><div class="mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center gap-2">${data.tags.map(tag => `<span class="px-3 py-1.5 bg-white/10 border border-white/15 rounded-lg text-xs font-mono text-white font-medium">${tag}</span>`).join('')}</div></div>`;
+      }
+
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.getAttribute('data-feature');
+          if (targetId === currentActiveTabId) return;
+          const targetData = featureData[targetId];
+          if (currentActiveTabId !== null) {
+            const prevBtn = document.querySelector(`.apple-tab-btn[data-feature="${currentActiveTabId}"]`);
+            const prevRect = prevBtn.getBoundingClientRect(), stageRect = document.getElementById('stage-column').getBoundingClientRect();
+            const relativeY = prevRect.top - stageRect.top + (prevRect.height / 2) - 200;
+            gsap.to(stageCardWrapper, { x: -180, y: relativeY, scale: 0.15, opacity: 0, duration: 0.38, ease: "power3.in", onComplete: () => { if (prevBtn) { prevBtn.classList.remove('is-bulky'); prevBtn.classList.add('shimmer-burst-glow'); setTimeout(() => prevBtn.classList.remove('shimmer-burst-glow'), 1200); } birthCardFromButton(btn, targetId, targetData); } });
+          } else { birthCardFromButton(btn, targetId, targetData); }
+        });
+      });
+
+      function birthCardFromButton(clickedBtn, targetId, targetData) {
+        tabButtons.forEach(b => { b.classList.remove('is-bulky'); b.querySelector('.tab-icon').className = 'fa-solid fa-plus tab-icon text-sm text-slate-500'; });
+        clickedBtn.classList.add('is-bulky');
+        clickedBtn.querySelector('.tab-icon').className = 'fa-solid fa-circle-dot tab-icon text-sm text-cyan-400';
+        const btnRect = clickedBtn.getBoundingClientRect(), stageRect = document.getElementById('stage-column').getBoundingClientRect();
+        const relativeY = btnRect.top - stageRect.top + (btnRect.height / 2) - 200;
+        stageCardWrapper.innerHTML = renderCardHTML(targetData);
+        stageCardWrapper.style.display = 'block';
+        gsap.fromTo(stageCardWrapper, { x: -180, y: relativeY, scale: 0.15, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.35)" });
+        currentActiveTabId = targetId;
+      }
+
+      // ── 4. SECTION 05: UPGRADED APPLE KEYNOTE CONTINUOUS SPATIAL ENGINE ──
+      let isPrivacyPlaying = false, hasPrivacyPlayedOnce = false;
+
+      function typeString(element, text, speed, callback) {
+        element.textContent = ""; let i = 0;
+        function typeChar() { if (i < text.length) { element.textContent += text.charAt(i); i++; setTimeout(typeChar, speed); } else if (callback) { callback(); } }
+        typeChar();
+      }
+
+      function runPrivacyAnimationSequence() {
+        if (isPrivacyPlaying) return;
+        isPrivacyPlaying = true;
+
+        const qTitle = document.getElementById('priv-title-question'), point1 = document.getElementById('priv-point-1'), type1 = document.getElementById('type-target-1'), sub1 = document.getElementById('sub-target-1');
+        const point2 = document.getElementById('priv-point-2'), point3 = document.getElementById('priv-point-3'), settingItems = point3.querySelectorAll('.setting-item');
+        const logoLock = document.getElementById('priv-logo-lock'), medallionBox = document.getElementById('apple-medallion-box');
+        const stageLogo = document.getElementById('stage-logo-wrap'), stageLock = document.getElementById('stage-lock-wrap');
+        const shackle = document.getElementById('lock-shackle'), lockBody = document.getElementById('lock-body'), lockKeyhole = document.getElementById('lock-keyhole'), lockStem = document.getElementById('lock-stem');
+        const ring1 = document.getElementById('apple-ring-1'), ring2 = document.getElementById('apple-ring-2');
+        const unlockText = document.getElementById('apple-unlock-text'), lockSheen = document.getElementById('lock-sheen-sweep');
+        const finalCard = document.getElementById('priv-final-card'), pillars = finalCard.querySelectorAll('.security-pillar');
+
+        gsap.set([qTitle, point1, point2, point3, logoLock, finalCard, unlockText], { opacity: 0, pointerEvents: "none" });
+        gsap.set(finalCard, { y: 40 });
+        gsap.set(medallionBox, { scale: 0.75, opacity: 0, y: 0, borderColor: "rgba(255, 255, 255, 0.22)", boxShadow: "0 25px 60px -12px rgba(0, 0, 0, 0.95), inset 0 1px 3px rgba(255, 255, 255, 0.45)" });
+        gsap.set(stageLogo, { opacity: 1, rotateY: 0 });
+        gsap.set(stageLock, { opacity: 0, rotateY: -90 });
+        gsap.set(shackle, { y: -16, stroke: "#cbd5e1" });
+        gsap.set(lockBody, { fill: "#1e293b", stroke: "#cbd5e1" });
+        gsap.set([lockKeyhole, lockStem], { fill: "#38bdf8", stroke: "#38bdf8" });
+        gsap.set([ring1, ring2], { opacity: 0, scale: 1 });
+        gsap.set(lockSheen, { x: "-150%" });
+        settingItems.forEach(item => { item.style.opacity = "0.4"; item.querySelector('.check-icon').className = "fa-regular fa-square text-lg check-icon"; });
+        sub1.style.opacity = 0; sub1.style.transform = "translateY(16px)"; type1.textContent = "";
+
+        const tl = gsap.timeline({ onComplete: () => { isPrivacyPlaying = false; finalCard.style.pointerEvents = "auto"; } });
+
+        tl.to(qTitle, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.2)" })
+          .to(qTitle, { opacity: 0, scale: 0.85, filter: "blur(10px)", duration: 0.45, delay: 0.8, ease: "power2.in" });
+
+        tl.call(() => {
+          gsap.to(point1, { opacity: 1, duration: 0.3 });
+          typeString(type1, "1. Sensitive fields are never processed", 28, () => { gsap.to(sub1, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.5)" }); });
+        }, null, "+=0.2");
+
+        tl.to(point1, { opacity: 0, scale: 0.88, filter: "blur(12px)", y: -30, duration: 0.55, ease: "power3.inOut" }, "+=2.2")
+          .fromTo(point2, { opacity: 0, scale: 0.88, filter: "blur(12px)", y: 30 }, { opacity: 1, scale: 1, filter: "blur(0px)", y: 0, duration: 0.6, ease: "back.out(1.3)" }, "-=0.2");
+
+        tl.to(point2, { opacity: 0, scale: 0.88, filter: "blur(12px)", y: -30, duration: 0.55, ease: "power3.inOut" }, "+=1.8")
+          .fromTo(point3, { opacity: 0, scale: 0.88, filter: "blur(12px)", y: 30 }, { opacity: 1, scale: 1, filter: "blur(0px)", y: 0, duration: 0.6, ease: "back.out(1.3)" }, "-=0.2");
+
+        settingItems.forEach((item, index) => {
+          tl.to(item, {
+            opacity: 1, duration: 0.25, ease: "power1.out",
+            onStart: () => {
+              const icon = item.querySelector('.check-icon');
+              icon.className = "fa-solid fa-square-check text-lg check-icon scale-125 transition-transform text-emerald-400";
+              setTimeout(() => icon.classList.remove('scale-125'), 200);
+            }
+          }, `+=0.${index === 0 ? '3' : '15'}`);
+        });
+
+        tl.to(point3, { opacity: 0, scale: 0.88, filter: "blur(12px)", y: -30, duration: 0.55, ease: "power3.inOut" }, "+=1.0")
+          .to(logoLock, { opacity: 1, duration: 0.2 }, "-=0.2")
+          .to(medallionBox, { opacity: 1, scale: 1, duration: 0.75, ease: "power3.out" }, "-=0.2");
+
+        tl.to(medallionBox, { scale: 0.9, duration: 0.35, ease: "power2.in" }, "+=0.2")
+          .to(stageLogo, { rotateY: 90, opacity: 0, duration: 0.35, ease: "power2.in" }, "-=0.35")
+          .to(stageLock, { rotateY: 0, opacity: 1, duration: 0.35, ease: "power2.out" })
+          .to(shackle, { y: 0, duration: 0.45, ease: "back.out(3)" })
+          .to(lockBody, { fill: "#064e3b", stroke: "#10b981", duration: 0.3 }, "-=0.3")
+          .to(shackle, { stroke: "#10b981", duration: 0.3 }, "-=0.3")
+          .to([lockKeyhole, lockStem], { fill: "#10b981", stroke: "#10b981", duration: 0.3 }, "-=0.3")
+          .fromTo(ring1, { opacity: 0.9, scale: 1 }, { opacity: 0, scale: 2.3, duration: 0.7, ease: "power2.out" }, "-=0.3")
+          .fromTo(ring2, { opacity: 0.7, scale: 1 }, { opacity: 0, scale: 1.8, duration: 0.5, ease: "power2.out" }, "-=0.6")
+          .to(lockSheen, { x: "150%", duration: 0.7, ease: "power2.inOut" }, "-=0.5")
+          .to(medallionBox, {
+            scale: 1.08,
+            borderColor: "rgba(16, 185, 129, 0.9)",
+            boxShadow: "0 0 80px rgba(16, 185, 129, 0.75), inset 0 1px 4px rgba(255, 255, 255, 0.8)",
+            duration: 0.4, ease: "back.out(2)"
+          }, "-=0.6")
+          .to(unlockText, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, "-=0.3")
+          .to(medallionBox, { scale: 1.0, duration: 0.5, ease: "power2.out" });
+
+        tl.to([medallionBox, unlockText], {
+          y: -30,
+          scale: 0.85,
+          opacity: 0,
+          filter: "blur(12px)",
+          duration: 0.6,
+          delay: 0.7,
+          ease: "power3.in"
+        })
+        .to(logoLock, { opacity: 0, duration: 0.1 })
+        .to(finalCard, { opacity: 1, y: 0, duration: 0.75, ease: "power4.out" }, "-=0.25")
+        .fromTo(pillars, { opacity: 0, y: 35, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, stagger: 0.15, ease: "back.out(1.2)" }, "-=0.4");
+      }
+
+      const privacyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting && !hasPrivacyPlayedOnce) { hasPrivacyPlayedOnce = true; runPrivacyAnimationSequence(); } });
+      }, { threshold: 0.4 });
+      if (document.getElementById('privacy')) privacyObserver.observe(document.getElementById('privacy'));
+
+      const replayBtn = document.getElementById('replay-privacy-btn');
+      if (replayBtn) replayBtn.addEventListener('click', runPrivacyAnimationSequence);
+
+      // =========================================================================
+      // UNIVERSAL ONE-TIME AUTO-TICKING CHECKLIST WITH NEON GLOW & SETTLE EFFECT
+      // =========================================================================
+      
+      // Target lists strictly inside Philosophy comparison, Models architecture, and Plans cards
+      const allChecklists = document.querySelectorAll('#philosophy ul, #models ul, #plans ul');
+
+      // Initialize rows in a hidden state so icons remain 100% intact
+      allChecklists.forEach(list => {
+        const items = list.querySelectorAll('li');
+        gsap.set(items, { opacity: 0, x: -25, filter: "blur(8px)" });
+      });
+
+      // Observer executes EXACTLY ONCE per page load
+      const autoTickObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Disconnect immediately so scrolling away does not reset or loop it
+            observer.unobserve(entry.target);
+            
+            const items = entry.target.querySelectorAll('li');
+            
+            items.forEach((item, index) => {
+              const icon = item.querySelector('i');
+              const badgeSpan = item.querySelector('span.rounded-full'); // For badges in section 01
+              const targetVisual = badgeSpan || icon;
+              
+              // Automatically extract brand color for the checking glow
+              let glowColor = "rgba(56, 189, 248, 0.9)"; // Default Cyan
+              const html = item.innerHTML;
+              if (html.includes("red")) glowColor = "rgba(239, 68, 68, 0.9)";
+              else if (html.includes("purple") || html.includes("fuchsia")) glowColor = "rgba(192, 132, 252, 0.9)";
+              else if (html.includes("emerald") || html.includes("green")) glowColor = "rgba(16, 185, 129, 0.9)";
+              else if (html.includes("blue")) glowColor = "rgba(59, 130, 246, 0.9)";
+
+              // Step 1: Row slides & fades in
+              gsap.to(item, {
+                opacity: 1,
+                x: 0,
+                filter: "blur(0px)",
+                duration: 0.5,
+                delay: index * 0.18,
+                ease: "power2.out",
+                onStart: () => {
+                  // Step 2: The Checking Glow & Scale Pop
+                  if (targetVisual) {
+                    gsap.fromTo(targetVisual,
+                      { scale: 0.2, rotate: -35, filter: "brightness(2.5) drop-shadow(0 0 25px " + glowColor + ")" },
+                      {
+                        scale: 1.3,
+                        rotate: 0,
+                        filter: "brightness(1.5) drop-shadow(0 0 22px " + glowColor + ")",
+                        duration: 0.35,
+                        ease: "back.out(3)",
+                        onComplete: () => {
+                          // Step 3: Settling Phase - Glow ends cleanly!
+                          gsap.to(targetVisual, {
+                            scale: 1,
+                            filter: "brightness(1) drop-shadow(0 0 0px rgba(0,0,0,0))",
+                            duration: 0.45,
+                            ease: "power2.out"
+                          });
+                        }
+                      }
+                    );
+                  }
+                  
+                  // Text illuminates momentarily during check, then settles
+                  gsap.fromTo(item,
+                    { textShadow: "0 0 15px " + glowColor, color: "#ffffff" },
+                    { textShadow: "0 0 0px rgba(0,0,0,0)", color: "", duration: 0.6, delay: 0.15, ease: "power2.out", clearProps: "textShadow" }
+                  );
+                }
+              });
+            });
+          }
+        });
+      }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+
+      // Start observing target lists
+      allChecklists.forEach(list => autoTickObserver.observe(list));
+
+      // Download Hub
+      const downloadTriggerBtn = document.getElementById('download-trigger-btn'), downloadTriggerBox = document.getElementById('download-trigger-box'), platformCardsGrid = document.getElementById('platform-cards-grid');
+      if (downloadTriggerBtn && platformCardsGrid) {
+        downloadTriggerBtn.addEventListener('click', () => {
+          gsap.to(downloadTriggerBox, { scale: 0.5, opacity: 0, duration: 0.4, ease: "power3.in", onComplete: () => { downloadTriggerBox.style.display = "none"; platformCardsGrid.classList.remove('hidden'); gsap.fromTo(platformCardsGrid.children, { y: 50, scale: 0.8, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.6, stagger: 0.12, ease: "back.out(1.3)", onStart: () => { gsap.to(platformCardsGrid, { opacity: 1, duration: 0.3 }); } }); } });
+        });
+      }
+
+      // 3D Wave Engine
+      const canvas = document.getElementById('fluid-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth, height = canvas.height = window.innerHeight, time = 0;
+        window.addEventListener('resize', () => { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; });
+        function draw3DWave(zOffset, amp, freq, speed, colorStart, colorEnd, baseOpacity) {
+          ctx.save(); ctx.beginPath(); ctx.moveTo(0, height);
+          for (let x = 0; x <= width; x += 25) { 
+            const z = 1.5 + Math.sin(x * 0.002 + time * speed) * 0.5 + zOffset, perspective = 800 / (800 + z * 200);
+            const y = (height * 0.55) + Math.sin(x * freq + time * speed) * (amp * perspective) + Math.cos(x * freq * 0.6 - time * speed * 0.8) * (amp * 0.6 * perspective);
+            ctx.lineTo(x, y);
+          }
+          ctx.lineTo(width, height); ctx.closePath();
+          const grad = ctx.createLinearGradient(0, 0, width, height); grad.addColorStop(0, colorStart); grad.addColorStop(1, colorEnd);
+          ctx.fillStyle = grad; ctx.globalAlpha = baseOpacity; ctx.fill(); ctx.restore();
+        }
+        function drawOrbitalLight(xRatio, yRatio, radius, color, speedX, speedY) {
+          const x = width * xRatio + Math.sin(time * speedX) * (width * 0.25), y = height * yRatio + Math.cos(time * speedY) * (height * 0.2);
+          const grad = ctx.createRadialGradient(x, y, 0, x, y, radius); grad.addColorStop(0, color); grad.addColorStop(1, 'transparent');
+          ctx.save(); ctx.globalAlpha = 0.45; ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(x, y, radius, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+        }
+        function render3DScene() {
+          ctx.clearRect(0, 0, width, height); time += 0.012;
+          drawOrbitalLight(0.3, 0.4, 450, '#0284c7', 0.8, 0.6); drawOrbitalLight(0.7, 0.6, 500, '#7c3aed', 0.6, 0.9); drawOrbitalLight(0.5, 0.3, 400, '#0d9488', 0.9, 0.7);
+          draw3DWave(2.0, 110, 0.0025, 1.2, '#1e3a8a', '#581c87', 0.50); draw3DWave(1.2, 85, 0.0035, 1.6, '#0369a1', '#7e22ce', 0.45); draw3DWave(0.5, 60, 0.0045, 2.0, '#0891b2', '#c084fc', 0.35);
+          requestAnimationFrame(render3DScene);
+        }
+        render3DScene();
+      }
+
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); } });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.reveal-node').forEach((node) => revealObserver.observe(node));
+
+      let isMouseMoving = false;
+      document.addEventListener('mousemove', (e) => {
+        if (!isMouseMoving) {
+          window.requestAnimationFrame(() => {
+            document.querySelectorAll('.spotlight-card').forEach((card) => {
+              const rect = card.getBoundingClientRect();
+              card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`); card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+            });
+            isMouseMoving = false;
+          });
+          isMouseMoving = true;
+        }
+      }, { passive: true });
+
+      const navIsland = document.getElementById('dynamic-island-nav'), navIslandWrapper = document.getElementById('nav-island-wrapper'), compactBadge = document.getElementById('compact-badge');
+      let isHovered = false, idleTimer = null;
+      function expandIsland() { if (navIsland) navIsland.classList.remove('is-collapsed'); }
+      function collapseIsland() { if (!isHovered && window.scrollY > 80) navIsland.classList.add('is-collapsed'); }
+      if (navIsland && navIslandWrapper) {
+        navIslandWrapper.addEventListener('mouseenter', () => { isHovered = true; expandIsland(); });
+        navIslandWrapper.addEventListener('mouseleave', () => { isHovered = false; if (window.scrollY > 80) idleTimer = setTimeout(collapseIsland, 400); });
+      }
+      window.addEventListener('scroll', () => {
+        clearTimeout(idleTimer);
+        if (window.scrollY > 80) {
+          if (!isHovered && !navIsland.classList.contains('is-collapsed')) navIsland.classList.add('is-collapsed');
+          idleTimer = setTimeout(() => { if (!isHovered) expandIsland(); }, 2200);
+        } else { expandIsland(); }
+      });
+
+      const sections = document.querySelectorAll('section[id]'), navLinks = document.querySelectorAll('.nav-link');
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const currentId = entry.target.getAttribute('id'), sectionName = entry.target.getAttribute('data-section-name') || "VISION";
+            if (compactBadge) compactBadge.innerHTML = `<i class="fa-solid fa-brain mr-1"></i> <span>${sectionName}</span>`;
+            navLinks.forEach(link => {
+              if (link.getAttribute('data-section') === currentId) link.classList.add('active-section');
+              else link.classList.remove('active-section');
+            });
+          }
+        });
+      }, { threshold: 0.35 });
+      sections.forEach(sec => sectionObserver.observe(sec));
+
+    });
+  </script>
+</body>
+</html>
