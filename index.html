@@ -191,26 +191,43 @@
     .nav-link { padding: 6px 14px; border-radius: 9999px; font-weight: 600; font-size: 0.85rem; color: #cbd5e1; transition: all 0.3s ease; }
     .nav-link:hover, .nav-link.active-section { color: #38bdf8; background: var(--nav-tint); border: 1px solid var(--nav-border); box-shadow: 0 0 15px var(--glow-shadow); transform: translateY(-1px); }
 
-    /* ── APPLE VISION-OS VIBRANT COLOR-CODED GLASS CARDS ── */
+    /* ── APPLE VISION-OS VIBRANT COLOR-CODED GLASS CARDS (UPGRADED HOVER EFFECTS) ── */
     .spotlight-card {
       position: relative; overflow: hidden; --mouse-x: 50%; --mouse-y: 50%;
       backdrop-filter: blur(40px) saturate(190%); -webkit-backdrop-filter: blur(40px) saturate(190%);
       border: 1px solid rgba(255, 255, 255, 0.16);
       box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.35), inset 0 -1px 1px rgba(255, 255, 255, 0.05);
-      transform: translateY(0px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s ease, box-shadow 0.5s ease;
+      transform: translateY(0px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s ease, box-shadow 0.5s ease, background-color 0.4s ease;
       will-change: transform;
     }
     .spotlight-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.9), inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 0 40px rgba(56, 189, 248, 0.25);
+      transform: translateY(-8px);
+      box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.95), inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 0 45px var(--hover-glow, rgba(56, 189, 248, 0.3));
+      border-color: var(--hover-border, rgba(56, 189, 248, 0.8)) !important;
       z-index: 10;
     }
     .spotlight-card::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.12), transparent 45%);
+      background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.14), transparent 45%);
       z-index: 1; pointer-events: none; opacity: 0; transition: opacity 0.5s ease;
     }
     .spotlight-card:hover::before { opacity: 1; }
+    .spotlight-card:hover .plan-cta-btn {
+      box-shadow: 0 0 25px var(--hover-glow, rgba(56, 189, 248, 0.6));
+      transform: scale(1.02);
+    }
+
+    /* ── INTERACTIVE FEATURE TOOLTIPS ── */
+    [data-tooltip] { position: relative; cursor: help; border-bottom: 1px dotted rgba(255, 255, 255, 0.3); }
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-6px);
+      background: rgba(8, 14, 30, 0.98); border: 1px solid rgba(56, 189, 248, 0.5);
+      padding: 8px 12px; border-radius: 10px; font-size: 11px; color: #f8fafc; font-family: 'JetBrains Mono', monospace;
+      white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 15px rgba(56,189,248,0.25);
+    }
+    [data-tooltip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(-10px); }
 
     /* ── SECTION 02: ACCORDION TABS ── */
     #island-drop-box {
@@ -291,7 +308,7 @@
     <div id="splash-flex" class="splash-flex-container relative z-10 w-full px-6 flex-row pointer-events-none">
       <div id="merge-grid">
         <div class="brand-circle pos-tl border-blue-500/50 shadow-blue-500/30">
-          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 1 0 1 0 10 10H12V2z" fill="#4285F4"/><path d="M12 2a10 10 0 0 1 10 10h-5a5 5 0 0 0-5-5V2z" fill="#EA4335"/><path d="M2 12a10 10 0 0 0 10 10v-5a5 5 0 0 1-5-5H2z" fill="#34A853"/><path d="M2 12a10 10 0 0 1 10-10v5a5 5 0 0 0-5 5H2z" fill="#FBBC05"/><rect x="7" y="10" width="10" height="6" rx="1" fill="white"/><circle cx="9" cy="12" r="0.8" fill="#4285F4"/><circle cx="12" cy="12" r="0.8" fill="#4285F4"/><circle cx="15" cy="12" r="0.8" fill="#4285F4"/></svg>
+          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 1 0 1 0 10 10H12V2z" fill="#4285F4"/><path d="M12 2a10 10 0 0 1 10 10h-5a5 5 0 0 0-5-5V2z" fill="#EA4335"/><path d="M2 12a10 10 0 0 0 10 10v-5a5 5 0 0 1-5-5H2z" fill="#34A853"/><path d="M2 12a10 10 0 0 1 10-10v5a5 5 0 0 0-5-5H2z" fill="#FBBC05"/><rect x="7" y="10" width="10" height="6" rx="1" fill="white"/><circle cx="9" cy="12" r="0.8" fill="#4285F4"/><circle cx="12" cy="12" r="0.8" fill="#4285F4"/><circle cx="15" cy="12" r="0.8" fill="#4285F4"/></svg>
         </div>
         <div class="brand-circle pos-tr border-cyan-400/50 shadow-cyan-500/30 bg-blue-600">
           <svg class="w-9 h-9 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-9 3h2v2h-2V7zm0 3h2v2h-2v-2zM8 7h2v2H8V7zm0 3h2v2H8v-2zm-3 0h2v2H5v-2zm0-3h2v2H5V7zm3 9H6v-2h2v2zm8 0H9v-2h7v2zm2-3h-2v-2h2v2zm0-3h-2V7h2v2z"/></svg>
@@ -370,7 +387,7 @@
         </div>
       </div>
       <h1 class="text-6xl sm:text-8xl md:text-9xl font-black tracking-tighter tidal-heading default-shimmer z-10 leading-none pb-2 drop-shadow-2xl">TypeMind</h1>
-      <div class="mt-8 max-w-3xl mx-auto p-8 sm:p-10 rounded-3xl spotlight-card bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-blue-950/80 border-cyan-500/30 z-10 relative group shadow-2xl">
+      <div class="mt-8 max-w-3xl mx-auto p-8 sm:p-10 rounded-3xl spotlight-card bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-blue-950/80 border-cyan-500/30 z-10 relative group shadow-2xl" style="--hover-glow: rgba(56, 189, 248, 0.4); --hover-border: rgba(56, 189, 248, 0.8);">
         <p class="text-lg sm:text-2xl text-slate-200 font-medium leading-relaxed">TypeMind learns how you communicate, understands your intent, and helps you express your ideas more effectively—<span class="text-cyan-400 font-bold">without changing your voice.</span></p>
       </div>
       <div class="mt-12 flex flex-wrap items-center justify-center gap-4 z-10">
@@ -386,7 +403,7 @@
         <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-4 tidal-heading">Why Traditional Keyboards Are Broken</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-        <div class="spotlight-card p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-red-950/70 via-slate-900/90 to-rose-950/70 border-red-500/30 hover:border-red-500/60 flex flex-col justify-between reveal-node group" style="transition-delay: 0.1s;">
+        <div class="spotlight-card p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-red-950/70 via-slate-900/90 to-rose-950/70 border-red-500/30 hover:border-red-500/60 flex flex-col justify-between reveal-node group" style="--hover-glow: rgba(239, 68, 68, 0.35); --hover-border: rgba(239, 68, 68, 0.8); transition-delay: 0.1s;">
           <div>
             <div class="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 font-bold mb-6 shadow-[0_0_20px_rgba(239,68,68,0.2)]"><i class="fa-solid fa-keyboard text-xl"></i></div>
             <span class="text-xs font-mono font-bold text-red-400 tracking-wider uppercase">Other Keyboards</span>
@@ -402,7 +419,7 @@
           </div>
           <div class="mt-8 pt-4 border-t border-white/10 flex items-center gap-2 text-red-400 text-xs font-mono font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> High workflow friction & robotic rewrites</div>
         </div>
-        <div class="spotlight-card p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-cyan-950/70 via-slate-900/90 to-blue-950/70 border-cyan-500/40 hover:border-cyan-400 flex flex-col justify-between reveal-node group shadow-[0_0_40px_rgba(56,189,248,0.15)]" style="transition-delay: 0.2s;">
+        <div class="spotlight-card p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-cyan-950/70 via-slate-900/90 to-blue-950/70 border-cyan-500/40 hover:border-cyan-400 flex flex-col justify-between reveal-node group shadow-[0_0_40px_rgba(56,189,248,0.15)]" style="--hover-glow: rgba(56, 189, 248, 0.45); --hover-border: rgba(56, 189, 248, 0.9); transition-delay: 0.2s;">
           <div>
             <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-bold mb-6 shadow-[0_0_20px_rgba(56,189,248,0.3)]"><i class="fa-solid fa-brain text-xl"></i></div>
             <span class="text-xs font-mono font-bold text-cyan-400 tracking-wider uppercase">TypeMind Platform</span>
@@ -410,7 +427,7 @@
             <ul class="space-y-4 text-slate-100 text-sm sm:text-base font-medium border-t border-white/10 pt-6">
               <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-check"></i></span> <span class="text-white">Adaptive Persona Mode</span></li>
               <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-check"></i></span> <span class="text-white">Live Context Detection</span></li>
-              <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-check"></i></span> <span class="text-white">Personal AI Memory</span></li>
+              <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-check"></i></span> <span class="text-white" data-tooltip="Remembers writing style, tone and vocabulary over time.">Personal AI Memory</span></li>
               <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-check"></i></span> <span class="text-white">Goal-Based Writing</span></li>
               <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-check"></i></span> <span class="text-white">Personal AI Studio</span></li>
               <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-check"></i></span> <span class="text-white">Cross-App AI Actions</span></li>
@@ -455,28 +472,30 @@
         <p class="text-slate-400 mt-4 text-base">TypeMind orchestrates between two specialized AI reasoning pipelines depending on task complexity and latency constraints.</p>
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-        <div class="spotlight-card p-10 sm:p-12 rounded-3xl bg-gradient-to-br from-blue-950/70 via-slate-900/90 to-indigo-950/70 border-blue-500/40 flex flex-col justify-between reveal-node">
+        <!-- AURA ENGINE -->
+        <div class="spotlight-card p-10 sm:p-12 rounded-3xl bg-gradient-to-br from-blue-950/70 via-slate-900/90 to-indigo-950/70 border-blue-500/40 flex flex-col justify-between reveal-node" style="--hover-glow: rgba(59, 130, 246, 0.4); --hover-border: rgba(59, 130, 246, 0.9);">
           <div>
-            <div class="flex items-center justify-between mb-8"><span class="px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/40 text-blue-400 font-mono text-xs font-bold shadow-[0_0_15px_rgba(59,130,246,0.3)]">AURA Engine</span><span class="text-xs font-mono text-slate-400">Ultra-Low Latency (~150ms)</span></div>
+            <div class="flex items-center justify-between mb-8"><span class="px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/40 text-blue-400 font-mono text-xs font-bold shadow-[0_0_15px_rgba(59,130,246,0.3)]">🟣 AURA Engine</span><span class="text-xs font-mono text-slate-400">Ultra-Low Latency (~150ms)</span></div>
             <h3 class="text-3xl font-extrabold text-white">Adaptive User Response Architecture</h3>
             <p class="text-slate-200 mt-4 leading-relaxed">Designed for real-time everyday communication. AURA powers rapid auto-completions, instant tone matching, and quick messaging assistance without slowing down typing flow.</p>
             <ul class="mt-8 space-y-3 text-sm text-slate-300">
-              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-blue-400"></i> Fast messaging & social media replies</li>
-              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-blue-400"></i> Grammar, punctuation, and flow polish</li>
-              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-blue-400"></i> Available across all Lite, Pro & Enterprise tiers</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-bolt text-blue-400"></i> Fast messaging & social media replies</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-wand-magic-sparkles text-blue-400"></i> Grammar, punctuation, and flow polish</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-layer-group text-blue-400"></i> Available across Free, Plus, Pro, Ultra & Enterprise tiers</li>
             </ul>
           </div>
           <div class="mt-10 pt-6 border-t border-white/10 flex items-center justify-between text-xs font-mono text-slate-400"><span>Powered by lightweight LLM APIs</span><span class="text-blue-400 font-bold">Default Pipeline</span></div>
         </div>
-        <div class="spotlight-card p-10 sm:p-12 rounded-3xl bg-gradient-to-br from-purple-950/70 via-slate-900/90 to-fuchsia-950/70 border-purple-500/40 flex flex-col justify-between reveal-node">
+        <!-- PRISM ENGINE -->
+        <div class="spotlight-card p-10 sm:p-12 rounded-3xl bg-gradient-to-br from-purple-950/70 via-slate-900/90 to-fuchsia-950/70 border-purple-500/40 flex flex-col justify-between reveal-node" style="--hover-glow: rgba(192, 132, 252, 0.45); --hover-border: rgba(192, 132, 252, 0.9);">
           <div>
-            <div class="flex items-center justify-between mb-8"><span class="px-4 py-1.5 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-xs font-bold shadow-[0_0_15px_rgba(192,132,252,0.4)]">PRISM Engine</span><span class="text-xs font-mono text-purple-300">Deep Reasoning & Synthesis</span></div>
-            <h3 class="text-3xl font-extrabold text-white">Personalized Reasoning & Intent Synthesis Model</h3>
+            <div class="flex items-center justify-between mb-8"><span class="px-4 py-1.5 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-xs font-bold shadow-[0_0_15px_rgba(192,132,252,0.4)]">🔵 PRISM Engine</span><span class="text-xs font-mono text-purple-300">Deep Reasoning & Synthesis</span></div>
+            <h3 class="text-3xl font-extrabold text-white">Personalized Reasoning Intelligence System</h3>
             <p class="text-slate-200 mt-4 leading-relaxed">Engineered for complex, multi-paragraph communication. PRISM analyzes emotional nuances, strategic negotiation goals, and enterprise guidelines to synthesize profound long-form content.</p>
             <ul class="mt-8 space-y-3 text-sm text-slate-200">
-              <li class="flex items-center gap-3"><i class="fa-solid fa-sparkles text-purple-400"></i> Advanced goal-based persuasion & negotiation</li>
-              <li class="flex items-center gap-3"><i class="fa-solid fa-sparkles text-purple-400"></i> Deep historical memory integration & tone mimicry</li>
-              <li class="flex items-center gap-3"><i class="fa-solid fa-sparkles text-purple-400"></i> Exclusive to TypeMind Pro & Enterprise tiers</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-bullseye text-purple-400"></i> Advanced goal-based persuasion & negotiation</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-brain text-purple-400"></i> Deep historical memory integration & tone mimicry</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-gem text-purple-400"></i> Exclusive to Pro, Ultra & Enterprise tiers</li>
             </ul>
           </div>
           <div class="mt-10 pt-6 border-t border-white/10 flex items-center justify-between text-xs font-mono text-slate-400"><span>Powered by high-reasoning LLM APIs</span><span class="text-purple-400 font-bold">Premium Pipeline</span></div>
@@ -484,57 +503,208 @@
       </div>
     </section>
 
-    <!-- Product Plans Section -->
+    <!-- ================= UPGRADED SAAS PRICING SECTION ================= -->
     <section id="plans" class="py-24 px-6 max-w-7xl mx-auto relative z-10" data-section-name="PLANS">
-      <div class="reveal-node text-center max-w-3xl mx-auto mb-16">
-        <span class="font-mono text-xs font-bold text-emerald-400 tracking-widest uppercase bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1.5 rounded-full">04 — Deployment Tiers</span>
-        <h2 class="text-4xl sm:text-6xl font-black tracking-tight mt-4 tidal-heading">Product Plans</h2>
+      
+      <!-- Section Header -->
+      <div class="reveal-node text-center max-w-3xl mx-auto mb-10">
+        <span class="font-mono text-xs font-bold text-emerald-400 tracking-widest uppercase bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1.5 rounded-full">04 — Simple Pricing</span>
+        <h2 class="text-4xl sm:text-6xl font-black tracking-tight mt-4 tidal-heading">Upgrade Your Intelligence</h2>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-        <div class="spotlight-card p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-slate-900/80 to-slate-950/80 border-white/10 flex flex-col justify-between reveal-node">
-          <div>
-            <span class="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">TypeMind Lite</span>
-            <div class="text-4xl font-black text-white mt-2 mb-6">Free <span class="text-xs font-normal text-slate-400 font-mono">/ Forever</span></div>
-            <p class="text-slate-300 text-sm mb-8 leading-relaxed">Essential intelligent typing assistance for casual communicators.</p>
-            <ul class="space-y-4 text-sm text-slate-300">
-              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400"></i> Powered by AURA Engine</li>
-              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400"></i> Basic Adaptive Persona Mode</li>
-              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400"></i> Standard Grammar & Flow Polish</li>
-              <li class="flex items-center gap-3 text-slate-600"><i class="fa-solid fa-xmark"></i> PRISM Advanced Reasoning</li>
-            </ul>
+
+      <!-- "Choose Your Intelligence" Storytelling Banner -->
+      <div class="reveal-node mb-10 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900/90 via-[#080e1e]/90 to-slate-900/90 border border-white/10 max-w-4xl mx-auto backdrop-blur-xl shadow-2xl text-center" style="--hover-glow: rgba(56,189,248,0.25);">
+        <div class="text-xs font-mono font-bold text-cyan-400 uppercase tracking-widest mb-2">Choose Your Intelligence</div>
+        <p class="text-slate-200 text-sm sm:text-base font-medium">Every plan includes TypeMind. <span class="text-white font-bold">Upgrade your intelligence as your workflow grows.</span></p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 text-left">
+          <div class="p-4 rounded-2xl bg-blue-950/40 border border-blue-500/30 flex items-center justify-between shadow-inner">
+            <div>
+              <div class="font-black text-white text-base flex items-center gap-2"><span>🟣</span> AURA Engine</div>
+              <div class="text-xs font-mono text-slate-300 mt-1">Fast • Everyday Writing • Context Aware</div>
+            </div>
+            <span class="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">Default</span>
           </div>
-          <a href="#download" class="mt-8 block text-center py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition-all">Get Started Free</a>
-        </div>
-        <div class="spotlight-card p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-cyan-950/80 via-slate-900/90 to-blue-950/80 border-cyan-500 shadow-[0_0_45px_rgba(56,189,248,0.25)] flex flex-col justify-between reveal-node relative">
-          <div class="absolute -top-3 right-8 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-[10px] font-mono font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-md">Most Popular</div>
-          <div>
-            <span class="text-xs font-mono font-bold text-cyan-400 uppercase tracking-widest">TypeMind Pro</span>
-            <div class="text-4xl font-black text-white mt-2 mb-6">Premium</div>
-            <p class="text-slate-200 text-sm mb-8 leading-relaxed">Full access to deep reasoning, persona customization, and local memory.</p>
-            <ul class="space-y-4 text-sm text-slate-100">
-              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Powered by AURA & PRISM</li>
-              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Full Personal AI Memory & Style Learning</li>
-              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Goal-Based Writing & Cross-App Actions</li>
-              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Built-in Personal AI Studio</li>
-            </ul>
+          <div class="p-4 rounded-2xl bg-purple-950/40 border border-purple-500/30 flex items-center justify-between shadow-inner">
+            <div>
+              <div class="font-black text-white text-base flex items-center gap-2"><span>🔵</span> PRISM Engine</div>
+              <div class="text-xs font-mono text-slate-300 mt-1">Deep Reasoning • Research • Memory • Automation</div>
+            </div>
+            <span class="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">Advanced</span>
           </div>
-          <a href="#download" class="mt-8 block text-center py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm shadow-[0_0_20px_rgba(56,189,248,0.4)] transition-all">Start Pro Trial</a>
-        </div>
-        <div class="spotlight-card p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-slate-900/80 to-purple-950/50 border-white/10 flex flex-col justify-between reveal-node">
-          <div>
-            <span class="text-xs font-mono font-bold text-purple-400 uppercase tracking-widest">TypeMind Enterprise</span>
-            <div class="text-4xl font-black text-white mt-2 mb-6">Business</div>
-            <p class="text-slate-300 text-sm mb-8 leading-relaxed">Tailored communication governance for teams, managers, and organizations.</p>
-            <ul class="space-y-4 text-sm text-slate-300">
-              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> Everything in Pro Tier</li>
-              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> Company-Specific Policy Guardrails</li>
-              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> Shared Organizational Knowledge Bases</li>
-              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-purple-400"></i> Advanced Privacy & Local Deployment</li>
-            </ul>
-          </div>
-          <a href="#download" class="mt-8 block text-center py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition-all">Contact Sales</a>
         </div>
       </div>
+
+      <!-- Billing & Currency Toggles -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16 reveal-node">
+        <div class="flex items-center bg-slate-900/90 p-1.5 rounded-full border border-white/15 shadow-2xl">
+          <button id="btn-monthly" class="px-6 py-2 rounded-full text-xs font-mono font-bold bg-cyan-500 text-slate-950 shadow-lg transition-all">Monthly Billing</button>
+          <button id="btn-yearly" class="px-6 py-2 rounded-full text-xs font-mono font-bold text-slate-400 hover:text-white transition-all flex items-center gap-2">
+            <span>Annual Billing</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-black uppercase tracking-wider animate-pulse">Save 20%</span>
+          </button>
+        </div>
+        
+        <div class="flex items-center gap-2 bg-slate-900/80 px-4 py-2 rounded-full border border-white/10 text-xs font-mono text-slate-400">
+          <span>Currency:</span>
+          <button id="curr-usd" class="font-bold text-cyan-400 underline decoration-2">USD ($)</button>
+          <span class="text-slate-600">/</span>
+          <button id="curr-inr" class="font-bold text-slate-400 hover:text-white transition-colors">INR (₹)</button>
+        </div>
+      </div>
+
+      <!-- 4-Column Core Pricing Grid -->
+      <div id="pricing-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+        
+        <!-- Tier 1: Free -->
+        <div class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/10 flex flex-col justify-between reveal-node">
+          <div>
+            <span class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-300">Personal</span>
+            <h3 class="text-2xl font-black text-white mt-4">Free</h3>
+            <p class="text-slate-400 text-xs mt-1 min-h-[32px] leading-relaxed">Essential typing assistance for everyday personal communication.</p>
+            
+            <!-- Price Display -->
+            <div class="my-6 py-4 border-y border-white/10">
+              <div class="text-4xl font-black text-white flex items-baseline">
+                <span class="price-val font-mono" data-usd-mo="$0" data-usd-yr="$0" data-inr-mo="₹0" data-inr-yr="₹0">$0</span>
+                <span class="text-xs font-normal text-slate-400 font-mono ml-1">/month</span>
+              </div>
+              <div class="billing-subtext text-[11px] font-mono text-slate-500 mt-1">Free forever</div>
+            </div>
+
+            <!-- High-Intent CTA Above Features -->
+            <a href="#download" class="w-full py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-all block text-center mb-6">Get Started Free</a>
+
+            <div class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider mb-3">Included features:</div>
+            <ul class="space-y-3 text-xs text-slate-300 font-medium">
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400 text-sm"></i> Standard Auto-Complete</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400 text-sm"></i> Grammar & Punctuation Polish</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400 text-sm"></i> Basic Multilingual Translation</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400 text-sm"></i> Standard Processing Speed</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tier 2: Plus -->
+        <div class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-blue-950/30 border-white/15 hover:border-blue-500/50 flex flex-col justify-between reveal-node">
+          <div>
+            <span class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">Creator</span>
+            <h3 class="text-2xl font-black text-white mt-4">Plus</h3>
+            <p class="text-slate-300 text-xs mt-1 min-h-[32px] leading-relaxed">Expanded creative tools and context styling for active creators.</p>
+            
+            <div class="my-6 py-4 border-y border-white/10">
+              <div class="text-4xl font-black text-white flex items-baseline">
+                <span class="price-val font-mono text-cyan-400" data-usd-mo="$10" data-usd-yr="$8" data-inr-mo="₹499" data-inr-yr="₹399">$10</span>
+                <span class="text-xs font-normal text-slate-400 font-mono ml-1">/month</span>
+              </div>
+              <div class="billing-subtext text-[11px] font-mono text-cyan-400/80 mt-1">Billed monthly</div>
+            </div>
+
+            <a href="#download" class="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition-all block text-center mb-6 shadow-[0_0_20px_rgba(37,99,235,0.4)]">Start 7-Day Free Trial</a>
+
+            <div class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider mb-3">Everything in Free, plus:</div>
+            <ul class="space-y-3 text-xs text-slate-200 font-medium">
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-blue-400 text-sm"></i> Adaptive Persona Mode</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-blue-400 text-sm"></i> Live App Context Detection</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-blue-400 text-sm"></i> Tone Library & Sign-offs</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-check text-blue-400 text-sm"></i> Unlimited Text Rewrites</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tier 3: Pro (RECOMMENDED HERO CARD - Like ChatGPT Plus / Google Pro) -->
+        <div class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-cyan-950/80 via-slate-900/95 to-blue-950/80 border-2 border-cyan-400 shadow-[0_0_50px_rgba(56,189,248,0.25)] flex flex-col justify-between reveal-node relative transform lg:-translate-y-3 z-20">
+          <div class="absolute -top-3.5 right-6 bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 text-[10px] font-mono font-black px-3.5 py-1 rounded-full uppercase tracking-widest shadow-lg">Most Popular</div>
+          <div>
+            <span class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">Professional ⭐</span>
+            <h3 class="text-2xl font-black text-white mt-4">Pro</h3>
+            <p class="text-slate-200 text-xs mt-1 min-h-[32px] leading-relaxed">Full access to deep reasoning, persona customization & local memory.</p>
+            
+            <div class="my-6 py-4 border-y border-white/15">
+              <div class="text-4xl font-black text-white flex items-baseline">
+                <span class="price-val font-mono text-white" data-usd-mo="$20" data-usd-yr="$16" data-inr-mo="₹999" data-inr-yr="₹799">$20</span>
+                <span class="text-xs font-normal text-slate-300 font-mono ml-1">/month</span>
+              </div>
+              <div class="billing-subtext text-[11px] font-mono text-cyan-300 mt-1">Billed monthly</div>
+            </div>
+
+            <a href="#download" class="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 hover:scale-[1.02] active:scale-95 text-slate-950 font-black text-xs transition-all block text-center mb-6 shadow-[0_0_25px_rgba(56,189,248,0.6)]">Upgrade to Pro</a>
+
+            <div class="text-xs font-mono font-bold text-cyan-300 uppercase tracking-wider mb-3">Everything in Plus, plus:</div>
+            <ul class="space-y-3 text-xs text-white font-medium">
+              <li class="flex items-center gap-3"><i class="fa-solid fa-sparkles text-cyan-400 text-sm"></i> Deep Reasoning Intelligence</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-brain text-cyan-400 text-sm"></i> Personal AI Memory (Local)</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-bullseye text-cyan-400 text-sm"></i> Goal-Based Persuasion Writing</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-wand-magic-sparkles text-cyan-400 text-sm"></i> Personal Content Studio</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-comments text-cyan-400 text-sm"></i> Long-Conversation Context</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tier 4: Ultra -->
+        <div class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-purple-950/40 border-white/15 hover:border-purple-500/50 flex flex-col justify-between reveal-node">
+          <div>
+            <span class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">Power User</span>
+            <h3 class="text-2xl font-black text-white mt-4">Ultra</h3>
+            <p class="text-slate-300 text-xs mt-1 min-h-[32px] leading-relaxed">For heavy communicators requiring automation & maximum priority.</p>
+            
+            <div class="my-6 py-4 border-y border-white/10">
+              <div class="text-4xl font-black text-white flex items-baseline">
+                <span class="price-val font-mono text-purple-400" data-usd-mo="$40" data-usd-yr="$32" data-inr-mo="₹1,999" data-inr-yr="₹1,599">$40</span>
+                <span class="text-xs font-normal text-slate-400 font-mono ml-1">/month</span>
+              </div>
+              <div class="billing-subtext text-[11px] font-mono text-purple-300/80 mt-1">Billed monthly</div>
+            </div>
+
+            <a href="#download" class="w-full py-3.5 rounded-xl bg-purple-600/60 hover:bg-purple-600 text-white font-bold text-xs border border-purple-500/50 transition-all block text-center mb-6">Get Ultra Access</a>
+
+            <div class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider mb-3">Everything in Pro, plus:</div>
+            <ul class="space-y-3 text-xs text-slate-200 font-medium">
+              <li class="flex items-center gap-3"><i class="fa-solid fa-gears text-purple-400 text-sm"></i> Cross-App AI Actions</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-globe text-purple-400 text-sm"></i> Deep Real-Time Web Research</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-image text-purple-400 text-sm"></i> Inline Image Generation</li>
+              <li class="flex items-center gap-3"><i class="fa-solid fa-gauge-high text-purple-400 text-sm"></i> Maximum Throughput Priority</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Full-Width Horizontal Enterprise Banner (Clean SaaS Pattern) -->
+      <div class="mt-8 p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-slate-900 via-[#080e1e] to-slate-900 border border-white/15 flex flex-col lg:flex-row items-center justify-between gap-8 reveal-node shadow-2xl">
+        <div class="max-w-2xl text-center lg:text-left">
+          <div class="flex items-center justify-center lg:justify-start gap-3 mb-2">
+            <span class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Team & Business</span>
+            <span class="text-xs font-mono text-slate-400">Custom Deployment</span>
+          </div>
+          <h3 class="text-2xl sm:text-3xl font-black text-white">Enterprise & Custom Organizations</h3>
+          <p class="text-slate-300 text-sm mt-2 leading-relaxed">Tailored communication governance, custom security guardrails, shared team knowledge bases, local server deployment, and dedicated SLA support.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center gap-4 shrink-0 w-full lg:w-auto">
+          <div class="text-center lg:text-right px-4">
+            <div class="text-2xl font-black text-white font-mono">Custom Pricing</div>
+            <div class="text-[11px] font-mono text-emerald-400">Billed annually</div>
+          </div>
+          <a href="#download" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white text-slate-950 hover:bg-slate-200 font-extrabold text-xs transition-all text-center shadow-lg">Contact Sales Team</a>
+        </div>
+      </div>
+
+      <!-- Privacy-First Footer Quote -->
+      <div class="mt-12 text-center max-w-3xl mx-auto p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono text-xs flex items-center justify-center gap-3 shadow-lg reveal-node">
+        <i class="fa-solid fa-shield-halved text-base shrink-0"></i>
+        <span>Every plan includes the same privacy-first architecture. Upgrade only for more intelligence, memory, and capabilities—not ads or data collection.</span>
+      </div>
+
+      <!-- "Try PRISM" Interactive Demo Bottom CTA Banner -->
+      <div class="mt-16 p-8 sm:p-12 rounded-3xl spotlight-card bg-gradient-to-r from-blue-950/80 via-slate-900/95 to-purple-950/80 border border-cyan-500/40 text-center max-w-4xl mx-auto shadow-[0_0_50px_rgba(56,189,248,0.2)] reveal-node" style="--hover-glow: rgba(192, 132, 252, 0.4); --hover-border: rgba(192, 132, 252, 0.9);">
+        <span class="text-xs font-mono font-bold text-purple-400 uppercase tracking-widest bg-purple-500/10 border border-purple-500/30 px-3 py-1 rounded-full">Interactive Sandbox</span>
+        <h3 class="text-3xl sm:text-4xl font-black text-white mt-4 mb-2">Still not convinced? <span class="text-cyan-400">↓ Try PRISM</span></h3>
+        <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto mb-8">Experience the difference between standard auto-complete and deep intent reasoning right in your browser.</p>
+        <a href="#features" id="try-prism-launcher" class="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 hover:scale-105 text-white font-extrabold text-sm shadow-[0_0_30px_rgba(56,189,248,0.5)] transition-all">
+          <span>Launch Interactive Demo</span> <i class="fa-solid fa-arrow-right-long text-cyan-200 animate-pulse"></i>
+        </a>
+      </div>
+
     </section>
 
     <!-- ================= SECTION 05: APPLE KEYNOTE BIOMETRIC LOCK & SPATIAL ENGINE ================= -->
@@ -549,7 +719,7 @@
       </div>
 
       <!-- The Main Stage -->
-      <div id="privacy-animation-stage" class="relative w-full min-h-[480px] flex flex-col items-center justify-center p-8 sm:p-12 rounded-3xl spotlight-card bg-gradient-to-br from-slate-900/90 via-[#080e1e]/95 to-slate-900/90 border-emerald-500/40 overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)]">
+      <div id="privacy-animation-stage" class="relative w-full min-h-[480px] flex flex-col items-center justify-center p-8 sm:p-12 rounded-3xl spotlight-card bg-gradient-to-br from-slate-900/90 via-[#080e1e]/95 to-slate-900/90 border-emerald-500/40 overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)]" style="--hover-glow: rgba(16, 185, 129, 0.35); --hover-border: rgba(16, 185, 129, 0.8);">
         
         <!-- Phase A: Question Title -->
         <h2 id="priv-title-question" class="text-4xl sm:text-6xl font-black text-white absolute opacity-0 scale-90 text-center px-4 drop-shadow-[0_0_35px_rgba(16,185,129,0.6)]">What about Privacy?</h2>
@@ -663,28 +833,28 @@
         <div class="mt-4 text-xs font-mono text-slate-400">Click button to reveal platform downloads</div>
       </div>
       <div id="platform-cards-grid" class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 hidden opacity-0">
-        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-cyan-400 flex flex-col items-center justify-between text-center group transition-all">
+        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-cyan-400 flex flex-col items-center justify-between text-center group transition-all" style="--hover-glow: rgba(56,189,248,0.3); --hover-border: rgba(56,189,248,0.8);">
           <div>
             <div class="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white text-4xl mb-6 mx-auto group-hover:scale-110 transition-transform shadow-[0_0_25px_rgba(255,255,255,0.2)]"><i class="fa-brands fa-apple"></i></div>
             <h3 class="text-2xl font-extrabold text-white">Apple iOS</h3><p class="text-slate-400 text-xs font-mono mt-1">Requires iOS 16.0 or later</p>
           </div>
           <div class="mt-8 w-full py-3 rounded-xl bg-cyan-500/20 group-hover:bg-cyan-500 text-cyan-300 group-hover:text-black font-bold text-sm transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> App Store</div>
         </a>
-        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-emerald-400 flex flex-col items-center justify-between text-center group transition-all">
+        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-emerald-400 flex flex-col items-center justify-between text-center group transition-all" style="--hover-glow: rgba(16,185,129,0.3); --hover-border: rgba(16,185,129,0.8);">
           <div>
             <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-4xl mb-6 mx-auto group-hover:scale-110 transition-transform shadow-[0_0_25px_rgba(16,185,129,0.25)]"><i class="fa-brands fa-android"></i></div>
             <h3 class="text-2xl font-extrabold text-white">Android</h3><p class="text-slate-400 text-xs font-mono mt-1">Requires Android 11.0+</p>
           </div>
           <div class="mt-8 w-full py-3 rounded-xl bg-emerald-500/20 group-hover:bg-emerald-500 text-emerald-300 group-hover:text-black font-bold text-sm transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> Google Play</div>
         </a>
-        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-blue-400 flex flex-col items-center justify-between text-center group transition-all">
+        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-blue-400 flex flex-col items-center justify-between text-center group transition-all" style="--hover-glow: rgba(59,130,246,0.3); --hover-border: rgba(59,130,246,0.8);">
           <div>
             <div class="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-4xl mb-6 mx-auto group-hover:scale-110 transition-transform shadow-[0_0_25px_rgba(59,130,246,0.25)]"><i class="fa-brands fa-windows"></i></div>
             <h3 class="text-2xl font-extrabold text-white">Windows</h3><p class="text-slate-400 text-xs font-mono mt-1">Windows 11 / 10 (64-bit)</p>
           </div>
           <div class="mt-8 w-full py-3 rounded-xl bg-blue-500/20 group-hover:bg-blue-500 text-blue-300 group-hover:text-black font-bold text-sm transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> Download .EXE</div>
         </a>
-        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-amber-400 flex flex-col items-center justify-between text-center group transition-all">
+        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-amber-400 flex flex-col items-center justify-between text-center group transition-all" style="--hover-glow: rgba(245,158,11,0.3); --hover-border: rgba(245,158,11,0.8);">
           <div>
             <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-4xl mb-6 mx-auto group-hover:scale-110 transition-transform shadow-[0_0_25px_rgba(245,158,11,0.25)]"><i class="fa-brands fa-linux"></i></div>
             <h3 class="text-2xl font-extrabold text-white">Linux</h3><p class="text-slate-400 text-xs font-mono mt-1">AppImage / Debian / Ubuntu</p>
@@ -822,6 +992,108 @@
         currentActiveTabId = targetId;
       }
 
+      // ── UPGRADED BILLING & CURRENCY TOGGLE WITH GSAP PRICE ANIMATION ──
+      const btnMonthly = document.getElementById('btn-monthly');
+      const btnYearly = document.getElementById('btn-yearly');
+      const currUsd = document.getElementById('curr-usd');
+      const currInr = document.getElementById('curr-inr');
+
+      let currentPeriod = 'mo';
+      let currentCurr = 'usd';
+
+      const annualTotalMap = {
+        "usd": { "$0": "Free forever", "$8": "Billed annually ($96/yr)", "$16": "Billed annually ($192/yr)", "$32": "Billed annually ($384/yr)" },
+        "inr": { "₹0": "Free forever", "₹399": "Billed annually (₹4,788/yr)", "₹799": "Billed annually (₹9,588/yr)", "₹1,599": "Billed annually (₹19,188/yr)" }
+      };
+
+      function updatePricingDisplay() {
+        document.querySelectorAll('#pricing-grid .spotlight-card').forEach((card, index) => {
+          const priceEl = card.querySelector('.price-val');
+          const subEl = card.querySelector('.billing-subtext');
+          
+          // Smooth GSAP Out-Animation (Blur + Move Up)
+          gsap.to([priceEl, subEl], {
+            opacity: 0,
+            y: -12,
+            filter: "blur(4px)",
+            duration: 0.2,
+            delay: index * 0.04,
+            ease: "power2.in",
+            onComplete: () => {
+              const attrKey = `data-${currentCurr}-${currentPeriod}`;
+              const newPrice = priceEl.getAttribute(attrKey);
+              priceEl.textContent = newPrice;
+
+              if (subEl) {
+                if (currentPeriod === 'mo') {
+                  subEl.textContent = newPrice === "$0" || newPrice === "₹0" ? "Free forever" : "Billed monthly";
+                } else {
+                  subEl.textContent = annualTotalMap[currentCurr][newPrice] || "Billed annually";
+                }
+              }
+
+              // Smooth GSAP In-Animation (Snap From Below)
+              gsap.fromTo([priceEl, subEl],
+                { opacity: 0, y: 12, filter: "blur(4px)" },
+                { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.35, ease: "back.out(1.5)" }
+              );
+            }
+          });
+        });
+      }
+
+      if (btnMonthly && btnYearly) {
+        btnMonthly.addEventListener('click', () => {
+          if (currentPeriod === 'mo') return;
+          currentPeriod = 'mo';
+          btnMonthly.className = 'px-6 py-2 rounded-full text-xs font-mono font-bold bg-cyan-500 text-slate-950 shadow-lg transition-all';
+          btnYearly.className = 'px-6 py-2 rounded-full text-xs font-mono font-bold text-slate-400 hover:text-white transition-all flex items-center gap-2';
+          updatePricingDisplay();
+        });
+
+        btnYearly.addEventListener('click', () => {
+          if (currentPeriod === 'yr') return;
+          currentPeriod = 'yr';
+          btnYearly.className = 'px-6 py-2 rounded-full text-xs font-mono font-bold bg-cyan-500 text-slate-950 shadow-lg transition-all flex items-center gap-2';
+          btnMonthly.className = 'px-6 py-2 rounded-full text-xs font-mono font-bold text-slate-400 hover:text-white transition-all';
+          updatePricingDisplay();
+        });
+      }
+
+      if (currUsd && currInr) {
+        currUsd.addEventListener('click', () => {
+          if (currentCurr === 'usd') return;
+          currentCurr = 'usd';
+          currUsd.className = 'font-bold text-cyan-400 underline decoration-2';
+          currInr.className = 'font-bold text-slate-400 hover:text-white transition-colors';
+          updatePricingDisplay();
+        });
+
+        currInr.addEventListener('click', () => {
+          if (currentCurr === 'inr') return;
+          currentCurr = 'inr';
+          currInr.className = 'font-bold text-cyan-400 underline decoration-2';
+          currUsd.className = 'font-bold text-slate-400 hover:text-white transition-colors';
+          updatePricingDisplay();
+        });
+      }
+
+      // "TRY PRISM" INTERACTIVE LAUNCHER
+      const tryPrismBtn = document.getElementById('try-prism-launcher');
+      if (tryPrismBtn) {
+        tryPrismBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetSection = document.getElementById('features');
+          if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+              const tab3 = document.querySelector('.apple-tab-btn[data-feature="3"]');
+              if (tab3) tab3.click();
+            }, 800);
+          }
+        });
+      }
+
       // ── 4. SECTION 05: UPGRADED APPLE KEYNOTE CONTINUOUS SPATIAL ENGINE ──
       let isPrivacyPlaying = false, hasPrivacyPlayedOnce = false;
 
@@ -932,39 +1204,31 @@
       // =========================================================================
       // UNIVERSAL ONE-TIME AUTO-TICKING CHECKLIST WITH NEON GLOW & SETTLE EFFECT
       // =========================================================================
-      
-      // Target lists strictly inside Philosophy comparison, Models architecture, and Plans cards
       const allChecklists = document.querySelectorAll('#philosophy ul, #models ul, #plans ul');
 
-      // Initialize rows in a hidden state so icons remain 100% intact
       allChecklists.forEach(list => {
         const items = list.querySelectorAll('li');
         gsap.set(items, { opacity: 0, x: -25, filter: "blur(8px)" });
       });
 
-      // Observer executes EXACTLY ONCE per page load
       const autoTickObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Disconnect immediately so scrolling away does not reset or loop it
             observer.unobserve(entry.target);
-            
             const items = entry.target.querySelectorAll('li');
             
             items.forEach((item, index) => {
               const icon = item.querySelector('i');
-              const badgeSpan = item.querySelector('span.rounded-full'); // For badges in section 01
+              const badgeSpan = item.querySelector('span.rounded-full');
               const targetVisual = badgeSpan || icon;
               
-              // Automatically extract brand color for the checking glow
-              let glowColor = "rgba(56, 189, 248, 0.9)"; // Default Cyan
+              let glowColor = "rgba(56, 189, 248, 0.9)";
               const html = item.innerHTML;
               if (html.includes("red")) glowColor = "rgba(239, 68, 68, 0.9)";
               else if (html.includes("purple") || html.includes("fuchsia")) glowColor = "rgba(192, 132, 252, 0.9)";
               else if (html.includes("emerald") || html.includes("green")) glowColor = "rgba(16, 185, 129, 0.9)";
               else if (html.includes("blue")) glowColor = "rgba(59, 130, 246, 0.9)";
 
-              // Step 1: Row slides & fades in
               gsap.to(item, {
                 opacity: 1,
                 x: 0,
@@ -973,7 +1237,6 @@
                 delay: index * 0.18,
                 ease: "power2.out",
                 onStart: () => {
-                  // Step 2: The Checking Glow & Scale Pop
                   if (targetVisual) {
                     gsap.fromTo(targetVisual,
                       { scale: 0.2, rotate: -35, filter: "brightness(2.5) drop-shadow(0 0 25px " + glowColor + ")" },
@@ -984,7 +1247,6 @@
                         duration: 0.35,
                         ease: "back.out(3)",
                         onComplete: () => {
-                          // Step 3: Settling Phase - Glow ends cleanly!
                           gsap.to(targetVisual, {
                             scale: 1,
                             filter: "brightness(1) drop-shadow(0 0 0px rgba(0,0,0,0))",
@@ -996,7 +1258,6 @@
                     );
                   }
                   
-                  // Text illuminates momentarily during check, then settles
                   gsap.fromTo(item,
                     { textShadow: "0 0 15px " + glowColor, color: "#ffffff" },
                     { textShadow: "0 0 0px rgba(0,0,0,0)", color: "", duration: 0.6, delay: 0.15, ease: "power2.out", clearProps: "textShadow" }
@@ -1008,7 +1269,6 @@
         });
       }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
 
-      // Start observing target lists
       allChecklists.forEach(list => autoTickObserver.observe(list));
 
       // Download Hub
