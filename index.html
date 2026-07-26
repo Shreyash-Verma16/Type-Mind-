@@ -47,6 +47,8 @@
       --nav-tint: rgba(56, 189, 248, 0.15);
       --nav-border: rgba(56, 189, 248, 0.45);
       --island-bg: rgba(6, 10, 20, 0.88);
+      --butter-ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --spring-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     body {
@@ -55,6 +57,22 @@
       font-family: 'Inter', sans-serif;
       overflow: hidden;
       overflow-x: hidden;
+    }
+
+    /* ── TACTILE MICRO-GRAIN TEXTURE OVERLAY ── */
+    .tactile-grain {
+      position: relative;
+    }
+    .tactile-grain::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 2;
+      border-radius: inherit;
     }
 
     /* ── GOOGLE STITCH DOT GRID MATRIX ── */
@@ -70,7 +88,7 @@
       position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -20;
       pointer-events: none; filter: blur(65px); opacity: 0; transform: scale(1.02);
       will-change: transform, opacity;
-      transition: opacity 2.5s cubic-bezier(0.16, 1, 0.3, 1), transform 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 2.5s var(--butter-ease), transform 2.5s var(--butter-ease);
     }
     #fluid-canvas.aurora-live { opacity: 0.65; transform: scale(1); }
     #fluid-canvas.water-recede { opacity: 0.05 !important; transform: scale(0.97) translateY(20px); }
@@ -91,7 +109,7 @@
     }
 
     /* ── Synchronized Tidal Heading Shimmer ── */
-    .tidal-heading { transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1); color: #ffffff; }
+    .tidal-heading { transition: all 1.8s var(--butter-ease); color: #ffffff; }
     .default-shimmer {
       background: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #ffffff 100%);
       background-size: 200% 200%;
@@ -112,7 +130,7 @@
 
     /* ── Splash Screen Engine ── */
     #splash-screen {
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.8s var(--butter-ease), transform 0.8s var(--butter-ease);
       will-change: opacity, transform; cursor: pointer;
     }
     .splash-flex-container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; position: relative; }
@@ -121,7 +139,7 @@
     .brand-circle {
       position: absolute; width: 84px; height: 84px; border-radius: 9999px; background: rgba(15, 23, 42, 0.95);
       border: 2px solid rgba(255, 255, 255, 0.2); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(56, 189, 248, 0.2);
-      display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0.2); transition: all 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0.2); transition: all 1.1s var(--butter-ease);
     }
     #merge-grid.is-active .pos-tl { transform: translate(-95px, -95px) scale(1); opacity: 1; transition-delay: 0.0s; }
     #merge-grid.is-active .pos-tr { transform: translate(95px, -95px) scale(1); opacity: 1; transition-delay: 0.15s; }
@@ -132,12 +150,12 @@
       transition: all 1.0s cubic-bezier(0.5, 0, 0.2, 1) !important;
     }
 
-    #merge-caption { position: absolute; bottom: -150px; opacity: 0; transform: translateY(15px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); z-index: 25; }
+    #merge-caption { position: absolute; bottom: -150px; opacity: 0; transform: translateY(15px); transition: all 0.8s var(--butter-ease); z-index: 25; }
     #merge-caption.show-caption { opacity: 1; transform: translateY(0px); }
     #merge-caption.hide-caption { opacity: 0; transform: scale(0.8); filter: blur(4px); }
 
     .splash-logo-outer { flex-shrink: 0; transform: scale(0); opacity: 0; perspective: 1200px; z-index: 30; }
-    .splash-logo-outer.start-reveal { animation: logoEnter 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .splash-logo-outer.start-reveal { animation: logoEnter 1.4s var(--butter-ease) forwards; }
     @keyframes logoEnter {
       0% { transform: scale(0.2); opacity: 0; filter: blur(12px); }
       70% { transform: scale(1.06); opacity: 1; filter: blur(0px); }
@@ -145,7 +163,7 @@
     }
 
     .splash-logo-inner {
-      position: relative; width: 170px; height: 170px; transform-style: preserve-3d; transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative; width: 170px; height: 170px; transform-style: preserve-3d; transition: transform 1.2s var(--butter-ease);
       box-shadow: 0 0 40px var(--glow-shadow); border-radius: 9999px; animation: logoPulse 2s 2.2s infinite alternate ease-in-out;
     }
     @media (min-width: 640px) { .splash-logo-inner { width: 220px; height: 220px; } }
@@ -161,60 +179,80 @@
     .splash-back { transform: rotateY(180deg); object-fit: cover; padding: 0px; }
 
     .splash-text-wrapper {
-      max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap; transition: all 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+      max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap; transition: all 1.4s var(--butter-ease);
       transform: translateX(-20px) scale(0.95); filter: blur(5px);
     }
     .splash-flex-container.expand .splash-text-wrapper { max-width: 500px; opacity: 1; margin-left: 1.8rem; transform: translateX(0) scale(1); filter: blur(0); }
-    .splash-flex-container.absorb .splash-text-wrapper { max-width: 0; opacity: 0; margin-left: 0; transform: translateX(-40px) scale(0.6); filter: blur(10px); transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+    .splash-flex-container.absorb .splash-text-wrapper { max-width: 0; opacity: 0; margin-left: 0; transform: translateX(-40px) scale(0.6); filter: blur(10px); transition: all 0.9s var(--butter-ease); }
 
     /* ── Main Content Reveal Transition ── */
-    #main-content-flow { opacity: 0; transform: translateY(40px); transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), transform 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+    #main-content-flow { opacity: 0; transform: translateY(40px); transition: opacity 1.5s var(--butter-ease), transform 1.5s var(--butter-ease); }
     #main-content-flow.content-visible { opacity: 1; transform: translateY(0); }
 
-    .reveal-node { opacity: 0; filter: blur(12px); transform: translateY(40px) scale(0.97); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity; }
+    .reveal-node { opacity: 0; filter: blur(12px); transform: translateY(40px) scale(0.97); transition: all 1.2s var(--butter-ease); will-change: transform, opacity; }
     .reveal-node.is-visible { opacity: 1; filter: blur(0px); transform: translateY(0px) scale(1); }
 
-    /* ── Dynamic Island Navigation ── */
-    #nav-island-wrapper { position: fixed; top: 16px; left: 0; right: 0; z-index: 10000; display: flex; justify-content: center; pointer-events: none; transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-    .nav-island {
-      pointer-events: auto; background: var(--island-bg); backdrop-filter: blur(50px) saturate(180%); border: 1.5px solid var(--nav-border);
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.2), 0 25px 60px -10px rgba(0,0,0,0.85), 0 0 40px -5px var(--nav-tint);
-      border-radius: 9999px; width: 92%; max-width: 980px; height: 66px; position: relative; overflow: hidden; transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    /* ── BUTTERY ELASTIC DYNAMIC ISLAND NAVIGATION ── */
+    #nav-island-wrapper {
+      position: fixed; top: 16px; left: 0; right: 0; z-index: 10000; display: flex; justify-content: center;
+      pointer-events: none; transition: all 0.8s var(--butter-ease);
     }
-    .nav-island.is-collapsed { width: 340px; height: 50px; border-color: rgba(255,255,255,0.18); box-shadow: inset 0 1px 1px rgba(255,255,255,0.15), 0 15px 35px -5px rgba(0,0,0,0.6), 0 0 30px var(--nav-tint); }
-    .nav-view { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; white-space: nowrap; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-    .nav-expanded-view { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
-    .nav-island.is-collapsed .nav-expanded-view { opacity: 0; transform: scale(0.88) translateY(-12px); pointer-events: none; }
-    .nav-compact-view { opacity: 0; transform: scale(0.88) translateY(12px); pointer-events: none; }
-    .nav-island.is-collapsed .nav-compact-view { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
+    .nav-island {
+      pointer-events: auto; background: var(--island-bg); backdrop-filter: blur(50px) saturate(200%); -webkit-backdrop-filter: blur(50px) saturate(200%);
+      border: 1.5px solid var(--nav-border);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.25), 0 25px 60px -10px rgba(0,0,0,0.85), 0 0 45px -5px var(--nav-tint);
+      border-radius: 9999px; width: 92%; max-width: 980px; height: 66px; position: relative; overflow: hidden;
+      transition: width 0.75s var(--spring-ease), height 0.75s var(--spring-ease), border-color 0.5s ease, box-shadow 0.5s ease, transform 0.4s var(--butter-ease);
+      will-change: width, height, transform;
+    }
+    .nav-island:hover {
+      transform: scale(1.008) translateY(-1px);
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.35), 0 30px 70px -10px rgba(0,0,0,0.95), 0 0 55px 0px rgba(56, 189, 248, 0.35);
+      border-color: rgba(56, 189, 248, 0.75);
+    }
+    .nav-island.is-collapsed {
+      width: 320px; height: 50px; border-color: rgba(255,255,255,0.18);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.15), 0 15px 35px -5px rgba(0,0,0,0.6), 0 0 30px var(--nav-tint);
+    }
+    .nav-island.is-collapsed:hover {
+      width: 335px; height: 52px; border-color: rgba(56, 189, 248, 0.6);
+    }
+    .nav-view {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
+      white-space: nowrap; transition: opacity 0.5s var(--butter-ease), transform 0.6s var(--butter-ease), filter 0.5s var(--butter-ease);
+    }
+    .nav-expanded-view { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); pointer-events: auto; }
+    .nav-island.is-collapsed .nav-expanded-view { opacity: 0; transform: scale(0.85) translateY(-16px); filter: blur(8px); pointer-events: none; }
+    .nav-compact-view { opacity: 0; transform: scale(0.85) translateY(16px); filter: blur(8px); pointer-events: none; }
+    .nav-island.is-collapsed .nav-compact-view { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); pointer-events: auto; }
     
-    .nav-link { padding: 6px 14px; border-radius: 9999px; font-weight: 600; font-size: 0.85rem; color: #cbd5e1; transition: all 0.3s ease; }
-    .nav-link:hover, .nav-link.active-section { color: #38bdf8; background: var(--nav-tint); border: 1px solid var(--nav-border); box-shadow: 0 0 15px var(--glow-shadow); transform: translateY(-1px); }
+    .nav-link { padding: 6px 14px; border-radius: 9999px; font-weight: 600; font-size: 0.85rem; color: #cbd5e1; transition: all 0.3s var(--butter-ease); }
+    .nav-link:hover, .nav-link.active-section { color: #38bdf8; background: var(--nav-tint); border: 1px solid var(--nav-border); box-shadow: 0 0 15px var(--glow-shadow); transform: translateY(-1px) scale(1.03); }
 
-    /* ── APPLE VISION-OS VIBRANT COLOR-CODED GLASS CARDS (UPGRADED HOVER EFFECTS) ── */
+    /* ── APPLE VISION-OS VIBRANT COLOR-CODED GLASS CARDS WITH TEXTURE ── */
     .spotlight-card {
       position: relative; overflow: hidden; --mouse-x: 50%; --mouse-y: 50%;
-      backdrop-filter: blur(40px) saturate(190%); -webkit-backdrop-filter: blur(40px) saturate(190%);
+      backdrop-filter: blur(45px) saturate(200%); -webkit-backdrop-filter: blur(45px) saturate(200%);
       border: 1px solid rgba(255, 255, 255, 0.16);
       box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.35), inset 0 -1px 1px rgba(255, 255, 255, 0.05);
-      transform: translateY(0px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s ease, box-shadow 0.5s ease, background-color 0.4s ease;
-      will-change: transform;
+      transform: translateY(0px) scale(1); transition: transform 0.55s var(--butter-ease), border-color 0.5s ease, box-shadow 0.55s var(--butter-ease), background-color 0.4s ease;
+      will-change: transform, box-shadow;
     }
     .spotlight-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.95), inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 0 45px var(--hover-glow, rgba(56, 189, 248, 0.3));
-      border-color: var(--hover-border, rgba(56, 189, 248, 0.8)) !important;
+      transform: translateY(-8px) scale(1.012);
+      box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.95), inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 0 50px var(--hover-glow, rgba(56, 189, 248, 0.35));
+      border-color: var(--hover-border, rgba(56, 189, 248, 0.85)) !important;
       z-index: 10;
     }
     .spotlight-card::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.14), transparent 45%);
-      z-index: 1; pointer-events: none; opacity: 0; transition: opacity 0.5s ease;
+      background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.16), transparent 45%);
+      z-index: 1; pointer-events: none; opacity: 0; transition: opacity 0.5s var(--butter-ease);
     }
     .spotlight-card:hover::before { opacity: 1; }
     .spotlight-card:hover .plan-cta-btn {
-      box-shadow: 0 0 25px var(--hover-glow, rgba(56, 189, 248, 0.6));
-      transform: scale(1.02);
+      box-shadow: 0 0 30px var(--hover-glow, rgba(56, 189, 248, 0.65));
+      transform: scale(1.025);
     }
 
     /* ── INTERACTIVE FEATURE TOOLTIPS ── */
@@ -224,7 +262,7 @@
       position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-6px);
       background: rgba(8, 14, 30, 0.98); border: 1px solid rgba(56, 189, 248, 0.5);
       padding: 8px 12px; border-radius: 10px; font-size: 11px; color: #f8fafc; font-family: 'JetBrains Mono', monospace;
-      white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100;
+      white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s var(--butter-ease); z-index: 100;
       box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 15px rgba(56,189,248,0.25);
     }
     [data-tooltip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(-10px); }
@@ -236,20 +274,20 @@
       background: rgba(10, 15, 30, 0.95); border: 2px solid var(--accent);
       box-shadow: 0 0 50px rgba(56, 189, 248, 0.6); overflow: hidden; pointer-events: none; white-space: nowrap;
     }
-    #tabs-column { opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+    #tabs-column { opacity: 0; pointer-events: none; transition: opacity 0.5s var(--butter-ease); }
     .apple-tab-btn {
       width: 100%; text-align: left; padding: 16px 22px; border-radius: 20px;
       background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.08);
       color: #94a3b8; font-weight: 600; font-size: 1.05rem; display: flex;
       align-items: center; justify-content: space-between;
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; overflow: hidden;
+      transition: all 0.45s var(--spring-ease); position: relative; overflow: hidden;
       will-change: transform, background;
     }
-    .apple-tab-btn:hover { background: rgba(255, 255, 255, 0.08); color: #f8fafc; border-color: rgba(255, 255, 255, 0.25); transform: translateX(4px); }
+    .apple-tab-btn:hover { background: rgba(255, 255, 255, 0.08); color: #f8fafc; border-color: rgba(255, 255, 255, 0.25); transform: translateX(6px); }
     .apple-tab-btn.is-bulky {
-      transform: scale(1.05) translateX(12px) !important; padding: 22px 28px !important;
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.3) 0%, rgba(192, 132, 252, 0.2) 100%) !important;
-      border-color: rgba(56, 189, 248, 0.8) !important; color: #ffffff !important;
+      transform: scale(1.04) translateX(14px) !important; padding: 22px 28px !important;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.35) 0%, rgba(192, 132, 252, 0.25) 100%) !important;
+      border-color: rgba(56, 189, 248, 0.85) !important; color: #ffffff !important;
       box-shadow: 0 15px 45px rgba(56, 189, 248, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.5) !important; z-index: 30;
     }
     .apple-tab-btn.is-bulky .tab-title-text {
@@ -262,7 +300,7 @@
       40% { box-shadow: 0 0 60px rgba(56, 189, 248, 1), 0 0 25px #c084fc; background: linear-gradient(135deg, rgba(56, 189, 248, 0.75) 0%, rgba(192, 132, 252, 0.65) 100%); border-color: #ffffff; transform: scale(1.03); color: #ffffff; }
       100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.15); background: rgba(15, 23, 42, 0.5); border-color: rgba(255,255,255,0.08); transform: scale(1); }
     }
-    .shimmer-burst-glow { animation: intenseShimmerBurst 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
+    .shimmer-burst-glow { animation: intenseShimmerBurst 1.2s var(--butter-ease) forwards !important; }
 
     /* ── TYPING CURSOR FOR PRIVACY SECTION ── */
     .typing-cursor::after {
@@ -271,7 +309,7 @@
     }
     @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-    /* ── APPLE VISION-OS GLASS MEDALLION & MECHANICAL LOCK (SECTION 05 UPGRADE) ── */
+    /* ── APPLE VISION-OS GLASS MEDALLION & MECHANICAL LOCK ── */
     .apple-glass-medallion {
       position: relative; overflow: hidden;
       background: linear-gradient(135deg, rgba(30, 41, 59, 0.75), rgba(15, 23, 42, 0.85));
@@ -343,10 +381,10 @@
 
   <!-- ================= PHASE 2: ADAPTIVE DYNAMIC ISLAND ================= -->
   <div id="nav-island-wrapper">
-    <nav id="dynamic-island-nav" class="nav-island">
+    <nav id="dynamic-island-nav" class="nav-island tactile-grain">
       <div class="nav-view nav-expanded-view">
         <a href="#top" class="flex items-center gap-3 group">
-          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 p-[1.5px] flex items-center justify-center">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 p-[1.5px] flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform duration-500">
             <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center font-black text-xs text-cyan-400">TM</div>
           </div>
           <span class="font-extrabold tracking-tight text-white text-base">TypeMind</span>
@@ -360,7 +398,7 @@
           <a href="#privacy" class="nav-link" data-section="privacy">Privacy</a>
           <a href="#download" class="nav-link text-cyan-400 font-bold" data-section="download"><i class="fa-solid fa-download mr-1"></i> Download</a>
         </div>
-        <a href="#download" class="px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs rounded-full shadow-[0_0_20px_rgba(56,189,248,0.4)] transition-all">Get App</a>
+        <a href="#download" class="px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs rounded-full shadow-[0_0_20px_rgba(56,189,248,0.4)] hover:scale-105 active:scale-95 transition-all">Get App</a>
       </div>
       <div class="nav-view nav-compact-view">
         <div class="flex items-center gap-2.5">
@@ -387,12 +425,12 @@
         </div>
       </div>
       <h1 class="text-6xl sm:text-8xl md:text-9xl font-black tracking-tighter tidal-heading default-shimmer z-10 leading-none pb-2 drop-shadow-2xl">TypeMind</h1>
-      <div class="mt-8 max-w-3xl mx-auto p-8 sm:p-10 rounded-3xl spotlight-card bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-blue-950/80 border-cyan-500/30 z-10 relative group shadow-2xl" style="--hover-glow: rgba(56, 189, 248, 0.4); --hover-border: rgba(56, 189, 248, 0.8);">
+      <div class="mt-8 max-w-3xl mx-auto p-8 sm:p-10 rounded-3xl spotlight-card tactile-grain bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-blue-950/80 border-cyan-500/30 z-10 relative group shadow-2xl" style="--hover-glow: rgba(56, 189, 248, 0.4); --hover-border: rgba(56, 189, 248, 0.8);">
         <p class="text-lg sm:text-2xl text-slate-200 font-medium leading-relaxed">TypeMind learns how you communicate, understands your intent, and helps you express your ideas more effectively—<span class="text-cyan-400 font-bold">without changing your voice.</span></p>
       </div>
       <div class="mt-12 flex flex-wrap items-center justify-center gap-4 z-10">
-        <a href="#features" class="px-8 py-4 bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:scale-105 text-white font-bold rounded-full shadow-[0_10px_30px_rgba(56,189,248,0.4)] transition-all flex items-center gap-3">Explore The 6 Core Features <i class="fa-solid fa-arrow-down"></i></a>
-        <a href="#download" class="px-8 py-4 bg-slate-900/80 hover:bg-slate-800 border border-white/15 hover:border-cyan-400 text-white font-bold rounded-full transition-all">Download Platform</a>
+        <a href="#features" class="px-8 py-4 bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:scale-105 active:scale-95 text-white font-bold rounded-full shadow-[0_10px_30px_rgba(56,189,248,0.4)] transition-all flex items-center gap-3">Explore The 6 Core Features <i class="fa-solid fa-arrow-down"></i></a>
+        <a href="#download" class="px-8 py-4 bg-slate-900/80 hover:bg-slate-800 border border-white/15 hover:border-cyan-400 hover:scale-105 active:scale-95 text-white font-bold rounded-full transition-all">Download Platform</a>
       </div>
     </section>
 
@@ -403,7 +441,7 @@
         <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-4 tidal-heading">Why Traditional Keyboards Are Broken</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-        <div class="spotlight-card p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-red-950/70 via-slate-900/90 to-rose-950/70 border-red-500/30 hover:border-red-500/60 flex flex-col justify-between reveal-node group" style="--hover-glow: rgba(239, 68, 68, 0.35); --hover-border: rgba(239, 68, 68, 0.8); transition-delay: 0.1s;">
+        <div class="spotlight-card tactile-grain p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-red-950/70 via-slate-900/90 to-rose-950/70 border-red-500/30 hover:border-red-500/60 flex flex-col justify-between reveal-node group" style="--hover-glow: rgba(239, 68, 68, 0.35); --hover-border: rgba(239, 68, 68, 0.8); transition-delay: 0.1s;">
           <div>
             <div class="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 font-bold mb-6 shadow-[0_0_20px_rgba(239,68,68,0.2)]"><i class="fa-solid fa-keyboard text-xl"></i></div>
             <span class="text-xs font-mono font-bold text-red-400 tracking-wider uppercase">Other Keyboards</span>
@@ -419,7 +457,7 @@
           </div>
           <div class="mt-8 pt-4 border-t border-white/10 flex items-center gap-2 text-red-400 text-xs font-mono font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> High workflow friction & robotic rewrites</div>
         </div>
-        <div class="spotlight-card p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-cyan-950/70 via-slate-900/90 to-blue-950/70 border-cyan-500/40 hover:border-cyan-400 flex flex-col justify-between reveal-node group shadow-[0_0_40px_rgba(56,189,248,0.15)]" style="--hover-glow: rgba(56, 189, 248, 0.45); --hover-border: rgba(56, 189, 248, 0.9); transition-delay: 0.2s;">
+        <div class="spotlight-card tactile-grain p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-cyan-950/70 via-slate-900/90 to-blue-950/70 border-cyan-500/40 hover:border-cyan-400 flex flex-col justify-between reveal-node group shadow-[0_0_40px_rgba(56,189,248,0.15)]" style="--hover-glow: rgba(56, 189, 248, 0.45); --hover-border: rgba(56, 189, 248, 0.9); transition-delay: 0.2s;">
           <div>
             <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-bold mb-6 shadow-[0_0_20px_rgba(56,189,248,0.3)]"><i class="fa-solid fa-brain text-xl"></i></div>
             <span class="text-xs font-mono font-bold text-cyan-400 tracking-wider uppercase">TypeMind Platform</span>
@@ -446,17 +484,17 @@
         <p class="text-slate-400 max-w-xl mx-auto mt-3 text-base leading-relaxed">Click any bulky feature button below to smoothly slide out its interactive AI workspace card.</p>
       </div>
       <div id="features-interactive" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative min-h-[500px]">
-        <div id="island-drop-box" class="w-14 h-14 rounded-full">
+        <div id="island-drop-box" class="w-14 h-14 rounded-full tactile-grain">
           <div class="drop-logo w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-black font-black text-xs mr-2 shrink-0">TM</div>
           <span class="drop-text text-lg font-black tracking-tight opacity-0 pr-3">✨ The Six Core Features</span>
         </div>
         <div id="tabs-column" class="lg:col-span-5 flex flex-col gap-3.5 sticky top-28 z-20">
-          <button class="apple-tab-btn" data-feature="1"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">01</span><span class="tab-title-text">Adaptive Persona Mode</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
-          <button class="apple-tab-btn" data-feature="2"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">02</span><span class="tab-title-text">Live Context Detection</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
-          <button class="apple-tab-btn" data-feature="3"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">03</span><span class="tab-title-text">Personal AI Memory</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
-          <button class="apple-tab-btn" data-feature="4"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">04</span><span class="tab-title-text">Goal-Based Writing</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
-          <button class="apple-tab-btn" data-feature="5"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">05</span><span class="tab-title-text">Personal AI Studio</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
-          <button class="apple-tab-btn" data-feature="6"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">06</span><span class="tab-title-text">Cross-App AI Actions</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
+          <button class="apple-tab-btn tactile-grain" data-feature="1"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">01</span><span class="tab-title-text">Adaptive Persona Mode</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
+          <button class="apple-tab-btn tactile-grain" data-feature="2"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">02</span><span class="tab-title-text">Live Context Detection</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
+          <button class="apple-tab-btn tactile-grain" data-feature="3"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">03</span><span class="tab-title-text">Personal AI Memory</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
+          <button class="apple-tab-btn tactile-grain" data-feature="4"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">04</span><span class="tab-title-text">Goal-Based Writing</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
+          <button class="apple-tab-btn tactile-grain" data-feature="5"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">05</span><span class="tab-title-text">Personal AI Studio</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
+          <button class="apple-tab-btn tactile-grain" data-feature="6"><span class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono font-bold text-cyan-400 shrink-0">06</span><span class="tab-title-text">Cross-App AI Actions</span></span><i class="fa-solid fa-plus tab-icon text-sm shrink-0 ml-2"></i></button>
         </div>
         <div id="stage-column" class="lg:col-span-7 sticky top-28 z-10 min-h-[440px]">
           <div id="active-card-stage" class="w-full hidden"></div>
@@ -473,7 +511,7 @@
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
         <!-- AURA ENGINE -->
-        <div class="spotlight-card p-10 sm:p-12 rounded-3xl bg-gradient-to-br from-blue-950/70 via-slate-900/90 to-indigo-950/70 border-blue-500/40 flex flex-col justify-between reveal-node" style="--hover-glow: rgba(59, 130, 246, 0.4); --hover-border: rgba(59, 130, 246, 0.9);">
+        <div class="spotlight-card tactile-grain p-10 sm:p-12 rounded-3xl bg-gradient-to-br from-blue-950/70 via-slate-900/90 to-indigo-950/70 border-blue-500/40 flex flex-col justify-between reveal-node" style="--hover-glow: rgba(59, 130, 246, 0.4); --hover-border: rgba(59, 130, 246, 0.9);">
           <div>
             <div class="flex items-center justify-between mb-8"><span class="px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/40 text-blue-400 font-mono text-xs font-bold shadow-[0_0_15px_rgba(59,130,246,0.3)]">🟣 AURA Engine</span><span class="text-xs font-mono text-slate-400">Ultra-Low Latency (~150ms)</span></div>
             <h3 class="text-3xl font-extrabold text-white">Adaptive User Response Architecture</h3>
@@ -487,7 +525,7 @@
           <div class="mt-10 pt-6 border-t border-white/10 flex items-center justify-between text-xs font-mono text-slate-400"><span>Powered by lightweight LLM APIs</span><span class="text-blue-400 font-bold">Default Pipeline</span></div>
         </div>
         <!-- PRISM ENGINE -->
-        <div class="spotlight-card p-10 sm:p-12 rounded-3xl bg-gradient-to-br from-purple-950/70 via-slate-900/90 to-fuchsia-950/70 border-purple-500/40 flex flex-col justify-between reveal-node" style="--hover-glow: rgba(192, 132, 252, 0.45); --hover-border: rgba(192, 132, 252, 0.9);">
+        <div class="spotlight-card tactile-grain p-10 sm:p-12 rounded-3xl bg-gradient-to-br from-purple-950/70 via-slate-900/90 to-fuchsia-950/70 border-purple-500/40 flex flex-col justify-between reveal-node" style="--hover-glow: rgba(192, 132, 252, 0.45); --hover-border: rgba(192, 132, 252, 0.9);">
           <div>
             <div class="flex items-center justify-between mb-8"><span class="px-4 py-1.5 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-xs font-bold shadow-[0_0_15px_rgba(192,132,252,0.4)]">🔵 PRISM Engine</span><span class="text-xs font-mono text-purple-300">Deep Reasoning & Synthesis</span></div>
             <h3 class="text-3xl font-extrabold text-white">Personalized Reasoning Intelligence System</h3>
@@ -513,7 +551,7 @@
       </div>
 
       <!-- "Choose Your Intelligence" Storytelling Banner -->
-      <div class="reveal-node mb-10 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900/90 via-[#080e1e]/90 to-slate-900/90 border border-white/10 max-w-4xl mx-auto backdrop-blur-xl shadow-2xl text-center" style="--hover-glow: rgba(56,189,248,0.25);">
+      <div class="reveal-node mb-10 p-6 sm:p-8 rounded-3xl tactile-grain bg-gradient-to-r from-slate-900/90 via-[#080e1e]/90 to-slate-900/90 border border-white/10 max-w-4xl mx-auto backdrop-blur-xl shadow-2xl text-center" style="--hover-glow: rgba(56,189,248,0.25);">
         <div class="text-xs font-mono font-bold text-cyan-400 uppercase tracking-widest mb-2">Choose Your Intelligence</div>
         <p class="text-slate-200 text-sm sm:text-base font-medium">Every plan includes TypeMind. <span class="text-white font-bold">Upgrade your intelligence as your workflow grows.</span></p>
         
@@ -538,8 +576,8 @@
       <!-- Billing & Currency Toggles -->
       <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16 reveal-node">
         <div class="flex items-center bg-slate-900/90 p-1.5 rounded-full border border-white/15 shadow-2xl">
-          <button id="btn-monthly" class="px-6 py-2 rounded-full text-xs font-mono font-bold bg-cyan-500 text-slate-950 shadow-lg transition-all">Monthly Billing</button>
-          <button id="btn-yearly" class="px-6 py-2 rounded-full text-xs font-mono font-bold text-slate-400 hover:text-white transition-all flex items-center gap-2">
+          <button id="btn-monthly" class="px-6 py-2 rounded-full text-xs font-mono font-bold bg-cyan-500 text-slate-950 shadow-lg transition-all duration-300">Monthly Billing</button>
+          <button id="btn-yearly" class="px-6 py-2 rounded-full text-xs font-mono font-bold text-slate-400 hover:text-white transition-all duration-300 flex items-center gap-2">
             <span>Annual Billing</span>
             <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-black uppercase tracking-wider animate-pulse">Save 20%</span>
           </button>
@@ -547,7 +585,7 @@
         
         <div class="flex items-center gap-2 bg-slate-900/80 px-4 py-2 rounded-full border border-white/10 text-xs font-mono text-slate-400">
           <span>Currency:</span>
-          <button id="curr-usd" class="font-bold text-cyan-400 underline decoration-2">USD ($)</button>
+          <button id="curr-usd" class="font-bold text-cyan-400 underline decoration-2 transition-colors">USD ($)</button>
           <span class="text-slate-600">/</span>
           <button id="curr-inr" class="font-bold text-slate-400 hover:text-white transition-colors">INR (₹)</button>
         </div>
@@ -557,7 +595,7 @@
       <div id="pricing-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
         
         <!-- Tier 1: Free -->
-        <div class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/10 flex flex-col justify-between reveal-node">
+        <div class="spotlight-card tactile-grain p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/10 flex flex-col justify-between reveal-node">
           <div>
             <span class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-300">Personal</span>
             <h3 class="text-2xl font-black text-white mt-4">Free</h3>
@@ -573,7 +611,7 @@
             </div>
 
             <!-- High-Intent CTA Above Features -->
-            <a href="#download" class="w-full py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-all block text-center mb-6">Get Started Free</a>
+            <a href="#download" class="plan-cta-btn w-full py-3.5 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-white font-bold text-xs transition-all block text-center mb-6">Get Started Free</a>
 
             <div class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider mb-3">Included features:</div>
             <ul class="space-y-3 text-xs text-slate-300 font-medium">
@@ -586,7 +624,7 @@
         </div>
 
         <!-- Tier 2: Plus -->
-        <div class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-blue-950/30 border-white/15 hover:border-blue-500/50 flex flex-col justify-between reveal-node">
+        <div class="spotlight-card tactile-grain p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-blue-950/30 border-white/15 hover:border-blue-500/50 flex flex-col justify-between reveal-node">
           <div>
             <span class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">Creator</span>
             <h3 class="text-2xl font-black text-white mt-4">Plus</h3>
@@ -600,7 +638,7 @@
               <div class="billing-subtext text-[11px] font-mono text-cyan-400/80 mt-1">Billed monthly</div>
             </div>
 
-            <a href="#download" class="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition-all block text-center mb-6 shadow-[0_0_20px_rgba(37,99,235,0.4)]">Start 7-Day Free Trial</a>
+            <a href="#download" class="plan-cta-btn w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-bold text-xs transition-all block text-center mb-6 shadow-[0_0_20px_rgba(37,99,235,0.4)]">Start 7-Day Free Trial</a>
 
             <div class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider mb-3">Everything in Free, plus:</div>
             <ul class="space-y-3 text-xs text-slate-200 font-medium">
@@ -612,8 +650,8 @@
           </div>
         </div>
 
-        <!-- Tier 3: Pro (RECOMMENDED HERO CARD - Like ChatGPT Plus / Google Pro) -->
-        <div class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-cyan-950/80 via-slate-900/95 to-blue-950/80 border-2 border-cyan-400 shadow-[0_0_50px_rgba(56,189,248,0.25)] flex flex-col justify-between reveal-node relative transform lg:-translate-y-3 z-20">
+        <!-- Tier 3: Pro (RECOMMENDED HERO CARD) -->
+        <div class="spotlight-card tactile-grain p-8 rounded-3xl bg-gradient-to-b from-cyan-950/80 via-slate-900/95 to-blue-950/80 border-2 border-cyan-400 shadow-[0_0_50px_rgba(56,189,248,0.25)] flex flex-col justify-between reveal-node relative transform lg:-translate-y-3 z-20">
           <div class="absolute -top-3.5 right-6 bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 text-[10px] font-mono font-black px-3.5 py-1 rounded-full uppercase tracking-widest shadow-lg">Most Popular</div>
           <div>
             <span class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">Professional ⭐</span>
@@ -628,7 +666,7 @@
               <div class="billing-subtext text-[11px] font-mono text-cyan-300 mt-1">Billed monthly</div>
             </div>
 
-            <a href="#download" class="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 hover:scale-[1.02] active:scale-95 text-slate-950 font-black text-xs transition-all block text-center mb-6 shadow-[0_0_25px_rgba(56,189,248,0.6)]">Upgrade to Pro</a>
+            <a href="#download" class="plan-cta-btn w-full py-4 rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 hover:scale-[1.02] active:scale-95 text-slate-950 font-black text-xs transition-all block text-center mb-6 shadow-[0_0_25px_rgba(56,189,248,0.6)]">Upgrade to Pro</a>
 
             <div class="text-xs font-mono font-bold text-cyan-300 uppercase tracking-wider mb-3">Everything in Plus, plus:</div>
             <ul class="space-y-3 text-xs text-white font-medium">
@@ -642,7 +680,7 @@
         </div>
 
         <!-- Tier 4: Ultra -->
-        <div class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-purple-950/40 border-white/15 hover:border-purple-500/50 flex flex-col justify-between reveal-node">
+        <div class="spotlight-card tactile-grain p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-purple-950/40 border-white/15 hover:border-purple-500/50 flex flex-col justify-between reveal-node">
           <div>
             <span class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">Power User</span>
             <h3 class="text-2xl font-black text-white mt-4">Ultra</h3>
@@ -656,7 +694,7 @@
               <div class="billing-subtext text-[11px] font-mono text-purple-300/80 mt-1">Billed monthly</div>
             </div>
 
-            <a href="#download" class="w-full py-3.5 rounded-xl bg-purple-600/60 hover:bg-purple-600 text-white font-bold text-xs border border-purple-500/50 transition-all block text-center mb-6">Get Ultra Access</a>
+            <a href="#download" class="plan-cta-btn w-full py-3.5 rounded-xl bg-purple-600/60 hover:bg-purple-600 active:scale-95 text-white font-bold text-xs border border-purple-500/50 transition-all block text-center mb-6">Get Ultra Access</a>
 
             <div class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider mb-3">Everything in Pro, plus:</div>
             <ul class="space-y-3 text-xs text-slate-200 font-medium">
@@ -670,8 +708,8 @@
 
       </div>
 
-      <!-- Full-Width Horizontal Enterprise Banner (Clean SaaS Pattern) -->
-      <div class="mt-8 p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-slate-900 via-[#080e1e] to-slate-900 border border-white/15 flex flex-col lg:flex-row items-center justify-between gap-8 reveal-node shadow-2xl">
+      <!-- Full-Width Horizontal Enterprise Banner -->
+      <div class="mt-8 p-8 sm:p-10 rounded-3xl tactile-grain bg-gradient-to-r from-slate-900 via-[#080e1e] to-slate-900 border border-white/15 flex flex-col lg:flex-row items-center justify-between gap-8 reveal-node shadow-2xl">
         <div class="max-w-2xl text-center lg:text-left">
           <div class="flex items-center justify-center lg:justify-start gap-3 mb-2">
             <span class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Team & Business</span>
@@ -685,7 +723,7 @@
             <div class="text-2xl font-black text-white font-mono">Custom Pricing</div>
             <div class="text-[11px] font-mono text-emerald-400">Billed annually</div>
           </div>
-          <a href="#download" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white text-slate-950 hover:bg-slate-200 font-extrabold text-xs transition-all text-center shadow-lg">Contact Sales Team</a>
+          <a href="#download" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white text-slate-950 hover:bg-slate-200 active:scale-95 font-extrabold text-xs transition-all text-center shadow-lg">Contact Sales Team</a>
         </div>
       </div>
 
@@ -696,11 +734,11 @@
       </div>
 
       <!-- "Try PRISM" Interactive Demo Bottom CTA Banner -->
-      <div class="mt-16 p-8 sm:p-12 rounded-3xl spotlight-card bg-gradient-to-r from-blue-950/80 via-slate-900/95 to-purple-950/80 border border-cyan-500/40 text-center max-w-4xl mx-auto shadow-[0_0_50px_rgba(56,189,248,0.2)] reveal-node" style="--hover-glow: rgba(192, 132, 252, 0.4); --hover-border: rgba(192, 132, 252, 0.9);">
+      <div class="mt-16 p-8 sm:p-12 rounded-3xl spotlight-card tactile-grain bg-gradient-to-r from-blue-950/80 via-slate-900/95 to-purple-950/80 border border-cyan-500/40 text-center max-w-4xl mx-auto shadow-[0_0_50px_rgba(56,189,248,0.2)] reveal-node" style="--hover-glow: rgba(192, 132, 252, 0.4); --hover-border: rgba(192, 132, 252, 0.9);">
         <span class="text-xs font-mono font-bold text-purple-400 uppercase tracking-widest bg-purple-500/10 border border-purple-500/30 px-3 py-1 rounded-full">Interactive Sandbox</span>
         <h3 class="text-3xl sm:text-4xl font-black text-white mt-4 mb-2">Still not convinced? <span class="text-cyan-400">↓ Try PRISM</span></h3>
         <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto mb-8">Experience the difference between standard auto-complete and deep intent reasoning right in your browser.</p>
-        <a href="#features" id="try-prism-launcher" class="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 hover:scale-105 text-white font-extrabold text-sm shadow-[0_0_30px_rgba(56,189,248,0.5)] transition-all">
+        <a href="#features" id="try-prism-launcher" class="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 hover:scale-105 active:scale-95 text-white font-extrabold text-sm shadow-[0_0_30px_rgba(56,189,248,0.5)] transition-all">
           <span>Launch Interactive Demo</span> <i class="fa-solid fa-arrow-right-long text-cyan-200 animate-pulse"></i>
         </a>
       </div>
@@ -719,7 +757,7 @@
       </div>
 
       <!-- The Main Stage -->
-      <div id="privacy-animation-stage" class="relative w-full min-h-[480px] flex flex-col items-center justify-center p-8 sm:p-12 rounded-3xl spotlight-card bg-gradient-to-br from-slate-900/90 via-[#080e1e]/95 to-slate-900/90 border-emerald-500/40 overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)]" style="--hover-glow: rgba(16, 185, 129, 0.35); --hover-border: rgba(16, 185, 129, 0.8);">
+      <div id="privacy-animation-stage" class="relative w-full min-h-[480px] flex flex-col items-center justify-center p-8 sm:p-12 rounded-3xl spotlight-card tactile-grain bg-gradient-to-br from-slate-900/90 via-[#080e1e]/95 to-slate-900/90 border-emerald-500/40 overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)]" style="--hover-glow: rgba(16, 185, 129, 0.35); --hover-border: rgba(16, 185, 129, 0.8);">
         
         <!-- Phase A: Question Title -->
         <h2 id="priv-title-question" class="text-4xl sm:text-6xl font-black text-white absolute opacity-0 scale-90 text-center px-4 drop-shadow-[0_0_35px_rgba(16,185,129,0.6)]">What about Privacy?</h2>
@@ -833,28 +871,28 @@
         <div class="mt-4 text-xs font-mono text-slate-400">Click button to reveal platform downloads</div>
       </div>
       <div id="platform-cards-grid" class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 hidden opacity-0">
-        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-cyan-400 flex flex-col items-center justify-between text-center group transition-all" style="--hover-glow: rgba(56,189,248,0.3); --hover-border: rgba(56,189,248,0.8);">
+        <a href="#" class="spotlight-card tactile-grain p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-cyan-400 flex flex-col items-center justify-between text-center group transition-all" style="--hover-glow: rgba(56,189,248,0.3); --hover-border: rgba(56,189,248,0.8);">
           <div>
             <div class="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white text-4xl mb-6 mx-auto group-hover:scale-110 transition-transform shadow-[0_0_25px_rgba(255,255,255,0.2)]"><i class="fa-brands fa-apple"></i></div>
             <h3 class="text-2xl font-extrabold text-white">Apple iOS</h3><p class="text-slate-400 text-xs font-mono mt-1">Requires iOS 16.0 or later</p>
           </div>
           <div class="mt-8 w-full py-3 rounded-xl bg-cyan-500/20 group-hover:bg-cyan-500 text-cyan-300 group-hover:text-black font-bold text-sm transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> App Store</div>
         </a>
-        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-emerald-400 flex flex-col items-center justify-between text-center group transition-all" style="--hover-glow: rgba(16,185,129,0.3); --hover-border: rgba(16,185,129,0.8);">
+        <a href="#" class="spotlight-card tactile-grain p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-emerald-400 flex flex-col items-center justify-between text-center group transition-all" style="--hover-glow: rgba(16,185,129,0.3); --hover-border: rgba(16,185,129,0.8);">
           <div>
             <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-4xl mb-6 mx-auto group-hover:scale-110 transition-transform shadow-[0_0_25px_rgba(16,185,129,0.25)]"><i class="fa-brands fa-android"></i></div>
             <h3 class="text-2xl font-extrabold text-white">Android</h3><p class="text-slate-400 text-xs font-mono mt-1">Requires Android 11.0+</p>
           </div>
           <div class="mt-8 w-full py-3 rounded-xl bg-emerald-500/20 group-hover:bg-emerald-500 text-emerald-300 group-hover:text-black font-bold text-sm transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> Google Play</div>
         </a>
-        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-blue-400 flex flex-col items-center justify-between text-center group transition-all" style="--hover-glow: rgba(59,130,246,0.3); --hover-border: rgba(59,130,246,0.8);">
+        <a href="#" class="spotlight-card tactile-grain p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-blue-400 flex flex-col items-center justify-between text-center group transition-all" style="--hover-glow: rgba(59,130,246,0.3); --hover-border: rgba(59,130,246,0.8);">
           <div>
             <div class="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-4xl mb-6 mx-auto group-hover:scale-110 transition-transform shadow-[0_0_25px_rgba(59,130,246,0.25)]"><i class="fa-brands fa-windows"></i></div>
             <h3 class="text-2xl font-extrabold text-white">Windows</h3><p class="text-slate-400 text-xs font-mono mt-1">Windows 11 / 10 (64-bit)</p>
           </div>
           <div class="mt-8 w-full py-3 rounded-xl bg-blue-500/20 group-hover:bg-blue-500 text-blue-300 group-hover:text-black font-bold text-sm transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> Download .EXE</div>
         </a>
-        <a href="#" class="spotlight-card p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-amber-400 flex flex-col items-center justify-between text-center group transition-all" style="--hover-glow: rgba(245,158,11,0.3); --hover-border: rgba(245,158,11,0.8);">
+        <a href="#" class="spotlight-card tactile-grain p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/15 hover:border-amber-400 flex flex-col items-center justify-between text-center group transition-all" style="--hover-glow: rgba(245,158,11,0.3); --hover-border: rgba(245,158,11,0.8);">
           <div>
             <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-4xl mb-6 mx-auto group-hover:scale-110 transition-transform shadow-[0_0_25px_rgba(245,158,11,0.25)]"><i class="fa-brands fa-linux"></i></div>
             <h3 class="text-2xl font-extrabold text-white">Linux</h3><p class="text-slate-400 text-xs font-mono mt-1">AppImage / Debian / Ubuntu</p>
@@ -929,7 +967,7 @@
         if (isIntroSkipped) return;
         isIntroSkipped = true;
         introTimeouts.forEach(clearTimeout);
-        gsap.to(splashScreen, { opacity: 0, scale: 1.05, duration: 0.5, ease: "power2.out", onComplete: () => { if (splashScreen.parentNode) splashScreen.remove(); } });
+        gsap.to(splashScreen, { opacity: 0, scale: 1.05, duration: 0.5, ease: "power3.out", onComplete: () => { if (splashScreen.parentNode) splashScreen.remove(); } });
         if (fluidCanvas) fluidCanvas.classList.add('aurora-live');
         unlockMainContent();
       });
@@ -963,7 +1001,7 @@
       let currentActiveTabId = null;
 
       function renderCardHTML(data) {
-        return `<div class="spotlight-card p-8 sm:p-12 rounded-3xl bg-gradient-to-br ${data.bgGradient} border-${data.color}-500/50 shadow-[0_0_60px_rgba(56,189,248,0.25)] flex flex-col justify-between min-h-[440px]"><div><div class="w-14 h-14 rounded-2xl bg-${data.color}-500/20 border border-${data.color}-500/40 text-${data.color}-400 flex items-center justify-center font-bold mb-8 shadow-[0_0_25px_rgba(56,189,248,0.35)]"><i class="fa-solid ${data.icon} text-2xl"></i></div><span class="text-xs font-mono font-semibold text-${data.color}-400 uppercase tracking-widest">Active Workspace Canvas</span><h3 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 mb-4">${data.title}</h3><p class="text-slate-200 text-base sm:text-lg leading-relaxed">${data.desc}</p></div><div class="mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center gap-2">${data.tags.map(tag => `<span class="px-3 py-1.5 bg-white/10 border border-white/15 rounded-lg text-xs font-mono text-white font-medium">${tag}</span>`).join('')}</div></div>`;
+        return `<div class="spotlight-card tactile-grain p-8 sm:p-12 rounded-3xl bg-gradient-to-br ${data.bgGradient} border-${data.color}-500/50 shadow-[0_0_60px_rgba(56,189,248,0.25)] flex flex-col justify-between min-h-[440px]"><div><div class="w-14 h-14 rounded-2xl bg-${data.color}-500/20 border border-${data.color}-500/40 text-${data.color}-400 flex items-center justify-center font-bold mb-8 shadow-[0_0_25px_rgba(56,189,248,0.35)]"><i class="fa-solid ${data.icon} text-2xl"></i></div><span class="text-xs font-mono font-semibold text-${data.color}-400 uppercase tracking-widest">Active Workspace Canvas</span><h3 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 mb-4">${data.title}</h3><p class="text-slate-200 text-base sm:text-lg leading-relaxed">${data.desc}</p></div><div class="mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center gap-2">${data.tags.map(tag => `<span class="px-3 py-1.5 bg-white/10 border border-white/15 rounded-lg text-xs font-mono text-white font-medium">${tag}</span>`).join('')}</div></div>`;
       }
 
       tabButtons.forEach(btn => {
@@ -1011,7 +1049,6 @@
           const priceEl = card.querySelector('.price-val');
           const subEl = card.querySelector('.billing-subtext');
           
-          // Smooth GSAP Out-Animation (Blur + Move Up)
           gsap.to([priceEl, subEl], {
             opacity: 0,
             y: -12,
@@ -1032,7 +1069,6 @@
                 }
               }
 
-              // Smooth GSAP In-Animation (Snap From Below)
               gsap.fromTo([priceEl, subEl],
                 { opacity: 0, y: 12, filter: "blur(4px)" },
                 { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.35, ease: "back.out(1.5)" }
@@ -1046,16 +1082,16 @@
         btnMonthly.addEventListener('click', () => {
           if (currentPeriod === 'mo') return;
           currentPeriod = 'mo';
-          btnMonthly.className = 'px-6 py-2 rounded-full text-xs font-mono font-bold bg-cyan-500 text-slate-950 shadow-lg transition-all';
-          btnYearly.className = 'px-6 py-2 rounded-full text-xs font-mono font-bold text-slate-400 hover:text-white transition-all flex items-center gap-2';
+          btnMonthly.className = 'px-6 py-2 rounded-full text-xs font-mono font-bold bg-cyan-500 text-slate-950 shadow-lg transition-all duration-300';
+          btnYearly.className = 'px-6 py-2 rounded-full text-xs font-mono font-bold text-slate-400 hover:text-white transition-all duration-300 flex items-center gap-2';
           updatePricingDisplay();
         });
 
         btnYearly.addEventListener('click', () => {
           if (currentPeriod === 'yr') return;
           currentPeriod = 'yr';
-          btnYearly.className = 'px-6 py-2 rounded-full text-xs font-mono font-bold bg-cyan-500 text-slate-950 shadow-lg transition-all flex items-center gap-2';
-          btnMonthly.className = 'px-6 py-2 rounded-full text-xs font-mono font-bold text-slate-400 hover:text-white transition-all';
+          btnYearly.className = 'px-6 py-2 rounded-full text-xs font-mono font-bold bg-cyan-500 text-slate-950 shadow-lg transition-all duration-300 flex items-center gap-2';
+          btnMonthly.className = 'px-6 py-2 rounded-full text-xs font-mono font-bold text-slate-400 hover:text-white transition-all duration-300';
           updatePricingDisplay();
         });
       }
@@ -1064,7 +1100,7 @@
         currUsd.addEventListener('click', () => {
           if (currentCurr === 'usd') return;
           currentCurr = 'usd';
-          currUsd.className = 'font-bold text-cyan-400 underline decoration-2';
+          currUsd.className = 'font-bold text-cyan-400 underline decoration-2 transition-colors';
           currInr.className = 'font-bold text-slate-400 hover:text-white transition-colors';
           updatePricingDisplay();
         });
@@ -1072,7 +1108,7 @@
         currInr.addEventListener('click', () => {
           if (currentCurr === 'inr') return;
           currentCurr = 'inr';
-          currInr.className = 'font-bold text-cyan-400 underline decoration-2';
+          currInr.className = 'font-bold text-cyan-400 underline decoration-2 transition-colors';
           currUsd.className = 'font-bold text-slate-400 hover:text-white transition-colors';
           updatePricingDisplay();
         });
@@ -1329,28 +1365,55 @@
         }
       }, { passive: true });
 
+      // ── FLUID BUTTERY DYNAMIC ISLAND BEHAVIOR ENGINE ──
       const navIsland = document.getElementById('dynamic-island-nav'), navIslandWrapper = document.getElementById('nav-island-wrapper'), compactBadge = document.getElementById('compact-badge');
       let isHovered = false, idleTimer = null;
-      function expandIsland() { if (navIsland) navIsland.classList.remove('is-collapsed'); }
-      function collapseIsland() { if (!isHovered && window.scrollY > 80) navIsland.classList.add('is-collapsed'); }
+      
+      function expandIsland() {
+        if (!navIsland) return;
+        navIsland.classList.remove('is-collapsed');
+        gsap.to(navIsland, { scale: 1.01, duration: 0.35, ease: "back.out(2)", onComplete: () => gsap.to(navIsland, { scale: 1, duration: 0.3 }) });
+      }
+      
+      function collapseIsland() {
+        if (!isHovered && window.scrollY > 80 && navIsland) {
+          navIsland.classList.add('is-collapsed');
+          gsap.to(navIsland, { scale: 0.98, duration: 0.3, ease: "power2.out", onComplete: () => gsap.to(navIsland, { scale: 1, duration: 0.3 }) });
+        }
+      }
+      
       if (navIsland && navIslandWrapper) {
         navIslandWrapper.addEventListener('mouseenter', () => { isHovered = true; expandIsland(); });
         navIslandWrapper.addEventListener('mouseleave', () => { isHovered = false; if (window.scrollY > 80) idleTimer = setTimeout(collapseIsland, 400); });
       }
+      
       window.addEventListener('scroll', () => {
         clearTimeout(idleTimer);
         if (window.scrollY > 80) {
-          if (!isHovered && !navIsland.classList.contains('is-collapsed')) navIsland.classList.add('is-collapsed');
+          if (!isHovered && !navIsland.classList.contains('is-collapsed')) {
+            navIsland.classList.add('is-collapsed');
+            gsap.to(navIsland, { scale: 0.98, duration: 0.3, ease: "power2.out", onComplete: () => gsap.to(navIsland, { scale: 1, duration: 0.3 }) });
+          }
           idleTimer = setTimeout(() => { if (!isHovered) expandIsland(); }, 2200);
-        } else { expandIsland(); }
-      });
+        } else {
+          expandIsland();
+        }
+      }, { passive: true });
 
       const sections = document.querySelectorAll('section[id]'), navLinks = document.querySelectorAll('.nav-link');
       const sectionObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const currentId = entry.target.getAttribute('id'), sectionName = entry.target.getAttribute('data-section-name') || "VISION";
-            if (compactBadge) compactBadge.innerHTML = `<i class="fa-solid fa-brain mr-1"></i> <span>${sectionName}</span>`;
+            if (compactBadge) {
+              gsap.to(compactBadge, {
+                opacity: 0, scale: 0.8, y: -6, duration: 0.15,
+                onComplete: () => {
+                  compactBadge.innerHTML = `<i class="fa-solid fa-brain mr-1"></i> <span>${sectionName}</span>`;
+                  gsap.fromTo(compactBadge, { opacity: 0, scale: 0.8, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.35, ease: "back.out(2)" });
+                }
+              });
+            }
             navLinks.forEach(link => {
               if (link.getAttribute('data-section') === currentId) link.classList.add('active-section');
               else link.classList.remove('active-section');
