@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en" class="dark scroll-smooth" style="scroll-padding-top: 120px;">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TypeMind — The Intelligent Communication Platform</title>
+  <title>Type Mind Spark — The Intelligent Communication Platform</title>
   
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -48,6 +48,7 @@
       --nav-border: rgba(56, 189, 248, 0.45);
       --island-bg: rgba(6, 10, 20, 0.88);
       --butter-ease: cubic-bezier(0.16, 1, 0.3, 1);
+      /* Native Apple Spring Curve for Fluidity */
       --spring-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
@@ -57,30 +58,22 @@
       font-family: 'Inter', sans-serif;
       overflow: hidden;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* ── TACTILE MICRO-GRAIN TEXTURE OVERLAY ── */
-    .tactile-grain {
-      position: relative;
-    }
+    .tactile-grain { position: relative; }
     .tactile-grain::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
+      content: ""; position: absolute; inset: 0; width: 100%; height: 100%;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 2;
-      border-radius: inherit;
+      pointer-events: none; z-index: 2; border-radius: inherit;
     }
 
     /* ── GOOGLE STITCH DOT GRID MATRIX ── */
     .stitch-dot-grid {
       position: fixed; inset: 0; z-index: -25;
       background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1.5px, transparent 1.5px);
-      background-size: 28px 28px;
-      pointer-events: none;
+      background-size: 28px 28px; pointer-events: none;
     }
 
     /* ── 3D FIXED FLUID CANVAS ── */
@@ -93,40 +86,36 @@
     #fluid-canvas.aurora-live { opacity: 0.65; transform: scale(1); }
     #fluid-canvas.water-recede { opacity: 0.05 !important; transform: scale(0.97) translateY(20px); }
 
-    /* ── Siri-Style Shimmer Text Effect ── */
+    /* ── Shimmer Text Effects ── */
     .apple-siri-shimmer {
       background: linear-gradient(135deg, #ffffff 0%, #38bdf8 20%, #ffffff 40%, #c084fc 60%, #ffffff 80%, #38bdf8 100%);
-      background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: siriShimmerFlow 4s linear infinite;
-      filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.5));
+      background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: siriShimmerFlow 4s linear infinite; filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.5));
     }
-    @keyframes siriShimmerFlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    
+    .spark-electric-shimmer {
+      background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 25%, #ffffff 50%, #fbbf24 75%, #f59e0b 100%);
+      background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: siriShimmerFlow 3.5s linear infinite; will-change: background-position;
     }
 
-    /* ── Synchronized Tidal Heading Shimmer ── */
-    .tidal-heading { transition: all 1.8s var(--butter-ease); color: #ffffff; }
     .default-shimmer {
       background: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #ffffff 100%);
-      background-size: 200% 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: gentleFlow 6s ease infinite alternate;
+      background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: gentleFlow 6s ease infinite alternate; will-change: background-position;
     }
+    
+    @keyframes siriShimmerFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
     @keyframes gentleFlow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
-    .tidal-heading.is-shining {
+
+    .tidal-heading { transition: all 1.8s var(--butter-ease); color: #ffffff; }
+    .tidal-heading.is-shining { transform: scale(1.015); }
+    .tidal-heading.is-shining .default-shimmer {
       background: linear-gradient(135deg, #ffffff 0%, #38bdf8 20%, #ffffff 40%, #c084fc 60%, #ffffff 80%, #38bdf8 100%);
-      background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: siriShimmerFlow 3s linear infinite;
-      filter: drop-shadow(0 0 35px rgba(56, 189, 248, 0.65)) drop-shadow(0 0 15px rgba(192, 132, 252, 0.45));
-      transform: scale(1.015);
+      background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: siriShimmerFlow 3s linear infinite; filter: drop-shadow(0 0 35px rgba(56, 189, 248, 0.65)) drop-shadow(0 0 15px rgba(192, 132, 252, 0.45));
     }
+    .tidal-heading.is-shining .spark-electric-shimmer { filter: drop-shadow(0 0 35px rgba(245, 158, 11, 0.8)) drop-shadow(0 0 15px rgba(251, 191, 36, 0.6)); }
 
     /* ── Splash Screen Engine ── */
     #splash-screen {
@@ -154,35 +143,43 @@
     #merge-caption.show-caption { opacity: 1; transform: translateY(0px); }
     #merge-caption.hide-caption { opacity: 0; transform: scale(0.8); filter: blur(4px); }
 
-    .splash-logo-outer { flex-shrink: 0; transform: scale(0); opacity: 0; perspective: 1200px; z-index: 30; }
+    /* Hardware Accelerated 3D Logo */
+    .splash-logo-outer { 
+      flex-shrink: 0; transform: scale(0) translateZ(0); opacity: 0; 
+      perspective: 1200px; z-index: 30; will-change: transform, opacity; 
+    }
     .splash-logo-outer.start-reveal { animation: logoEnter 1.4s var(--butter-ease) forwards; }
+    
     @keyframes logoEnter {
-      0% { transform: scale(0.2); opacity: 0; filter: blur(12px); }
-      70% { transform: scale(1.06); opacity: 1; filter: blur(0px); }
-      100% { transform: scale(1); opacity: 1; filter: blur(0px); }
+      0% { transform: scale(0.2) translateZ(0); opacity: 0; filter: blur(12px); }
+      70% { transform: scale(1.06) translateZ(0); opacity: 1; filter: blur(0px); }
+      100% { transform: scale(1) translateZ(0); opacity: 1; filter: blur(0px); }
     }
 
     .splash-logo-inner {
-      position: relative; width: 170px; height: 170px; transform-style: preserve-3d; transition: transform 1.2s var(--butter-ease);
-      box-shadow: 0 0 40px var(--glow-shadow); border-radius: 9999px; animation: logoPulse 2s 2.2s infinite alternate ease-in-out;
+      position: relative; width: 170px; height: 170px; 
+      transform-style: preserve-3d; 
+      /* Butter-smooth flip transition using Apple Spring */
+      transition: transform 1.2s var(--spring-ease), box-shadow 0.4s ease, filter 0.4s ease;
+      box-shadow: 0 0 40px var(--glow-shadow); border-radius: 9999px;
+      will-change: transform, box-shadow;
     }
     @media (min-width: 640px) { .splash-logo-inner { width: 220px; height: 220px; } }
-    @keyframes logoPulse {
-      0% { box-shadow: 0 0 30px var(--glow-shadow); }
-      100% { box-shadow: 0 0 65px var(--glow-shadow), 0 0 25px var(--accent); }
-    }
-
+    
     .splash-front, .splash-back {
-      position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 9999px; object-fit: contain;
-      backface-visibility: hidden; -webkit-backface-visibility: hidden; border: 3px solid var(--accent); padding: 12px; background: #080e1e;
+      position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 9999px; 
+      object-fit: contain; pointer-events: none;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden; 
+      border: 3px solid var(--accent); padding: 12px; background: #080e1e;
+      transform: translateZ(0); /* Anti-aliasing fix during 3D flip */
     }
-    .splash-back { transform: rotateY(180deg); object-fit: cover; padding: 0px; }
+    .splash-back { transform: rotateY(180deg) translateZ(0); object-fit: cover; padding: 0px; }
 
     .splash-text-wrapper {
       max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap; transition: all 1.4s var(--butter-ease);
-      transform: translateX(-20px) scale(0.95); filter: blur(5px);
+      transform: translateX(-20px) scale(0.95); filter: blur(5px); will-change: max-width, transform, opacity;
     }
-    .splash-flex-container.expand .splash-text-wrapper { max-width: 500px; opacity: 1; margin-left: 1.8rem; transform: translateX(0) scale(1); filter: blur(0); }
+    .splash-flex-container.expand .splash-text-wrapper { max-width: 800px; opacity: 1; margin-left: 1.8rem; transform: translateX(0) scale(1); filter: blur(0); }
     .splash-flex-container.absorb .splash-text-wrapper { max-width: 0; opacity: 0; margin-left: 0; transform: translateX(-40px) scale(0.6); filter: blur(10px); transition: all 0.9s var(--butter-ease); }
 
     /* ── Main Content Reveal Transition ── */
@@ -192,96 +189,72 @@
     .reveal-node { opacity: 0; filter: blur(12px); transform: translateY(40px) scale(0.97); transition: all 1.2s var(--butter-ease); will-change: transform, opacity; }
     .reveal-node.is-visible { opacity: 1; filter: blur(0px); transform: translateY(0px) scale(1); }
 
-    /* ── BUTTERY ELASTIC DYNAMIC ISLAND NAVIGATION ── */
+    /* ── DYNAMIC ISLAND ── */
     #nav-island-wrapper {
-      position: fixed; top: 16px; left: 0; right: 0; z-index: 10000; display: flex; justify-content: center;
-      pointer-events: none; transition: all 0.8s var(--butter-ease);
+      position: fixed; top: 16px; left: 0; right: 0; z-index: 10000; display: flex; justify-content: center; pointer-events: none;
     }
     .nav-island {
       pointer-events: auto; background: var(--island-bg); backdrop-filter: blur(50px) saturate(200%); -webkit-backdrop-filter: blur(50px) saturate(200%);
       border: 1.5px solid var(--nav-border);
       box-shadow: inset 0 1px 1px rgba(255,255,255,0.25), 0 25px 60px -10px rgba(0,0,0,0.85), 0 0 45px -5px var(--nav-tint);
-      border-radius: 9999px; width: 92%; max-width: 980px; height: 66px; position: relative; overflow: hidden;
-      transition: width 0.75s var(--spring-ease), height 0.75s var(--spring-ease), border-color 0.5s ease, box-shadow 0.5s ease, transform 0.4s var(--butter-ease);
-      will-change: width, height, transform;
+      border-radius: 9999px; width: 92%; max-width: 1080px; height: 66px; position: relative; overflow: hidden;
+      transition: width 0.6s var(--spring-ease), height 0.6s var(--spring-ease), border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s var(--butter-ease) !important;
+      will-change: width, height, transform; transform: translateZ(0); 
     }
     .nav-island:hover {
-      transform: scale(1.008) translateY(-1px);
-      box-shadow: inset 0 1px 2px rgba(255,255,255,0.35), 0 30px 70px -10px rgba(0,0,0,0.95), 0 0 55px 0px rgba(56, 189, 248, 0.35);
-      border-color: rgba(56, 189, 248, 0.75);
+      transform: translateY(-2px);
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.35), 0 30px 70px -10px rgba(0,0,0,0.95), 0 0 55px 0px rgba(56, 189, 248, 0.4);
+      border-color: rgba(56, 189, 248, 0.85);
     }
     .nav-island.is-collapsed {
       width: 320px; height: 50px; border-color: rgba(255,255,255,0.18);
       box-shadow: inset 0 1px 1px rgba(255,255,255,0.15), 0 15px 35px -5px rgba(0,0,0,0.6), 0 0 30px var(--nav-tint);
     }
-    .nav-island.is-collapsed:hover {
-      width: 335px; height: 52px; border-color: rgba(56, 189, 248, 0.6);
-    }
+    .nav-island.is-collapsed:hover { width: 340px; height: 52px; border-color: rgba(56, 189, 248, 0.6); }
+    
     .nav-view {
-      position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
-      white-space: nowrap; transition: opacity 0.5s var(--butter-ease), transform 0.6s var(--butter-ease), filter 0.5s var(--butter-ease);
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; gap: 16px;
+      white-space: nowrap; transition: opacity 0.4s var(--butter-ease), transform 0.5s var(--butter-ease), filter 0.4s var(--butter-ease);
     }
     .nav-expanded-view { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); pointer-events: auto; }
     .nav-island.is-collapsed .nav-expanded-view { opacity: 0; transform: scale(0.85) translateY(-16px); filter: blur(8px); pointer-events: none; }
+    
     .nav-compact-view { opacity: 0; transform: scale(0.85) translateY(16px); filter: blur(8px); pointer-events: none; }
     .nav-island.is-collapsed .nav-compact-view { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); pointer-events: auto; }
     
-    .nav-link { padding: 6px 14px; border-radius: 9999px; font-weight: 600; font-size: 0.85rem; color: #cbd5e1; transition: all 0.3s var(--butter-ease); }
-    .nav-link:hover, .nav-link.active-section { color: #38bdf8; background: var(--nav-tint); border: 1px solid var(--nav-border); box-shadow: 0 0 15px var(--glow-shadow); transform: translateY(-1px) scale(1.03); }
+    .nav-link { padding: 6px 14px; border-radius: 9999px; font-weight: 600; font-size: 0.85rem; color: #cbd5e1; transition: all 0.3s ease; }
+    .nav-link:hover, .nav-link.active-section { color: #38bdf8; background: var(--nav-tint); border: 1px solid var(--nav-border); box-shadow: 0 0 15px var(--glow-shadow); }
 
-    /* ── APPLE VISION-OS VIBRANT COLOR-CODED GLASS CARDS WITH TEXTURE ── */
+    /* ── GLASS CARDS ── */
     .spotlight-card {
       position: relative; overflow: hidden; --mouse-x: 50%; --mouse-y: 50%;
       backdrop-filter: blur(45px) saturate(200%); -webkit-backdrop-filter: blur(45px) saturate(200%);
       border: 1px solid rgba(255, 255, 255, 0.16);
       box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.35), inset 0 -1px 1px rgba(255, 255, 255, 0.05);
-      transform: translateY(0px) scale(1); transition: transform 0.55s var(--butter-ease), border-color 0.5s ease, box-shadow 0.55s var(--butter-ease), background-color 0.4s ease;
+      transform: translateY(0px) translateZ(0); transition: transform 0.5s var(--butter-ease), border-color 0.4s ease, box-shadow 0.5s var(--butter-ease);
       will-change: transform, box-shadow;
     }
     .spotlight-card:hover {
-      transform: translateY(-8px) scale(1.012);
+      transform: translateY(-8px) translateZ(0);
       box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.95), inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 0 50px var(--hover-glow, rgba(56, 189, 248, 0.35));
-      border-color: var(--hover-border, rgba(56, 189, 248, 0.85)) !important;
-      z-index: 10;
+      border-color: var(--hover-border, rgba(56, 189, 248, 0.85)) !important; z-index: 10;
     }
     .spotlight-card::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.16), transparent 45%);
+      content: ''; position: absolute; inset: 0; background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.16), transparent 45%);
       z-index: 1; pointer-events: none; opacity: 0; transition: opacity 0.5s var(--butter-ease);
     }
     .spotlight-card:hover::before { opacity: 1; }
-    .spotlight-card:hover .plan-cta-btn {
-      box-shadow: 0 0 30px var(--hover-glow, rgba(56, 189, 248, 0.65));
-      transform: scale(1.025);
-    }
-
-    /* ── INTERACTIVE FEATURE TOOLTIPS ── */
-    [data-tooltip] { position: relative; cursor: help; border-bottom: 1px dotted rgba(255, 255, 255, 0.3); }
-    [data-tooltip]::after {
-      content: attr(data-tooltip);
-      position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-6px);
-      background: rgba(8, 14, 30, 0.98); border: 1px solid rgba(56, 189, 248, 0.5);
-      padding: 8px 12px; border-radius: 10px; font-size: 11px; color: #f8fafc; font-family: 'JetBrains Mono', monospace;
-      white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s var(--butter-ease); z-index: 100;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 15px rgba(56,189,248,0.25);
-    }
-    [data-tooltip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(-10px); }
 
     /* ── SECTION 02: ACCORDION TABS ── */
     #island-drop-box {
-      position: absolute; top: 0; left: 50%; transform: translate(-50%, -300px);
-      z-index: 50; display: flex; align-items: center; justify-content: center;
-      background: rgba(10, 15, 30, 0.95); border: 2px solid var(--accent);
-      box-shadow: 0 0 50px rgba(56, 189, 248, 0.6); overflow: hidden; pointer-events: none; white-space: nowrap;
+      position: absolute; top: 0; left: 50%; transform: translate(-50%, -300px); z-index: 50; display: flex; align-items: center; justify-content: center;
+      background: rgba(10, 15, 30, 0.95); border: 2px solid var(--accent); box-shadow: 0 0 50px rgba(56, 189, 248, 0.6); overflow: hidden; pointer-events: none; white-space: nowrap;
     }
     #tabs-column { opacity: 0; pointer-events: none; transition: opacity 0.5s var(--butter-ease); }
     .apple-tab-btn {
-      width: 100%; text-align: left; padding: 16px 22px; border-radius: 20px;
-      background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #94a3b8; font-weight: 600; font-size: 1.05rem; display: flex;
-      align-items: center; justify-content: space-between;
-      transition: all 0.45s var(--spring-ease); position: relative; overflow: hidden;
-      will-change: transform, background;
+      width: 100%; text-align: left; padding: 16px 22px; border-radius: 20px; background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #94a3b8; font-weight: 600; font-size: 1.05rem; display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.4s var(--spring-ease); position: relative; overflow: hidden;
     }
     .apple-tab-btn:hover { background: rgba(255, 255, 255, 0.08); color: #f8fafc; border-color: rgba(255, 255, 255, 0.25); transform: translateX(6px); }
     .apple-tab-btn.is-bulky {
@@ -295,12 +268,6 @@
       background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       animation: siriShimmerFlow 3s linear infinite; font-weight: 800;
     }
-    @keyframes intenseShimmerBurst {
-      0% { box-shadow: 0 0 0 rgba(56, 189, 248, 0); background: rgba(15, 23, 42, 0.5); border-color: rgba(255,255,255,0.08); }
-      40% { box-shadow: 0 0 60px rgba(56, 189, 248, 1), 0 0 25px #c084fc; background: linear-gradient(135deg, rgba(56, 189, 248, 0.75) 0%, rgba(192, 132, 252, 0.65) 100%); border-color: #ffffff; transform: scale(1.03); color: #ffffff; }
-      100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.15); background: rgba(15, 23, 42, 0.5); border-color: rgba(255,255,255,0.08); transform: scale(1); }
-    }
-    .shimmer-burst-glow { animation: intenseShimmerBurst 1.2s var(--butter-ease) forwards !important; }
 
     /* ── TYPING CURSOR FOR PRIVACY SECTION ── */
     .typing-cursor::after {
@@ -311,30 +278,13 @@
 
     /* ── APPLE VISION-OS GLASS MEDALLION & MECHANICAL LOCK ── */
     .apple-glass-medallion {
-      position: relative; overflow: hidden;
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.75), rgba(15, 23, 42, 0.85));
-      backdrop-filter: blur(60px) saturate(220%);
-      -webkit-backdrop-filter: blur(60px) saturate(220%);
-      border: 1.5px solid rgba(255, 255, 255, 0.22);
-      box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.95), inset 0 1px 3px rgba(255, 255, 255, 0.45);
-      transition: border-color 0.4s ease, box-shadow 0.4s ease;
-      will-change: transform;
+      position: relative; overflow: hidden; background: linear-gradient(135deg, rgba(30, 41, 59, 0.75), rgba(15, 23, 42, 0.85));
+      backdrop-filter: blur(60px) saturate(220%); border: 1.5px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.95), inset 0 1px 3px rgba(255, 255, 255, 0.45); transition: border-color 0.4s ease, box-shadow 0.4s ease;
     }
-    
     .lock-optical-sheen {
-      position: absolute; inset: 0;
-      background: linear-gradient(
-        115deg,
-        transparent 0%,
-        transparent 35%,
-        rgba(255, 255, 255, 0.9) 48%,
-        rgba(16, 185, 129, 1.0) 50%,
-        rgba(255, 255, 255, 0.9) 52%,
-        transparent 65%,
-        transparent 100%
-      );
-      transform: translateX(-150%);
-      pointer-events: none; z-index: 30;
+      position: absolute; inset: 0; pointer-events: none; z-index: 30; transform: translateX(-150%);
+      background: linear-gradient(115deg, transparent 0%, transparent 35%, rgba(255, 255, 255, 0.9) 48%, rgba(16, 185, 129, 1.0) 50%, rgba(255, 255, 255, 0.9) 52%, transparent 65%, transparent 100%);
     }
   </style>
 </head>
@@ -344,6 +294,7 @@
   <div id="splash-screen" class="fixed inset-0 z-[999999] bg-slate-950 flex flex-col items-center justify-center select-none" title="Click anywhere to skip intro">
     <div class="stitch-dot-grid opacity-60"></div>
     <div id="splash-flex" class="splash-flex-container relative z-10 w-full px-6 flex-row pointer-events-none">
+      
       <div id="merge-grid">
         <div class="brand-circle pos-tl border-blue-500/50 shadow-blue-500/30">
           <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 1 0 1 0 10 10H12V2z" fill="#4285F4"/><path d="M12 2a10 10 0 0 1 10 10h-5a5 5 0 0 0-5-5V2z" fill="#EA4335"/><path d="M2 12a10 10 0 0 0 10 10v-5a5 5 0 0 1-5-5H2z" fill="#34A853"/><path d="M2 12a10 10 0 0 1 10-10v5a5 5 0 0 0-5-5H2z" fill="#FBBC05"/><rect x="7" y="10" width="10" height="6" rx="1" fill="white"/><circle cx="9" cy="12" r="0.8" fill="#4285F4"/><circle cx="12" cy="12" r="0.8" fill="#4285F4"/><circle cx="15" cy="12" r="0.8" fill="#4285F4"/></svg>
@@ -359,14 +310,28 @@
         </div>
         <div id="merge-caption" class="px-5 py-2 rounded-full bg-slate-900/90 border border-cyan-500/40 text-cyan-400 font-mono text-xs sm:text-sm font-extrabold uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(56,189,248,0.25)] whitespace-nowrap">Evolving Traditional Keyboards...</div>
       </div>
+      
+      <!-- Outer wrapper handles the pure physical vibration & initial scaling -->
       <div id="splash-logo-outer" class="splash-logo-outer">
+        <!-- Inner wrapper handles the buttery 3D flip -->
         <div id="splash-logo-inner" class="splash-logo-inner">
-          <img src="https://i.ibb.co/Z7dkFRG/Gemini-Generated-Image-gfpw51gfpw51gfpw.png" alt="TypeMind Logo" class="splash-front" />
-          <img src="https://i.ibb.co/XrNLQwSC/Whats-App-Image-2026-07-01-at-1-15-10-PM.jpg" alt="Face" class="splash-back" />
+          <img src="https://i.ibb.co/Fbrbcdbs/image.png" alt="Type Mind Logo" class="splash-front" />
+          <img src="https://i.ibb.co/9HpSr6xz/image.png" alt="Face" class="splash-back" />
         </div>
       </div>
+      
       <div class="splash-text-wrapper">
-        <h1 class="text-5xl sm:text-7xl font-black tracking-tighter default-shimmer pb-1 leading-none">TypeMind</h1>
+        <div class="flex items-center">
+          <h1 class="text-5xl sm:text-7xl font-black tracking-tighter default-shimmer pb-1 leading-none mr-2">Type Mind</h1>
+          <div id="splash-spark-container" class="relative flex items-center h-16 ml-1" style="width: 0px;">
+             <!-- Beautiful Star/Spark Icon -->
+             <svg id="splash-star-icon" viewBox="0 0 24 24" class="w-12 h-12 sm:w-16 sm:h-16 absolute z-20 origin-center text-amber-400 drop-shadow-[0_0_35px_rgba(251,191,36,0.9)]" style="opacity:0;" fill="currentColor">
+               <path d="M12 0l2.5 8.5L23 12l-8.5 2.5L12 24l-2.5-8.5L1 12l8.5-2.5L12 0z"/>
+             </svg>
+             <!-- Spark Text with pure electric glow -->
+             <span id="splash-spark-text" class="text-5xl sm:text-7xl font-black italic drop-shadow-[0_0_35px_rgba(245,158,11,0.6)] leading-none absolute left-0 origin-left spark-electric-shimmer pb-1" style="opacity:0; transform: scale(0.5);">Spark</span>
+          </div>
+        </div>
         <p class="text-slate-400 text-xs sm:text-sm font-bold tracking-[0.15em] mt-2 font-mono uppercase">AI <span class="text-cyan-400 mx-1">/</span> Communication Platform</p>
       </div>
     </div>
@@ -381,15 +346,15 @@
 
   <!-- ================= PHASE 2: ADAPTIVE DYNAMIC ISLAND ================= -->
   <div id="nav-island-wrapper">
-    <nav id="dynamic-island-nav" class="nav-island tactile-grain">
-      <div class="nav-view nav-expanded-view">
-        <a href="#top" class="flex items-center gap-3 group">
+    <nav id="dynamic-island-nav" class="nav-island tactile-grain w-full">
+      <div class="nav-view nav-expanded-view w-full">
+        <a href="#top" class="flex items-center gap-3 group shrink-0">
           <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 p-[1.5px] flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform duration-500">
-            <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center font-black text-xs text-cyan-400">TM</div>
+            <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center font-black text-[10px] text-cyan-400">TM</div>
           </div>
-          <span class="font-extrabold tracking-tight text-white text-base">TypeMind</span>
+          <span class="font-extrabold tracking-tight text-white text-sm lg:text-base shrink-0">Type Mind Spark</span>
         </a>
-        <div class="hidden md:flex items-center gap-1">
+        <div class="hidden lg:flex items-center gap-0.5 xl:gap-1">
           <a href="#top" class="nav-link active-section" data-section="top">Vision</a>
           <a href="#philosophy" class="nav-link" data-section="philosophy">Philosophy</a>
           <a href="#features" class="nav-link" data-section="features">Core Features</a>
@@ -398,16 +363,16 @@
           <a href="#privacy" class="nav-link" data-section="privacy">Privacy</a>
           <a href="#download" class="nav-link text-cyan-400 font-bold" data-section="download"><i class="fa-solid fa-download mr-1"></i> Download</a>
         </div>
-        <a href="#download" class="px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs rounded-full shadow-[0_0_20px_rgba(56,189,248,0.4)] hover:scale-105 active:scale-95 transition-all">Get App</a>
+        <a href="#download" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs rounded-full shadow-[0_0_20px_rgba(56,189,248,0.4)] hover:scale-105 active:scale-95 transition-all shrink-0">Get App</a>
       </div>
       <div class="nav-view nav-compact-view">
-        <div class="flex items-center gap-2.5">
+        <div class="flex items-center gap-2.5 shrink-0">
           <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 p-[1px] flex items-center justify-center">
-            <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center font-bold text-[10px] text-cyan-400">TM</div>
+            <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center font-bold text-[9px] text-cyan-400">TM</div>
           </div>
-          <span class="font-bold text-sm text-white">TypeMind</span>
+          <span class="font-bold text-sm text-white shrink-0">Type Mind Spark</span>
         </div>
-        <span id="compact-badge" class="px-3 py-1 bg-cyan-500/15 border border-cyan-500/40 rounded-full text-[11px] text-cyan-400 font-mono font-bold uppercase tracking-wider"><i class="fa-solid fa-brain mr-1"></i> <span>VISION</span></span>
+        <span id="compact-badge" class="px-3 py-1 bg-cyan-500/15 border border-cyan-500/40 rounded-full text-[11px] text-cyan-400 font-mono font-bold uppercase tracking-wider shrink-0"><i class="fa-solid fa-brain mr-1"></i> <span>VISION</span></span>
       </div>
     </nav>
   </div>
@@ -420,13 +385,16 @@
       <div id="bouncing-logo" class="mb-6 z-20">
         <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-gradient-to-tr from-cyan-400 via-blue-500 to-purple-600 p-[2.5px] shadow-[0_0_45px_rgba(56,189,248,0.5)]">
           <div class="w-full h-full bg-[#080e1e] rounded-[22px] p-3 flex items-center justify-center overflow-hidden">
-            <img src="https://i.ibb.co/Z7dkFRG/Gemini-Generated-Image-gfpw51gfpw51gfpw.png" alt="TypeMind Logo" class="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(56,189,248,0.8)]" />
+            <img src="https://i.ibb.co/dRQmwmT/image.png" alt="Type Mind Spark Logo" class="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(56,189,248,0.8)]" />
           </div>
         </div>
       </div>
-      <h1 class="text-6xl sm:text-8xl md:text-9xl font-black tracking-tighter tidal-heading default-shimmer z-10 leading-none pb-2 drop-shadow-2xl">TypeMind</h1>
+      <h1 class="text-6xl sm:text-7xl md:text-8xl font-black tracking-tighter tidal-heading z-10 leading-none pb-2 drop-shadow-2xl flex flex-wrap items-baseline justify-center gap-2 sm:gap-4">
+        <span class="default-shimmer">Type Mind</span> 
+        <span class="spark-electric-shimmer italic drop-shadow-[0_0_20px_rgba(245,158,11,0.4)]">Spark</span>
+      </h1>
       <div class="mt-8 max-w-3xl mx-auto p-8 sm:p-10 rounded-3xl spotlight-card tactile-grain bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-blue-950/80 border-cyan-500/30 z-10 relative group shadow-2xl" style="--hover-glow: rgba(56, 189, 248, 0.4); --hover-border: rgba(56, 189, 248, 0.8);">
-        <p class="text-lg sm:text-2xl text-slate-200 font-medium leading-relaxed">TypeMind learns how you communicate, understands your intent, and helps you express your ideas more effectively—<span class="text-cyan-400 font-bold">without changing your voice.</span></p>
+        <p class="text-lg sm:text-2xl text-slate-200 font-medium leading-relaxed">Type Mind Spark learns how you communicate, understands your intent, and helps you express your ideas more effectively—<span class="text-cyan-400 font-bold">without changing your voice.</span></p>
       </div>
       <div class="mt-12 flex flex-wrap items-center justify-center gap-4 z-10">
         <a href="#features" class="px-8 py-4 bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:scale-105 active:scale-95 text-white font-bold rounded-full shadow-[0_10px_30px_rgba(56,189,248,0.4)] transition-all flex items-center gap-3">Explore The 6 Core Features <i class="fa-solid fa-arrow-down"></i></a>
@@ -438,7 +406,7 @@
     <section id="philosophy" class="py-24 px-6 max-w-7xl mx-auto relative z-10" data-section-name="PHILOSOPHY">
       <div class="reveal-node text-center max-w-3xl mx-auto mb-16">
         <span class="font-mono text-xs font-bold text-cyan-400 tracking-widest uppercase bg-cyan-500/10 border border-cyan-500/30 px-3.5 py-1.5 rounded-full">01 — The Paradigm Shift</span>
-        <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-4 tidal-heading">Why Traditional Keyboards Are Broken</h2>
+        <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-4 tidal-heading"><span class="default-shimmer">Why Traditional Keyboards Are Broken</span></h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
         <div class="spotlight-card tactile-grain p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-red-950/70 via-slate-900/90 to-rose-950/70 border-red-500/30 hover:border-red-500/60 flex flex-col justify-between reveal-node group" style="--hover-glow: rgba(239, 68, 68, 0.35); --hover-border: rgba(239, 68, 68, 0.8); transition-delay: 0.1s;">
@@ -460,7 +428,7 @@
         <div class="spotlight-card tactile-grain p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-cyan-950/70 via-slate-900/90 to-blue-950/70 border-cyan-500/40 hover:border-cyan-400 flex flex-col justify-between reveal-node group shadow-[0_0_40px_rgba(56,189,248,0.15)]" style="--hover-glow: rgba(56, 189, 248, 0.45); --hover-border: rgba(56, 189, 248, 0.9); transition-delay: 0.2s;">
           <div>
             <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-bold mb-6 shadow-[0_0_20px_rgba(56,189,248,0.3)]"><i class="fa-solid fa-brain text-xl"></i></div>
-            <span class="text-xs font-mono font-bold text-cyan-400 tracking-wider uppercase">TypeMind Platform</span>
+            <span class="text-xs font-mono font-bold text-cyan-400 tracking-wider uppercase">Type Mind Spark Platform</span>
             <h3 class="text-2xl sm:text-3xl font-extrabold text-white mt-1 mb-6">"What is the user trying to communicate?"</h3>
             <ul class="space-y-4 text-slate-100 text-sm sm:text-base font-medium border-t border-white/10 pt-6">
               <li class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 font-bold text-xs"><i class="fa-solid fa-check"></i></span> <span class="text-white">Adaptive Persona Mode</span></li>
@@ -480,12 +448,12 @@
     <section id="features" class="py-24 px-6 max-w-7xl mx-auto relative z-10" data-section-name="FEATURES">
       <div class="reveal-node mb-12 text-center">
         <span class="font-mono text-xs font-bold text-purple-400 tracking-widest uppercase bg-purple-500/10 border border-purple-500/30 px-3.5 py-1.5 rounded-full">02 — Product Capabilities</span>
-        <h2 class="text-4xl sm:text-6xl font-black tracking-tight mt-4 tidal-heading">The Six Core Features</h2>
+        <h2 class="text-4xl sm:text-6xl font-black tracking-tight mt-4 tidal-heading"><span class="default-shimmer">The Six Core Features</span></h2>
         <p class="text-slate-400 max-w-xl mx-auto mt-3 text-base leading-relaxed">Click any bulky feature button below to smoothly slide out its interactive AI workspace card.</p>
       </div>
       <div id="features-interactive" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative min-h-[500px]">
         <div id="island-drop-box" class="w-14 h-14 rounded-full tactile-grain">
-          <div class="drop-logo w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-black font-black text-xs mr-2 shrink-0">TM</div>
+          <div class="drop-logo w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-black font-black text-[10px] mr-2 shrink-0">TM</div>
           <span class="drop-text text-lg font-black tracking-tight opacity-0 pr-3">✨ The Six Core Features</span>
         </div>
         <div id="tabs-column" class="lg:col-span-5 flex flex-col gap-3.5 sticky top-28 z-20">
@@ -506,8 +474,8 @@
     <section id="models" class="py-24 px-6 max-w-7xl mx-auto relative z-10" data-section-name="ARCHITECTURE">
       <div class="reveal-node text-center max-w-3xl mx-auto mb-16">
         <span class="font-mono text-xs font-bold text-cyan-400 tracking-widest uppercase bg-cyan-500/10 border border-cyan-500/30 px-3.5 py-1.5 rounded-full">03 — Intelligence Layer</span>
-        <h2 class="text-4xl sm:text-6xl font-black tracking-tight mt-4 tidal-heading">Dual-Model Architecture</h2>
-        <p class="text-slate-400 mt-4 text-base">TypeMind orchestrates between two specialized AI reasoning pipelines depending on task complexity and latency constraints.</p>
+        <h2 class="text-4xl sm:text-6xl font-black tracking-tight mt-4 tidal-heading"><span class="default-shimmer">Dual-Model Architecture</span></h2>
+        <p class="text-slate-400 mt-4 text-base">Type Mind Spark orchestrates between two specialized AI reasoning pipelines depending on task complexity and latency constraints.</p>
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
         <!-- AURA ENGINE -->
@@ -541,20 +509,16 @@
       </div>
     </section>
 
-    <!-- ================= UPGRADED SAAS PRICING SECTION ================= -->
+    <!-- Pricing Section -->
     <section id="plans" class="py-24 px-6 max-w-7xl mx-auto relative z-10" data-section-name="PLANS">
-      
-      <!-- Section Header -->
       <div class="reveal-node text-center max-w-3xl mx-auto mb-10">
         <span class="font-mono text-xs font-bold text-emerald-400 tracking-widest uppercase bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1.5 rounded-full">04 — Simple Pricing</span>
-        <h2 class="text-4xl sm:text-6xl font-black tracking-tight mt-4 tidal-heading">Upgrade Your Intelligence</h2>
+        <h2 class="text-4xl sm:text-6xl font-black tracking-tight mt-4 tidal-heading"><span class="default-shimmer">Upgrade Your Intelligence</span></h2>
       </div>
 
-      <!-- "Choose Your Intelligence" Storytelling Banner -->
       <div class="reveal-node mb-10 p-6 sm:p-8 rounded-3xl tactile-grain bg-gradient-to-r from-slate-900/90 via-[#080e1e]/90 to-slate-900/90 border border-white/10 max-w-4xl mx-auto backdrop-blur-xl shadow-2xl text-center" style="--hover-glow: rgba(56,189,248,0.25);">
         <div class="text-xs font-mono font-bold text-cyan-400 uppercase tracking-widest mb-2">Choose Your Intelligence</div>
-        <p class="text-slate-200 text-sm sm:text-base font-medium">Every plan includes TypeMind. <span class="text-white font-bold">Upgrade your intelligence as your workflow grows.</span></p>
-        
+        <p class="text-slate-200 text-sm sm:text-base font-medium">Every plan includes Type Mind Spark. <span class="text-white font-bold">Upgrade your intelligence as your workflow grows.</span></p>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 text-left">
           <div class="p-4 rounded-2xl bg-blue-950/40 border border-blue-500/30 flex items-center justify-between shadow-inner">
             <div>
@@ -573,7 +537,6 @@
         </div>
       </div>
 
-      <!-- Billing & Currency Toggles -->
       <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16 reveal-node">
         <div class="flex items-center bg-slate-900/90 p-1.5 rounded-full border border-white/15 shadow-2xl">
           <button id="btn-monthly" class="px-6 py-2 rounded-full text-xs font-mono font-bold bg-cyan-500 text-slate-950 shadow-lg transition-all duration-300">Monthly Billing</button>
@@ -582,7 +545,6 @@
             <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-black uppercase tracking-wider animate-pulse">Save 20%</span>
           </button>
         </div>
-        
         <div class="flex items-center gap-2 bg-slate-900/80 px-4 py-2 rounded-full border border-white/10 text-xs font-mono text-slate-400">
           <span>Currency:</span>
           <button id="curr-usd" class="font-bold text-cyan-400 underline decoration-2 transition-colors">USD ($)</button>
@@ -591,17 +553,13 @@
         </div>
       </div>
 
-      <!-- 4-Column Core Pricing Grid -->
       <div id="pricing-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-        
         <!-- Tier 1: Free -->
         <div class="spotlight-card tactile-grain p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-white/10 flex flex-col justify-between reveal-node">
           <div>
             <span class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-300">Personal</span>
             <h3 class="text-2xl font-black text-white mt-4">Free</h3>
             <p class="text-slate-400 text-xs mt-1 min-h-[32px] leading-relaxed">Essential typing assistance for everyday personal communication.</p>
-            
-            <!-- Price Display -->
             <div class="my-6 py-4 border-y border-white/10">
               <div class="text-4xl font-black text-white flex items-baseline">
                 <span class="price-val font-mono" data-usd-mo="$0" data-usd-yr="$0" data-inr-mo="₹0" data-inr-yr="₹0">$0</span>
@@ -609,10 +567,7 @@
               </div>
               <div class="billing-subtext text-[11px] font-mono text-slate-500 mt-1">Free forever</div>
             </div>
-
-            <!-- High-Intent CTA Above Features -->
             <a href="#download" class="plan-cta-btn w-full py-3.5 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-white font-bold text-xs transition-all block text-center mb-6">Get Started Free</a>
-
             <div class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider mb-3">Included features:</div>
             <ul class="space-y-3 text-xs text-slate-300 font-medium">
               <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400 text-sm"></i> Standard Auto-Complete</li>
@@ -629,7 +584,6 @@
             <span class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">Creator</span>
             <h3 class="text-2xl font-black text-white mt-4">Plus</h3>
             <p class="text-slate-300 text-xs mt-1 min-h-[32px] leading-relaxed">Expanded creative tools and context styling for active creators.</p>
-            
             <div class="my-6 py-4 border-y border-white/10">
               <div class="text-4xl font-black text-white flex items-baseline">
                 <span class="price-val font-mono text-cyan-400" data-usd-mo="$10" data-usd-yr="$8" data-inr-mo="₹499" data-inr-yr="₹399">$10</span>
@@ -637,9 +591,7 @@
               </div>
               <div class="billing-subtext text-[11px] font-mono text-cyan-400/80 mt-1">Billed monthly</div>
             </div>
-
             <a href="#download" class="plan-cta-btn w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-bold text-xs transition-all block text-center mb-6 shadow-[0_0_20px_rgba(37,99,235,0.4)]">Start 7-Day Free Trial</a>
-
             <div class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider mb-3">Everything in Free, plus:</div>
             <ul class="space-y-3 text-xs text-slate-200 font-medium">
               <li class="flex items-center gap-3"><i class="fa-solid fa-check text-blue-400 text-sm"></i> Adaptive Persona Mode</li>
@@ -650,14 +602,13 @@
           </div>
         </div>
 
-        <!-- Tier 3: Pro (RECOMMENDED HERO CARD) -->
+        <!-- Tier 3: Pro -->
         <div class="spotlight-card tactile-grain p-8 rounded-3xl bg-gradient-to-b from-cyan-950/80 via-slate-900/95 to-blue-950/80 border-2 border-cyan-400 shadow-[0_0_50px_rgba(56,189,248,0.25)] flex flex-col justify-between reveal-node relative transform lg:-translate-y-3 z-20">
           <div class="absolute -top-3.5 right-6 bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 text-[10px] font-mono font-black px-3.5 py-1 rounded-full uppercase tracking-widest shadow-lg">Most Popular</div>
           <div>
             <span class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">Professional ⭐</span>
             <h3 class="text-2xl font-black text-white mt-4">Pro</h3>
             <p class="text-slate-200 text-xs mt-1 min-h-[32px] leading-relaxed">Full access to deep reasoning, persona customization & local memory.</p>
-            
             <div class="my-6 py-4 border-y border-white/15">
               <div class="text-4xl font-black text-white flex items-baseline">
                 <span class="price-val font-mono text-white" data-usd-mo="$20" data-usd-yr="$16" data-inr-mo="₹999" data-inr-yr="₹799">$20</span>
@@ -665,9 +616,7 @@
               </div>
               <div class="billing-subtext text-[11px] font-mono text-cyan-300 mt-1">Billed monthly</div>
             </div>
-
             <a href="#download" class="plan-cta-btn w-full py-4 rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 hover:scale-[1.02] active:scale-95 text-slate-950 font-black text-xs transition-all block text-center mb-6 shadow-[0_0_25px_rgba(56,189,248,0.6)]">Upgrade to Pro</a>
-
             <div class="text-xs font-mono font-bold text-cyan-300 uppercase tracking-wider mb-3">Everything in Plus, plus:</div>
             <ul class="space-y-3 text-xs text-white font-medium">
               <li class="flex items-center gap-3"><i class="fa-solid fa-sparkles text-cyan-400 text-sm"></i> Deep Reasoning Intelligence</li>
@@ -685,7 +634,6 @@
             <span class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">Power User</span>
             <h3 class="text-2xl font-black text-white mt-4">Ultra</h3>
             <p class="text-slate-300 text-xs mt-1 min-h-[32px] leading-relaxed">For heavy communicators requiring automation & maximum priority.</p>
-            
             <div class="my-6 py-4 border-y border-white/10">
               <div class="text-4xl font-black text-white flex items-baseline">
                 <span class="price-val font-mono text-purple-400" data-usd-mo="$40" data-usd-yr="$32" data-inr-mo="₹1,999" data-inr-yr="₹1,599">$40</span>
@@ -693,9 +641,7 @@
               </div>
               <div class="billing-subtext text-[11px] font-mono text-purple-300/80 mt-1">Billed monthly</div>
             </div>
-
             <a href="#download" class="plan-cta-btn w-full py-3.5 rounded-xl bg-purple-600/60 hover:bg-purple-600 active:scale-95 text-white font-bold text-xs border border-purple-500/50 transition-all block text-center mb-6">Get Ultra Access</a>
-
             <div class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider mb-3">Everything in Pro, plus:</div>
             <ul class="space-y-3 text-xs text-slate-200 font-medium">
               <li class="flex items-center gap-3"><i class="fa-solid fa-gears text-purple-400 text-sm"></i> Cross-App AI Actions</li>
@@ -705,10 +651,8 @@
             </ul>
           </div>
         </div>
-
       </div>
 
-      <!-- Full-Width Horizontal Enterprise Banner -->
       <div class="mt-8 p-8 sm:p-10 rounded-3xl tactile-grain bg-gradient-to-r from-slate-900 via-[#080e1e] to-slate-900 border border-white/15 flex flex-col lg:flex-row items-center justify-between gap-8 reveal-node shadow-2xl">
         <div class="max-w-2xl text-center lg:text-left">
           <div class="flex items-center justify-center lg:justify-start gap-3 mb-2">
@@ -727,13 +671,11 @@
         </div>
       </div>
 
-      <!-- Privacy-First Footer Quote -->
       <div class="mt-12 text-center max-w-3xl mx-auto p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono text-xs flex items-center justify-center gap-3 shadow-lg reveal-node">
         <i class="fa-solid fa-shield-halved text-base shrink-0"></i>
         <span>Every plan includes the same privacy-first architecture. Upgrade only for more intelligence, memory, and capabilities—not ads or data collection.</span>
       </div>
 
-      <!-- "Try PRISM" Interactive Demo Bottom CTA Banner -->
       <div class="mt-16 p-8 sm:p-12 rounded-3xl spotlight-card tactile-grain bg-gradient-to-r from-blue-950/80 via-slate-900/95 to-purple-950/80 border border-cyan-500/40 text-center max-w-4xl mx-auto shadow-[0_0_50px_rgba(56,189,248,0.2)] reveal-node" style="--hover-glow: rgba(192, 132, 252, 0.4); --hover-border: rgba(192, 132, 252, 0.9);">
         <span class="text-xs font-mono font-bold text-purple-400 uppercase tracking-widest bg-purple-500/10 border border-purple-500/30 px-3 py-1 rounded-full">Interactive Sandbox</span>
         <h3 class="text-3xl sm:text-4xl font-black text-white mt-4 mb-2">Still not convinced? <span class="text-cyan-400">↓ Try PRISM</span></h3>
@@ -742,10 +684,9 @@
           <span>Launch Interactive Demo</span> <i class="fa-solid fa-arrow-right-long text-cyan-200 animate-pulse"></i>
         </a>
       </div>
-
     </section>
 
-    <!-- ================= SECTION 05: APPLE KEYNOTE BIOMETRIC LOCK & SPATIAL ENGINE ================= -->
+    <!-- Privacy Section -->
     <section id="privacy" class="py-24 px-6 max-w-5xl mx-auto relative z-10 min-h-[640px] flex flex-col justify-center" data-section-name="PRIVACY">
       <div class="reveal-node text-center mb-10">
         <span class="font-mono text-xs font-bold text-emerald-400 tracking-widest uppercase bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1.5 rounded-full">05 — Security Architecture</span>
@@ -756,19 +697,14 @@
         </div>
       </div>
 
-      <!-- The Main Stage -->
       <div id="privacy-animation-stage" class="relative w-full min-h-[480px] flex flex-col items-center justify-center p-8 sm:p-12 rounded-3xl spotlight-card tactile-grain bg-gradient-to-br from-slate-900/90 via-[#080e1e]/95 to-slate-900/90 border-emerald-500/40 overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)]" style="--hover-glow: rgba(16, 185, 129, 0.35); --hover-border: rgba(16, 185, 129, 0.8);">
-        
-        <!-- Phase A: Question Title -->
         <h2 id="priv-title-question" class="text-4xl sm:text-6xl font-black text-white absolute opacity-0 scale-90 text-center px-4 drop-shadow-[0_0_35px_rgba(16,185,129,0.6)]">What about Privacy?</h2>
 
-        <!-- Phase B: Point 1 Typing -->
         <div id="priv-point-1" class="absolute inset-x-8 top-1/2 -translate-y-1/2 flex flex-col items-center text-center opacity-0 pointer-events-none">
           <div class="text-2xl sm:text-4xl font-extrabold text-emerald-400 font-mono mb-4 min-h-[40px]"><span id="type-target-1" class="typing-cursor"></span></div>
-          <p id="sub-target-1" class="text-lg sm:text-2xl text-slate-200 font-medium opacity-0 transform translate-y-6 transition-all duration-500">TypeMind behaves like a normal keyboard.</p>
+          <p id="sub-target-1" class="text-lg sm:text-2xl text-slate-200 font-medium opacity-0 transform translate-y-6 transition-all duration-500">Type Mind Spark behaves like a normal keyboard.</p>
         </div>
 
-        <!-- Phase C: Point 2 & Checkmark -->
         <div id="priv-point-2" class="absolute inset-x-8 top-1/2 -translate-y-1/2 flex flex-col items-center text-center opacity-0 pointer-events-none">
           <div class="flex items-center justify-center gap-3 text-2xl sm:text-4xl font-extrabold text-cyan-400 font-mono mb-4">
             <span>2. Personal AI Memory stays on the device</span>
@@ -777,7 +713,6 @@
           <p class="text-lg sm:text-2xl text-slate-200 font-medium">End-to-end encryption.</p>
         </div>
 
-        <!-- Phase D: Point 3 & Live Toggling macOS Settings Box -->
         <div id="priv-point-3" class="absolute inset-x-8 top-1/2 -translate-y-1/2 flex flex-col items-center text-center opacity-0 pointer-events-none">
           <div class="text-2xl sm:text-4xl font-extrabold text-purple-400 font-mono mb-6">3. User controls everything</div>
           <div class="bg-slate-950/95 border border-purple-500/50 p-6 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] text-left font-mono text-sm sm:text-base space-y-3 w-80 max-w-full text-slate-200 relative overflow-hidden backdrop-blur-xl">
@@ -789,45 +724,28 @@
           </div>
         </div>
 
-        <!-- Phase E: Apple VisionOS Glass Medallion & Mechanical Lock Engine -->
         <div id="priv-logo-lock" class="absolute inset-0 flex flex-col items-center justify-center opacity-0 pointer-events-none z-20">
-          
           <div id="apple-medallion-box" class="apple-glass-medallion w-40 h-40 sm:w-48 sm:h-48 rounded-[40px] p-8 flex items-center justify-center transform scale-75 opacity-0 relative">
-            
-            <!-- Apple Pay style expanding ripple rings -->
             <circle id="apple-ring-1" class="absolute w-full h-full rounded-[40px] border-2 border-emerald-400 pointer-events-none opacity-0 scale-100" style="inset: 0;"></circle>
             <circle id="apple-ring-2" class="absolute w-full h-full rounded-[40px] border border-cyan-400 pointer-events-none opacity-0 scale-100" style="inset: 0;"></circle>
-
-            <!-- Optical Laser Sheen -->
             <div id="lock-sheen-sweep" class="lock-optical-sheen"></div>
-
-            <!-- Stage 1: Clean TypeMind Logo -->
             <div id="stage-logo-wrap" class="absolute inset-8 flex items-center justify-center transition-all duration-300">
-              <img src="https://i.ibb.co/Z7dkFRG/Gemini-Generated-Image-gfpw51gfpw51gfpw.png" alt="TypeMind Logo" class="w-full h-full object-contain filter drop-shadow-[0_0_20px_rgba(56,189,248,0.8)]" />
+              <img src="https://i.ibb.co/Z7dkFRG/Gemini-Generated-Image-gfpw51gfpw51gfpw.png" alt="Type Mind Spark Logo" class="w-full h-full object-contain filter drop-shadow-[0_0_20px_rgba(56,189,248,0.8)]" />
             </div>
-
-            <!-- Stage 2: Mechanical SVG Lock with Snapping Shackle -->
             <div id="stage-lock-wrap" class="absolute inset-6 flex items-center justify-center opacity-0 transform rotateY(-90deg) pointer-events-none">
               <svg viewBox="0 0 100 100" class="w-24 h-24 sm:w-28 sm:h-28 overflow-visible">
-                <!-- The Mechanical Shackle (Top Loop) -->
                 <path id="lock-shackle" d="M 30 46 V 26 C 30 14, 70 14, 70 26 V 46" fill="none" stroke="#cbd5e1" stroke-width="9" stroke-linecap="round" style="transform: translateY(-16px); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), stroke 0.3s ease;" />
-                <!-- The Lock Body -->
                 <rect id="lock-body" x="16" y="42" width="68" height="50" rx="16" fill="#1e293b" stroke="#cbd5e1" stroke-width="4" style="transition: all 0.3s ease;" />
                 <circle id="lock-keyhole" cx="50" cy="62" r="5" fill="#38bdf8" style="transition: fill 0.3s ease;" />
                 <path id="lock-stem" d="M 50 67 V 77" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" style="transition: stroke 0.3s ease;" />
               </svg>
             </div>
-
           </div>
-
-          <!-- Keynote Header Text -->
           <div id="apple-unlock-text" class="mt-6 font-mono text-xs sm:text-sm font-bold text-emerald-400 tracking-[0.2em] uppercase opacity-0 transform translate-y-3 bg-emerald-500/10 border border-emerald-500/40 px-5 py-2 rounded-full shadow-[0_0_25px_rgba(16,185,129,0.4)] flex items-center gap-2">
             <i class="fa-solid fa-shield-check text-base"></i> <span>Security Hardware Verified</span>
           </div>
-
         </div>
 
-        <!-- Phase F: Continuous Unfold into Security Columns -->
         <div id="priv-final-card" class="w-full opacity-0 pointer-events-none transform translate-y-8 transition-all duration-700 flex flex-col justify-between">
           <div class="text-center mb-8">
             <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-[0_0_35px_rgba(16,185,129,0.4)]"><i class="fa-solid fa-shield-halved"></i></div>
@@ -837,7 +755,7 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
             <div class="security-pillar p-6 rounded-2xl bg-slate-950/90 border border-white/10 flex items-start gap-4 hover:border-emerald-500/50 transition-all shadow-xl">
               <i class="fa-solid fa-lock text-emerald-400 mt-1 text-xl shrink-0"></i>
-              <div><div class="font-bold text-white text-base">1. Sensitive Fields Ignored</div><div class="text-slate-300 text-xs sm:text-sm mt-1.5 leading-relaxed">Passwords, OTPs, and banking inputs are natively bypassed. TypeMind behaves like a normal keyboard.</div></div>
+              <div><div class="font-bold text-white text-base">1. Sensitive Fields Ignored</div><div class="text-slate-300 text-xs sm:text-sm mt-1.5 leading-relaxed">Passwords, OTPs, and banking inputs are natively bypassed. Type Mind Spark behaves like a normal keyboard.</div></div>
             </div>
             <div class="security-pillar p-6 rounded-2xl bg-slate-950/90 border border-white/10 flex items-start gap-4 hover:border-cyan-500/50 transition-all shadow-xl">
               <i class="fa-solid fa-microchip text-cyan-400 mt-1 text-xl shrink-0"></i>
@@ -849,7 +767,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </section>
 
@@ -857,14 +774,14 @@
     <section id="download" class="py-24 px-6 max-w-6xl mx-auto relative z-10 min-h-[500px] flex flex-col justify-center items-center text-center" data-section-name="DOWNLOAD">
       <div class="reveal-node mb-12">
         <span class="font-mono text-xs font-bold text-cyan-400 tracking-widest uppercase bg-cyan-500/10 border border-cyan-500/30 px-3.5 py-1.5 rounded-full">06 — Cross-Platform Deployment</span>
-        <h2 class="text-4xl sm:text-6xl font-black tracking-tight mt-4 tidal-heading">Experience TypeMind Today</h2>
+        <h2 class="text-4xl sm:text-6xl font-black tracking-tight mt-4 tidal-heading"><span class="default-shimmer">Experience Type Mind Spark</span></h2>
         <p class="text-slate-400 max-w-xl mx-auto mt-3 text-base">Tap the glowing hub below to unpack installers for all your desktop and mobile operating systems.</p>
       </div>
       <div id="download-trigger-box" class="my-8 reveal-node">
         <button id="download-trigger-btn" class="group relative px-10 py-6 rounded-3xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 p-[2px] shadow-[0_0_60px_rgba(56,189,248,0.6)] hover:shadow-[0_0_90px_rgba(56,189,248,0.9)] transition-all transform hover:scale-105 active:scale-95">
           <div class="w-full h-full bg-[#080e1e] rounded-[22px] px-8 py-5 flex items-center justify-center gap-4">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-500 p-1 shrink-0"><img src="https://i.ibb.co/Z7dkFRG/Gemini-Generated-Image-gfpw51gfpw51gfpw.png" alt="Logo" class="w-full h-full object-contain" /></div>
-            <span class="text-2xl sm:text-4xl font-black text-white apple-siri-shimmer tracking-tight">Download TypeMind</span>
+            <span class="text-2xl sm:text-4xl font-black text-white apple-siri-shimmer tracking-tight">Download Type Mind Spark</span>
             <i class="fa-solid fa-arrow-pointer text-cyan-400 animate-bounce ml-2 text-xl"></i>
           </div>
         </button>
@@ -907,9 +824,9 @@
       <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-3 text-white font-bold text-sm">
           <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 p-0.5 flex items-center justify-center"><img src="https://i.ibb.co/Z7dkFRG/Gemini-Generated-Image-gfpw51gfpw51gfpw.png" alt="Logo" class="w-full h-full object-contain" /></div>
-          <span>TypeMind Platform</span>
+          <span>Type Mind Spark Platform</span>
         </div>
-        <p>© 2026 TypeMind. Engineered as a high-performance communication OS.</p>
+        <p>© 2026 Type Mind Spark. Engineered as a high-performance communication OS.</p>
         <div class="flex gap-6 text-slate-400"><a href="#privacy" class="hover:text-cyan-400 transition-colors">Security Guardrails</a><a href="#features" class="hover:text-cyan-400 transition-colors">Core Features</a><a href="#download" class="hover:text-cyan-400 transition-colors">Download Hub</a></div>
       </div>
     </footer>
@@ -951,23 +868,84 @@
       }
 
       if (splashScreen && splashFlex) {
+        // App icons merge logic
         introTimeouts.push(setTimeout(() => { if (mergeGrid) mergeGrid.classList.add('is-active'); if (mergeCaption) mergeCaption.classList.add('show-caption'); }, 200));
         introTimeouts.push(setTimeout(() => { if (mergeGrid) mergeGrid.classList.add('is-merging'); if (mergeCaption) { mergeCaption.classList.remove('show-caption'); mergeCaption.classList.add('hide-caption'); } }, 2400));
+        
+        // 1. Logo enters screen
         introTimeouts.push(setTimeout(() => { if (mergeGrid) mergeGrid.style.display = 'none'; if (splashLogoOuter) splashLogoOuter.classList.add('start-reveal'); }, 3400));
-        introTimeouts.push(setTimeout(() => { if (splashLogoInner) splashLogoInner.style.transform = 'rotateY(180deg)'; }, 5200));
-        introTimeouts.push(setTimeout(() => { splashFlex.classList.add('expand'); }, 6400));
-        introTimeouts.push(setTimeout(() => { splashFlex.classList.remove('expand'); splashFlex.classList.add('absorb'); }, 8600)); 
-        introTimeouts.push(setTimeout(() => { splashScreen.style.opacity = '0'; splashScreen.style.transform = 'scale(1.08)'; splashScreen.style.pointerEvents = 'none'; }, 9500)); 
-        introTimeouts.push(setTimeout(() => { if (fluidCanvas) fluidCanvas.classList.add('aurora-live'); }, 10200));
-        introTimeouts.push(setTimeout(() => { unlockMainContent(); }, 11200)); 
-        introTimeouts.push(setTimeout(() => { if (splashScreen.parentNode) splashScreen.remove(); }, 11500)); 
+        
+        // 2. Logo flips to reveal Face (takes 1.2s via native CSS spring)
+        introTimeouts.push(setTimeout(() => { if (splashLogoInner) splashLogoInner.style.transform = 'rotateY(180deg)'; }, 4800));
+
+        // 3. Logo slides left to reveal "Type Mind" (Delayed until flip completes)
+        introTimeouts.push(setTimeout(() => { splashFlex.classList.add('expand'); }, 6000));
+        
+        // 4. THE VIBRATION (Now with organic rotation for deeper fluidity)
+        introTimeouts.push(setTimeout(() => { 
+            if (splashLogoOuter) {
+                gsap.to(splashLogoInner, {
+                    boxShadow: "0 0 80px rgba(56,189,248,1), 0 0 40px rgba(245,158,11,0.6)",
+                    duration: 0.3
+                });
+
+                // Hardware-accelerated, organic jitter
+                gsap.to(splashLogoOuter, { 
+                    x: () => (Math.random() - 0.5) * 16,
+                    y: () => (Math.random() - 0.5) * 16,
+                    rotation: () => (Math.random() - 0.5) * 4,
+                    duration: 0.04, 
+                    repeat: 20, 
+                    yoyo: true, 
+                    ease: "none",
+                    force3D: true, // Forces GPU acceleration
+                    onComplete: () => {
+                        gsap.to(splashLogoOuter, { x: 0, y: 0, rotation: 0, duration: 0.1 });
+                        gsap.to(splashLogoInner, { boxShadow: "0 0 40px var(--glow-shadow)", duration: 0.4 });
+                    }
+                });
+            }
+        }, 7200));
+
+        // 5. Star Shoots Out fluidly from behind the logo
+        introTimeouts.push(setTimeout(() => {
+            const sparkCont = document.getElementById('splash-spark-container');
+            const starIcon = document.getElementById('splash-star-icon');
+            if (sparkCont && starIcon) {
+                gsap.to(sparkCont, { width: window.innerWidth < 640 ? "160px" : "260px", duration: 1, ease: "power3.inOut" });
+                gsap.fromTo(starIcon, 
+                    { opacity: 0, x: -100, y: 0, scale: 0.5, rotation: -180 }, 
+                    { opacity: 1, x: 0, y: 0, scale: 1.2, rotation: 0, duration: 0.8, ease: "power2.out", force3D: true }
+                );
+            }
+        }, 7800));
+
+        // 6. Star Explodes into Text beautifully
+        introTimeouts.push(setTimeout(() => {
+            const starIcon = document.getElementById('splash-star-icon');
+            const sparkText = document.getElementById('splash-spark-text');
+            if (starIcon && sparkText) {
+                gsap.to(starIcon, { scale: 5, opacity: 0, rotation: 90, filter: "blur(15px)", duration: 0.6, ease: "power2.out", force3D: true });
+                gsap.fromTo(sparkText, 
+                    { opacity: 0, scale: 0.8, filter: "blur(10px)", x: -15 }, 
+                    { opacity: 1, scale: 1, filter: "blur(0px)", x: 0, duration: 0.8, ease: "power3.out", force3D: true }
+                );
+            }
+        }, 8800));
+        
+        // 7. Absorb transition and unlock main content (All shifted cleanly)
+        introTimeouts.push(setTimeout(() => { splashFlex.classList.remove('expand'); splashFlex.classList.add('absorb'); }, 10700)); 
+        introTimeouts.push(setTimeout(() => { splashScreen.style.opacity = '0'; splashScreen.style.transform = 'scale(1.05)'; splashScreen.style.pointerEvents = 'none'; }, 11500)); 
+        introTimeouts.push(setTimeout(() => { if (fluidCanvas) fluidCanvas.classList.add('aurora-live'); }, 12000));
+        introTimeouts.push(setTimeout(() => { unlockMainContent(); }, 12400)); 
+        introTimeouts.push(setTimeout(() => { if (splashScreen.parentNode) splashScreen.remove(); }, 13200)); 
       }
 
       splashScreen.addEventListener('click', () => {
         if (isIntroSkipped) return;
         isIntroSkipped = true;
         introTimeouts.forEach(clearTimeout);
-        gsap.to(splashScreen, { opacity: 0, scale: 1.05, duration: 0.5, ease: "power3.out", onComplete: () => { if (splashScreen.parentNode) splashScreen.remove(); } });
+        gsap.to(splashScreen, { opacity: 0, scale: 1.05, duration: 0.5, ease: "power3.out", force3D: true, onComplete: () => { if (splashScreen.parentNode) splashScreen.remove(); } });
         if (fluidCanvas) fluidCanvas.classList.add('aurora-live');
         unlockMainContent();
       });
@@ -992,7 +970,7 @@
         "1": { icon: "fa-masks-theater", color: "indigo", bgGradient: "from-indigo-950/80 via-slate-900/90 to-blue-950/80", title: "Adaptive Persona Mode", desc: "Automatically calibrates tone, formality, and sentence structure depending on the active recipient without changing your underlying message.", tags: ["Manager", "Client", "Friend", "Professor"] },
         "2": { icon: "fa-location-dot", color: "cyan", bgGradient: "from-cyan-950/80 via-slate-900/90 to-blue-950/80", title: "Live Context Detection", desc: "Understands the application environment where you are typing and dynamically formats suggestions to fit standard professional conventions.", tags: ["Gmail", "Slack", "LinkedIn", "WhatsApp"] },
         "3": { icon: "fa-fingerprint", color: "purple", bgGradient: "from-purple-950/80 via-slate-900/90 to-fuchsia-950/80", title: "Personal AI Memory", desc: "Learns your unique communication habits, frequently used idioms, greeting styles, and emoji patterns over time so AI drafts sound genuinely yours.", tags: ["Emoji Habits", "Sign-offs", "Vocabulary"] },
-        "4": { icon: "fa-bullseye", color: "emerald", bgGradient: "from-emerald-950/80 via-slate-900/90 to-teal-950/80", title: "Goal-Based Writing", desc: "Instead of guessing random words, select an objective. TypeMind generates complete, strategically framed responses optimized for that specific outcome.", tags: ["Apologize", "Negotiate", "Reject Politely"] },
+        "4": { icon: "fa-bullseye", color: "emerald", bgGradient: "from-emerald-950/80 via-slate-900/90 to-teal-950/80", title: "Goal-Based Writing", desc: "Instead of guessing random words, select an objective. Type Mind Spark generates complete, strategically framed responses optimized for that specific outcome.", tags: ["Apologize", "Negotiate", "Reject Politely"] },
         "5": { icon: "fa-wand-magic-sparkles", color: "rose", bgGradient: "from-rose-950/80 via-slate-900/90 to-pink-950/80", title: "Personal AI Studio", desc: "A built-in lightweight creative workspace accessible directly from the keyboard layer for drafting structured content without switching apps.", tags: ["LinkedIn Posts", "Emails", "AI Prompts"] },
         "6": { icon: "fa-bolt", color: "amber", bgGradient: "from-amber-950/80 via-slate-900/90 to-orange-950/80", title: "Cross-App AI Actions", desc: "Recognizes intent within natural conversation and triggers actionable workflows, turning your keyboard into an active productivity OS.", tags: ["Create Calendar Event", "Share Location"] }
       };
@@ -1013,7 +991,7 @@
             const prevBtn = document.querySelector(`.apple-tab-btn[data-feature="${currentActiveTabId}"]`);
             const prevRect = prevBtn.getBoundingClientRect(), stageRect = document.getElementById('stage-column').getBoundingClientRect();
             const relativeY = prevRect.top - stageRect.top + (prevRect.height / 2) - 200;
-            gsap.to(stageCardWrapper, { x: -180, y: relativeY, scale: 0.15, opacity: 0, duration: 0.38, ease: "power3.in", onComplete: () => { if (prevBtn) { prevBtn.classList.remove('is-bulky'); prevBtn.classList.add('shimmer-burst-glow'); setTimeout(() => prevBtn.classList.remove('shimmer-burst-glow'), 1200); } birthCardFromButton(btn, targetId, targetData); } });
+            gsap.to(stageCardWrapper, { x: -80, y: relativeY, scale: 0.85, opacity: 0, duration: 0.3, ease: "power2.in", onComplete: () => { if (prevBtn) { prevBtn.classList.remove('is-bulky'); prevBtn.classList.add('shimmer-burst-glow'); setTimeout(() => prevBtn.classList.remove('shimmer-burst-glow'), 1200); } birthCardFromButton(btn, targetId, targetData); } });
           } else { birthCardFromButton(btn, targetId, targetData); }
         });
       });
@@ -1026,7 +1004,7 @@
         const relativeY = btnRect.top - stageRect.top + (btnRect.height / 2) - 200;
         stageCardWrapper.innerHTML = renderCardHTML(targetData);
         stageCardWrapper.style.display = 'block';
-        gsap.fromTo(stageCardWrapper, { x: -180, y: relativeY, scale: 0.15, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.35)" });
+        gsap.fromTo(stageCardWrapper, { x: -80, y: relativeY, scale: 0.85, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.2)" });
         currentActiveTabId = targetId;
       }
 
@@ -1366,41 +1344,44 @@
       }, { passive: true });
 
       // ── FLUID BUTTERY DYNAMIC ISLAND BEHAVIOR ENGINE ──
-      const navIsland = document.getElementById('dynamic-island-nav'), navIslandWrapper = document.getElementById('nav-island-wrapper'), compactBadge = document.getElementById('compact-badge');
-      let isHovered = false, idleTimer = null;
+      const navIsland = document.getElementById('dynamic-island-nav'), navIslandWrapper = document.getElementById('nav-island-wrapper');
+      let isIslandHovered = false, islandTimeout = null;
       
       function expandIsland() {
         if (!navIsland) return;
         navIsland.classList.remove('is-collapsed');
-        gsap.to(navIsland, { scale: 1.01, duration: 0.35, ease: "back.out(2)", onComplete: () => gsap.to(navIsland, { scale: 1, duration: 0.3 }) });
       }
       
       function collapseIsland() {
-        if (!isHovered && window.scrollY > 80 && navIsland) {
-          navIsland.classList.add('is-collapsed');
-          gsap.to(navIsland, { scale: 0.98, duration: 0.3, ease: "power2.out", onComplete: () => gsap.to(navIsland, { scale: 1, duration: 0.3 }) });
-        }
+        if (!navIsland || window.scrollY <= 80 || isIslandHovered) return;
+        navIsland.classList.add('is-collapsed');
       }
       
-      if (navIsland && navIslandWrapper) {
-        navIslandWrapper.addEventListener('mouseenter', () => { isHovered = true; expandIsland(); });
-        navIslandWrapper.addEventListener('mouseleave', () => { isHovered = false; if (window.scrollY > 80) idleTimer = setTimeout(collapseIsland, 400); });
+      if (navIslandWrapper) {
+        navIslandWrapper.addEventListener('mouseenter', () => { 
+          isIslandHovered = true; 
+          clearTimeout(islandTimeout);
+          expandIsland(); 
+        });
+        navIslandWrapper.addEventListener('mouseleave', () => { 
+          isIslandHovered = false; 
+          if (window.scrollY > 80) {
+            islandTimeout = setTimeout(collapseIsland, 400); 
+          }
+        });
       }
       
       window.addEventListener('scroll', () => {
-        clearTimeout(idleTimer);
         if (window.scrollY > 80) {
-          if (!isHovered && !navIsland.classList.contains('is-collapsed')) {
-            navIsland.classList.add('is-collapsed');
-            gsap.to(navIsland, { scale: 0.98, duration: 0.3, ease: "power2.out", onComplete: () => gsap.to(navIsland, { scale: 1, duration: 0.3 }) });
+          if (!isIslandHovered) {
+             collapseIsland();
           }
-          idleTimer = setTimeout(() => { if (!isHovered) expandIsland(); }, 2200);
         } else {
           expandIsland();
         }
       }, { passive: true });
 
-      const sections = document.querySelectorAll('section[id]'), navLinks = document.querySelectorAll('.nav-link');
+      const sections = document.querySelectorAll('section[id]'), navLinks = document.querySelectorAll('.nav-link'), compactBadge = document.getElementById('compact-badge');
       const sectionObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
