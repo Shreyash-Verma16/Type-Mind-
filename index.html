@@ -1133,8 +1133,7 @@ if (themeToggleBtn) {
 
     const isGoingDark = !isDark;
     
-    // GUARANTEED ORIGIN FIX: Use the exact mouse/tap coordinates from the event.
-    // Fallback to button center only if triggered via keyboard navigation.
+    // Capture the exact mouse/tap coordinates
     const rect = themeToggleBtn.getBoundingClientRect();
     const originX = e.clientX || (rect.left + rect.width / 2);
     const originY = e.clientY || (rect.top + rect.height / 2);
@@ -1144,72 +1143,111 @@ if (themeToggleBtn) {
       Math.max(originY, window.innerHeight - originY)
     );
 
-    // Globally pause all CSS transitions so the snapshot is pristine
+    // Globally pause all CSS transitions for a pristine snapshot
     const freezeStyles = document.createElement('style');
     freezeStyles.innerHTML = `* { transition: none !important; }`;
     document.head.appendChild(freezeStyles);
 
-    // Generate unique animation IDs to prevent caching glitches
     const uid = Date.now();
     const animStyles = document.createElement('style');
     
-    // Move all heavy lifting to the GPU (Compositor Thread) via pure CSS
-    animStyles.innerHTML = `
+    let transitionCSS = `
       ::view-transition-old(root),
       ::view-transition-new(root) {
         animation: none;
         mix-blend-mode: normal;
       }
-      ::view-transition-old(root) { z-index: 1; }
-      ::view-transition-new(root) {
-        z-index: 2;
-        clip-path: circle(0px at ${originX}px ${originY}px);
-        animation: theme-sweep-${uid} 1.3s cubic-bezier(0.25, 1, 0.3, 1) forwards;
-      }
-      @keyframes theme-sweep-${uid} {
-        to { clip-path: circle(${maxRadius}px at ${originX}px ${originY}px); }
-      }
-      .smooth-glow-ring {
-        position: fixed;
-        top: ${originY}px;
-        left: ${originX}px;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9999999;
-        width: 0px;
-        height: 0px;
-        opacity: 1;
-        will-change: width, height, opacity;
-        animation: ring-expand-${uid} 1.3s cubic-bezier(0.25, 1, 0.3, 1) forwards;
-        ${isGoingDark 
-          ? 'box-shadow: 0 0 50px 10px rgba(56, 189, 248, 0.4), inset 0 0 20px 2px rgba(56, 189, 248, 0.8); border: 2px solid rgba(56, 189, 248, 1);'
-          : 'box-shadow: 0 0 50px 10px rgba(245, 158, 11, 0.3), inset 0 0 20px 2px rgba(245, 158, 11, 0.8); border: 2px solid rgba(245, 158, 11, 1);'}
-      }
-      @keyframes ring-expand-${uid} {
-        to { width: ${maxRadius * 2}px; height: ${maxRadius * 2}px; opacity: 0; }
-      }
     `;
+
+    if (isGoingDark) {
+      // LIGHT -> DARK: The old Light theme collapses inward, revealing Dark from the edges
+      transitionCSS += `
+        ::view-transition-old(root) {
+          z-index: 2;
+          clip-path: circle(${maxRadius}px at ${originX}px ${originY}px);
+          animation: sweep-in-${uid} 1.3s cubic-bezier(0.25, 1, 0.3, 1) forwards;
+        }
+        ::view-transition-new(root) { z-index: 1; }
+        
+        @keyframes sweep-in-${uid} {
+          to { clip-path: circle(0px at ${originX}px ${originY}px); }
+        }
+        
+        .smooth-glow-ring {
+          position: fixed;
+          top: ${originY}px;
+          left: ${originX}px;
+          transform: translate(-50%, -50%);
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 9999999;
+          width: ${maxRadius * 2}px;
+          height: ${maxRadius * 2}px;
+          opacity: 0;
+          box-shadow: 0 0 50px 10px rgba(56, 189, 248, 0.4), inset 0 0 20px 2px rgba(56, 189, 248, 0.8);
+          border: 2px solid rgba(56, 189, 248, 1);
+          animation: ring-shrink-${uid} 1.3s cubic-bezier(0.25, 1, 0.3, 1) forwards;
+        }
+        
+        @keyframes ring-shrink-${uid} {
+          0% { width: ${maxRadius * 2}px; height: ${maxRadius * 2}px; opacity: 0; }
+          15% { opacity: 1; }
+          100% { width: 0px; height: 0px; opacity: 1; }
+        }
+      `;
+    } else {
+      // DARK -> LIGHT: The new Light theme expands outward from the icon
+      transitionCSS += `
+        ::view-transition-old(root) { z-index: 1; }
+        ::view-transition-new(root) {
+          z-index: 2;
+          clip-path: circle(0px at ${originX}px ${originY}px);
+          animation: sweep-out-${uid} 1.3s cubic-bezier(0.25, 1, 0.3, 1) forwards;
+        }
+        
+        @keyframes sweep-out-${uid} {
+          to { clip-path: circle(${maxRadius}px at ${originX}px ${originY}px); }
+        }
+        
+        .smooth-glow-ring {
+          position: fixed;
+          top: ${originY}px;
+          left: ${originX}px;
+          transform: translate(-50%, -50%);
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 9999999;
+          width: 0px;
+          height: 0px;
+          opacity: 1;
+          box-shadow: 0 0 50px 10px rgba(245, 158, 11, 0.3), inset 0 0 20px 2px rgba(245, 158, 11, 0.8);
+          border: 2px solid rgba(245, 158, 11, 1);
+          animation: ring-expand-${uid} 1.3s cubic-bezier(0.25, 1, 0.3, 1) forwards;
+        }
+        
+        @keyframes ring-expand-${uid} {
+          to { width: ${maxRadius * 2}px; height: ${maxRadius * 2}px; opacity: 0; }
+        }
+      `;
+    }
+
+    animStyles.innerHTML = transitionCSS;
     document.head.appendChild(animStyles);
 
-    // Attach the glowing edge
     const glowEdge = document.createElement('div');
     glowEdge.className = 'smooth-glow-ring';
     document.body.appendChild(glowEdge);
 
-    // Execute hardware-accelerated transition
     if (document.startViewTransition) {
       const transition = document.startViewTransition(() => {
         updateTheme(isGoingDark);
       });
-
-      // Clean up instantly when finished to prevent lag
       await transition.finished;
     } else {
       updateTheme(isGoingDark);
     }
 
-    // Cleanup artifacts & restore normal CSS behavior
+    // Cleanup
     freezeStyles.remove();
     animStyles.remove();
     glowEdge.remove();
@@ -1217,7 +1255,6 @@ if (themeToggleBtn) {
     isThemeAnimating = false;
   });
 }
-
       function unlockHeroAndWebsite() {
         if (canvasContainer) { canvasContainer.classList.add('canvas-active'); }
         const tlHero = gsap.timeline();
