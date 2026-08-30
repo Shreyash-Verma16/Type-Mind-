@@ -59,8 +59,8 @@
       --badge-bg: rgba(255, 255, 255, 0.95);
       --badge-border: rgba(245, 158, 11, 0.5);
       --badge-shadow: 0 8px 25px rgba(245, 158, 11, 0.22);
-      --canvas-blend: multiply;
-      --canvas-filter: blur(12px) saturate(220%) contrast(130%);
+      --canvas-blend: normal;
+      --canvas-filter: blur(6px) saturate(280%) contrast(110%);
       --butter-ease: cubic-bezier(0.16, 1, 0.3, 1);
       --spring-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
       --glow-shadow: rgba(56, 189, 248, 0.35);
@@ -90,14 +90,14 @@
       --card-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.35);
     }
 
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      transition: background-color 0.5s ease, color 0.5s ease;
-    }
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 1.2s cubic-bezier(0.22, 1, 0.36, 1), color 0.8s ease;
+}
 
     .tactile-grain { position: relative; }
     .tactile-grain::after {
@@ -122,7 +122,7 @@
       mask-image: radial-gradient(ellipse 90% 70% at 50% 45%, transparent 35%, rgba(0,0,0,0.65) 75%, black 100%);
       -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 45%, transparent 35%, rgba(0,0,0,0.65) 75%, black 100%);
       transition: opacity 3.5s cubic-bezier(0.16, 1, 0.3, 1), transform 3.5s cubic-bezier(0.16, 1, 0.3, 1), filter 3.5s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity, transform, filter;
+      will-change: opacity, transform;
     }
     
     #canvas-container.canvas-active {
@@ -142,6 +142,7 @@
       filter: var(--canvas-filter);
       mix-blend-mode: var(--canvas-blend);
       transition: filter 0.5s ease;
+      will-change: transform;
     }
 
     .hero-siri-shimmer {
@@ -253,7 +254,7 @@
     .fluid-hero-text { font-size: clamp(2.2rem, 5.5vw, 5rem); }
 
     .spotlight-card { position: relative; overflow: hidden; --mouse-x: 50%; --mouse-y: 50%; backdrop-filter: blur(45px) saturate(200%); -webkit-backdrop-filter: blur(45px) saturate(200%); border: 1px solid var(--card-border); box-shadow: var(--card-shadow); transform: translateY(0px) translateZ(0); transition: transform 0.5s var(--butter-ease), border-color 0.4s ease, box-shadow 0.5s var(--butter-ease); will-change: transform; backface-visibility: hidden; }
-    .spotlight-card:hover { transform: translateY(-8px) translateZ(0); box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.2), 0 0 50px var(--hover-glow, rgba(56, 189, 248, 0.25)); border-color: var(--hover-border, rgba(56, 189, 248, 0.85)) !important; }
+    .spotlight-card:hover { transform: translateY(-8px) translateZ(0); box-shadow: 0 45px 90px -15px rgba(15, 23, 42, 0.15), 0 0 50px var(--hover-glow, rgba(56, 189, 248, 0.45)); border-color: var(--hover-border, rgba(56, 189, 248, 1)) !important; }
     html.dark .spotlight-card:hover { box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.95), inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 0 50px var(--hover-glow, rgba(56, 189, 248, 0.35)); }
     .spotlight-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.2), transparent 45%); z-index: 1; pointer-events: none; opacity: 0; transition: opacity 0.5s var(--butter-ease); }
     .spotlight-card:hover::before { opacity: 1; }
@@ -263,7 +264,7 @@
     
     .apple-tab-btn { width: 100%; text-align: left; padding: 16px 22px; border-radius: 20px; background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0, 0, 0, 0.08); color: #334155; font-weight: 600; font-size: 1.05rem; display: flex; align-items: center; justify-content: space-between; transition: all 0.4s var(--spring-ease); position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); }
     html.dark .apple-tab-btn { background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.08); color: #94a3b8; box-shadow: none; }
-    .apple-tab-btn:hover { background: rgba(255, 255, 255, 0.95); color: #0f172a; border-color: rgba(56, 189, 248, 0.4); transform: translateX(6px); }
+    .apple-tab-btn:hover { background: #f1f5f9; color: #0f172a; border-color: rgba(56, 189, 248, 0.8); transform: translateX(6px); }
     html.dark .apple-tab-btn:hover { background: rgba(255, 255, 255, 0.08); color: #f8fafc; border-color: rgba(255, 255, 255, 0.25); }
     .apple-tab-btn.is-bulky { transform: scale(1.04) translateX(14px) !important; padding: 22px 28px !important; background: linear-gradient(135deg, rgba(56, 189, 248, 0.25) 0%, rgba(192, 132, 252, 0.15) 100%) !important; border-color: rgba(56, 189, 248, 0.85) !important; color: #0f172a !important; box-shadow: 0 15px 35px rgba(56, 189, 248, 0.25) !important; z-index: 30; }
     html.dark .apple-tab-btn.is-bulky { background: linear-gradient(135deg, rgba(56, 189, 248, 0.35) 0%, rgba(192, 132, 252, 0.25) 100%) !important; color: #ffffff !important; box-shadow: 0 15px 45px rgba(56, 189, 248, 0.35) !important; }
@@ -325,6 +326,18 @@
     
     .flashcard-surface { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.95); box-shadow: 0 24px 50px -12px rgba(15, 23, 42, 0.12), 0 8px 16px -4px rgba(15, 23, 42, 0.04), 0 0 0 1px rgba(0, 139, 255, 0.15); transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
     html.dark .flashcard-surface { background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 24px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(0, 139, 255, 0.3); }
+  
+  /* ── DYNAMIC ISLAND SUIT-UP / THEME TRANSITION ── */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+      mix-blend-mode: normal;
+    }
+    ::view-transition-new(root) { z-index: 9999; }
+    ::view-transition-old(root) { z-index: 1; }
+
+    html.retracting::view-transition-new(root) { z-index: 1; }
+    html.retracting::view-transition-old(root) { z-index: 9999; }
   </style>
 </head>
 <body class="selection:bg-cyan-500/20">
@@ -364,7 +377,8 @@
              <svg id="splash-star-icon" viewBox="0 0 24 24" class="w-12 h-12 sm:w-16 sm:h-16 absolute z-20 origin-center text-amber-400 drop-shadow-[0_0_35px_rgba(251,191,36,0.9)]" style="opacity:0;" fill="currentColor">
                <path d="M12 0l2.5 8.5L23 12l-8.5 2.5L12 24l-2.5-8.5L1 12l8.5-2.5L12 0z"/>
              </svg>
-             <span id="splash-spark-text" class="text-5xl sm:text-7xl font-black italic drop-shadow-[0_0_35px_rgba(245,158,11,0.6)] leading-none absolute left-0 origin-left spark-electric-shimmer pb-1" style="opacity:0; transform: scale(0.5);">Spark</span>
+             <!-- Added pr-4 to prevent clipping of the italic 'k' -->
+             <span id="splash-spark-text" class="text-5xl sm:text-7xl font-black italic drop-shadow-[0_0_35px_rgba(245,158,11,0.6)] leading-none absolute left-0 origin-left spark-electric-shimmer pb-1 pr-4" style="opacity:0; transform: scale(0.5);">Spark</span>
           </div>
         </div>
         <p class="text-slate-400 text-xs sm:text-sm font-bold tracking-[0.15em] mt-2 font-mono uppercase">AI <span class="text-cyan-400 mx-1">/</span> Communication Platform</p>
@@ -430,7 +444,7 @@
           <span class="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.8)] animate-pulse"></span>
           <div class="text-xs sm:text-sm font-bold font-mono tracking-widest uppercase flex items-center gap-1.5">
             <span class="hero-siri-shimmer font-bold">~ TM</span>
-            <span class="spark-electric-shimmer font-black italic">SPARK</span>
+            <span class="spark-electric-shimmer font-black italic pr-1">SPARK</span>
           </div>
         </div>
       </div>
@@ -1109,8 +1123,100 @@
           themeIcon.className = 'fa-solid fa-moon text-sm text-slate-700';
         }
       }
+if (themeToggleBtn) {
+  let isThemeAnimating = false;
 
-      if (themeToggleBtn) { themeToggleBtn.addEventListener('click', () => { updateTheme(!isDark); }); }
+  themeToggleBtn.addEventListener('click', async (e) => {
+    if (isThemeAnimating) return;
+    isThemeAnimating = true;
+    themeToggleBtn.style.pointerEvents = 'none';
+
+    const isGoingDark = !isDark;
+    
+    // GUARANTEED ORIGIN FIX: Use the exact mouse/tap coordinates from the event.
+    // Fallback to button center only if triggered via keyboard navigation.
+    const rect = themeToggleBtn.getBoundingClientRect();
+    const originX = e.clientX || (rect.left + rect.width / 2);
+    const originY = e.clientY || (rect.top + rect.height / 2);
+
+    const maxRadius = Math.hypot(
+      Math.max(originX, window.innerWidth - originX),
+      Math.max(originY, window.innerHeight - originY)
+    );
+
+    // Globally pause all CSS transitions so the snapshot is pristine
+    const freezeStyles = document.createElement('style');
+    freezeStyles.innerHTML = `* { transition: none !important; }`;
+    document.head.appendChild(freezeStyles);
+
+    // Generate unique animation IDs to prevent caching glitches
+    const uid = Date.now();
+    const animStyles = document.createElement('style');
+    
+    // Move all heavy lifting to the GPU (Compositor Thread) via pure CSS
+    animStyles.innerHTML = `
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation: none;
+        mix-blend-mode: normal;
+      }
+      ::view-transition-old(root) { z-index: 1; }
+      ::view-transition-new(root) {
+        z-index: 2;
+        clip-path: circle(0px at ${originX}px ${originY}px);
+        animation: theme-sweep-${uid} 1.3s cubic-bezier(0.25, 1, 0.3, 1) forwards;
+      }
+      @keyframes theme-sweep-${uid} {
+        to { clip-path: circle(${maxRadius}px at ${originX}px ${originY}px); }
+      }
+      .smooth-glow-ring {
+        position: fixed;
+        top: ${originY}px;
+        left: ${originX}px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999999;
+        width: 0px;
+        height: 0px;
+        opacity: 1;
+        will-change: width, height, opacity;
+        animation: ring-expand-${uid} 1.3s cubic-bezier(0.25, 1, 0.3, 1) forwards;
+        ${isGoingDark 
+          ? 'box-shadow: 0 0 50px 10px rgba(56, 189, 248, 0.4), inset 0 0 20px 2px rgba(56, 189, 248, 0.8); border: 2px solid rgba(56, 189, 248, 1);'
+          : 'box-shadow: 0 0 50px 10px rgba(245, 158, 11, 0.3), inset 0 0 20px 2px rgba(245, 158, 11, 0.8); border: 2px solid rgba(245, 158, 11, 1);'}
+      }
+      @keyframes ring-expand-${uid} {
+        to { width: ${maxRadius * 2}px; height: ${maxRadius * 2}px; opacity: 0; }
+      }
+    `;
+    document.head.appendChild(animStyles);
+
+    // Attach the glowing edge
+    const glowEdge = document.createElement('div');
+    glowEdge.className = 'smooth-glow-ring';
+    document.body.appendChild(glowEdge);
+
+    // Execute hardware-accelerated transition
+    if (document.startViewTransition) {
+      const transition = document.startViewTransition(() => {
+        updateTheme(isGoingDark);
+      });
+
+      // Clean up instantly when finished to prevent lag
+      await transition.finished;
+    } else {
+      updateTheme(isGoingDark);
+    }
+
+    // Cleanup artifacts & restore normal CSS behavior
+    freezeStyles.remove();
+    animStyles.remove();
+    glowEdge.remove();
+    themeToggleBtn.style.pointerEvents = 'auto';
+    isThemeAnimating = false;
+  });
+}
 
       function unlockHeroAndWebsite() {
         if (canvasContainer) { canvasContainer.classList.add('canvas-active'); }
@@ -1168,7 +1274,8 @@
 
         function drawContinuousSilkLayer(layerIndex, totalLayers, speed, ampMultiplier, alpha, phaseShift) {
           ctx.save(); ctx.beginPath();
-          const stepCount = 65, layerDepthZ = (layerIndex / totalLayers) * 380, layerYOffset = (layerIndex / totalLayers) * 115, points = [];
+          // Lowered step count from 65 to 50 for smoother animation rendering
+          const stepCount = 50, layerDepthZ = (layerIndex / totalLayers) * 380, layerYOffset = (layerIndex / totalLayers) * 115, points = [];
           for (let i = 0; i <= stepCount; i++) {
             const u = (i / stepCount) * 2 - 1, worldX = u * (width * 0.74);
             const uDip = (Math.pow(Math.abs(u), 1.85) * -380) + ((1 - Math.pow(Math.abs(u), 2.2)) * 280);
@@ -1186,7 +1293,7 @@
           if (!isDark) { grad.addColorStop(0.0, '#00d2ff'); grad.addColorStop(0.25, '#7c3aed'); grad.addColorStop(0.50, '#d946ef'); grad.addColorStop(0.75, '#06b6d4'); grad.addColorStop(1.0, '#8b5cf6'); } 
           else { grad.addColorStop(0.0, '#00f0ff'); grad.addColorStop(0.25, '#8b5cf6'); grad.addColorStop(0.50, '#f43f5e'); grad.addColorStop(0.75, '#0284c7'); grad.addColorStop(1.0, '#c026d3'); }
 
-          ctx.fillStyle = grad; ctx.globalAlpha = alpha; ctx.fill(); ctx.strokeStyle = !isDark ? 'rgba(255, 255, 255, 0.45)' : 'rgba(255, 255, 255, 0.7)'; ctx.lineWidth = 1.2; ctx.stroke(); ctx.restore();
+          ctx.fillStyle = grad; ctx.globalAlpha = alpha; ctx.fill(); ctx.strokeStyle = !isDark ? 'rgba(15, 23, 42, 0.15)' : 'rgba(255, 255, 255, 0.7)'; ctx.lineWidth = 1.2; ctx.stroke(); ctx.restore();
         }
 
         function drawAmbientGlowNode(xRatio, yRatio, radius, color, speedX, speedY, alpha) {
@@ -1201,25 +1308,30 @@
           else { drawAmbientGlowNode(0.12, 0.75, 520, '#00f0ff', 0.6, 0.4, 0.85); drawAmbientGlowNode(0.50, 0.88, 560, '#8b5cf6', 0.5, 0.6, 0.80); drawAmbientGlowNode(0.88, 0.75, 520, '#f43f5e', 0.6, 0.5, 0.85); }
           const ribbonCount = 18;
           for (let i = ribbonCount - 1; i >= 0; i--) {
-            const alpha = !isDark ? 0.18 + (i / ribbonCount) * 0.26 : 0.22 + (i / ribbonCount) * 0.30, amp = 0.92 + (i % 3) * 0.24, speed = 0.95 + (i * 0.065), phaseShift = (i / ribbonCount) * Math.PI * 0.8;
+            const alpha = !isDark ? 0.35 + (i / ribbonCount) * 0.35 : 0.22 + (i / ribbonCount) * 0.30, amp = 0.92 + (i % 3) * 0.24, speed = 0.95 + (i * 0.065), phaseShift = (i / ribbonCount) * Math.PI * 0.8;
             drawContinuousSilkLayer(i, ribbonCount, speed, amp, alpha, phaseShift);
           }
           requestAnimationFrame(render3DScene);
         }
         render3DScene();
       }
-
-      const tidalHeadings = document.querySelectorAll('.tidal-heading');
+const tidalHeadings = document.querySelectorAll('.tidal-heading');
       function startTidalBreathingLoop() {
-        const flowDuration = 5500, recedeDuration = 3800;
+        const flowDuration = 15000; // Visible state lasts 15 seconds
+        const recedeDuration = 4000; // Disappeared/receded state lasts 4 seconds
+        
         function cycleTide() {
           if (canvasContainer) canvasContainer.classList.add('water-recede');
           tidalHeadings.forEach(h => h.classList.add('is-shining'));
-          setTimeout(() => { if (canvasContainer) canvasContainer.classList.remove('water-recede'); tidalHeadings.forEach(h => h.classList.remove('is-shining')); }, recedeDuration);
+          
+          setTimeout(() => { 
+            if (canvasContainer) canvasContainer.classList.remove('water-recede'); 
+            tidalHeadings.forEach(h => h.classList.remove('is-shining')); 
+          }, recedeDuration);
         }
+        
         setInterval(cycleTide, flowDuration + recedeDuration);
       }
-
       // ── SECTION 02: DYNAMIC ISLAND BREATH & SPAWN DROP ENGINE ──
       let hasSection02Played = false;
       const section02Observer = new IntersectionObserver((entries) => {
