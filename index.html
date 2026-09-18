@@ -1055,21 +1055,107 @@ body {
   </section>
 
   <!-- ================= PHASE 10: HIGH CONTRAST BOLD FOOTER ================= -->
-  <footer class="py-12 border-t border-slate-300 dark:border-white/15 text-center text-xs font-mono relative z-10 bg-slate-100/90 dark:bg-slate-950/90 backdrop-blur-md">
+  <footer id="site-footer" class="py-12 border-t border-slate-300 dark:border-white/15 text-center text-xs font-mono relative z-10 bg-slate-100/90 dark:bg-slate-950/90 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
       <div class="flex items-center gap-3 footer-bold-text text-sm">
         <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-400 to-blue-600 p-0.5 flex items-center justify-center text-white shadow-md"><span class="font-mono text-[11px] font-black">TM</span></div>
         <span class="tracking-wide">Type Mind Spark Platform</span>
       </div>
       <p class="footer-sub-text text-xs tracking-normal">© 2026 Type Mind Spark. Engineered as a high-performance communication OS.</p>
+      
+      <!-- Legal Links (Triggers Modal) -->
       <div class="flex gap-6">
-        <a href="#privacy" class="footer-link">Security</a>
-        <a href="#features" class="footer-link">Features</a>
-        <a href="#download" class="footer-link">Download Hub</a>
+        <button onclick="openLegalModal('privacy')" class="footer-link hover:text-cyan-500 transition-colors uppercase tracking-wider">Privacy Policy</button>
+        <button onclick="openLegalModal('terms')" class="footer-link hover:text-cyan-500 transition-colors uppercase tracking-wider">Terms of Service</button>
       </div>
     </div>
   </footer>
 
+  <!-- Floating Legal Reminder Bubble -->
+  <div id="legal-reminder-bubble" class="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-[9000] max-w-sm w-[calc(100%-3rem)] bg-slate-900/95 dark:bg-slate-800/95 backdrop-blur-xl border border-cyan-500/30 shadow-[0_15px_40px_rgba(0,0,0,0.4),0_0_20px_rgba(56,189,248,0.15)] rounded-2xl p-4 sm:p-5 transform translate-y-24 opacity-0 pointer-events-none flex flex-col gap-3 transition-colors">
+    <div class="flex items-start justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 p-[1px] shrink-0 shadow-sm">
+          <div class="w-full h-full bg-slate-900 rounded-full flex items-center justify-center text-cyan-400 text-sm">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-sm font-bold text-white font-sans tracking-tight">Before you start</h4>
+          <p class="text-[11px] text-slate-300 mt-0.5 leading-relaxed">Please review our privacy practices and terms before exploring the prototype.</p>
+        </div>
+      </div>
+      <button id="close-legal-bubble" class="text-slate-500 hover:text-white transition-colors shrink-0 p-1 active:scale-95">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="flex items-center gap-2 pt-3 border-t border-white/10 mt-1">
+      <button onclick="openLegalModal('privacy')" class="flex-1 text-[11px] font-mono font-bold text-cyan-400 hover:text-slate-900 bg-cyan-500/10 hover:bg-cyan-400 px-3 py-2 rounded-xl transition-all shadow-sm">Read Privacy</button>
+      <button onclick="openLegalModal('terms')" class="flex-1 text-[11px] font-mono font-bold text-slate-300 hover:text-slate-900 bg-white/5 hover:bg-white px-3 py-2 rounded-xl transition-all shadow-sm">Terms of Service</button>
+    </div>
+  </div>
+
+  <!-- Hidden Legal Modal Box -->
+  <div id="legal-modal" class="fixed inset-0 z-[999999] opacity-0 pointer-events-none flex items-center justify-center p-4 sm:p-8 backdrop-blur-md bg-slate-900/60 transition-opacity duration-500">
+    <div id="legal-modal-scale" class="w-full max-w-3xl max-h-[85vh] bg-white dark:bg-[#0f172a] rounded-[32px] shadow-2xl border border-slate-200 dark:border-white/10 flex flex-col overflow-hidden transform scale-95">
+      
+      <div class="px-8 py-5 border-b border-slate-100 dark:border-white/10 flex justify-between items-center bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl z-10 sticky top-0">
+        <h3 id="legal-title" class="text-xl font-bold text-slate-900 dark:text-white font-sans tracking-tight">Legal</h3>
+        <button onclick="closeLegalModal()" class="w-8 h-8 rounded-full bg-slate-200 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:bg-slate-300 dark:hover:bg-white/20 transition-colors active:scale-95"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <div class="p-8 overflow-y-auto font-sans relative" data-lenis-prevent>
+        
+        <!-- PRIVACY CONTENT -->
+        <div id="privacy-content" class="hidden">
+          <p class="font-mono text-xs uppercase tracking-widest text-cyan-600 dark:text-cyan-400 font-bold mb-6">Last updated: September 5, 2026</p>
+          <p class="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">Welcome to TypeMind Spark. TypeMind Spark is currently a technology prototype being developed to explore a more context-aware and personalized way of interacting with AI through a keyboard.</p>
+          <p class="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">This Privacy Policy explains what information is handled when you visit the TypeMind Spark website, use its available prototype features, or send us feedback. Because TypeMind Spark is still under development, some features shown on the website are demonstrations or concepts and are not currently connected to real applications or production systems.</p>
+
+          <h4 class="text-[15px] font-bold text-slate-900 dark:text-white mt-8 mb-2">1. Information We Collect</h4>
+          <p class="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">We currently keep the amount of information collected through the website as limited as possible. When you visit TypeMind Spark, basic technical information may be collected automatically. This can include: IP address, Browser type, Operating system, Device or request information, and Basic information about how the website is accessed. We use this information primarily to understand website traffic, distinguish normal visitors from automated traffic, maintain the website, and identify technical issues.</p>
+
+          <h4 class="text-[15px] font-bold text-slate-900 dark:text-white mt-8 mb-2">2. Information You Send to the AI Features</h4>
+          <p class="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">Some features on the TypeMind Spark website allow you to test AI functionality without signing in. When you use one of these features, the text or information you provide for that particular feature is sent to the AI service required to generate the response. Depending on the feature being tested, these services may include: Google Gemini, xAI Grok, or Kimi. Please do not enter passwords, payment information, highly sensitive personal information, or information belonging to another person into the prototype.</p>
+
+          <h4 class="text-[15px] font-bold text-slate-900 dark:text-white mt-8 mb-2">3. We Do Not Currently Store Your AI Conversations</h4>
+          <p class="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">The current TypeMind Spark website prototype does not maintain a conversation history or database containing your AI testing conversations. When you leave or close the website, temporary session information used by the prototype is deleted.</p>
+
+          <h4 class="text-[15px] font-bold text-slate-900 dark:text-white mt-8 mb-2">4. Temporary Session Information</h4>
+          <p class="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">The prototype may create temporary information during your visit, including a short-term session identifier associated with your visit. It is not the same thing as the planned Personal AI Memory feature. The current prototype does not permanently store a personal profile or Personal AI Memory for you.</p>
+
+          <h4 class="text-[15px] font-bold text-slate-900 dark:text-white mt-8 mb-2">5. Feedback & Cookies</h4>
+          <p class="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">The website contains a Feedback page where you can voluntarily contact us. We may retain these messages in our email account for as long as reasonably necessary. The current TypeMind Spark website does not intentionally use cookies for advertising or user profiling.</p>
+
+          <h4 class="text-[15px] font-bold text-slate-900 dark:text-white mt-8 mb-2">6. Hosting & Third-Party AI Services</h4>
+          <p class="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">TypeMind Spark is currently hosted using Vercel. TypeMind Spark currently uses third-party AI services. Because these services operate independently, their data handling, retention, and processing practices may differ from ours.</p>
+
+          <p class="text-[11px] font-mono text-slate-500 mt-12 border-t border-slate-200 dark:border-white/10 pt-4">© 2026 TypeMind Spark. All rights reserved.</p>
+        </div>
+
+        <!-- TERMS CONTENT -->
+        <div id="terms-content" class="hidden">
+          <p class="font-mono text-xs uppercase tracking-widest text-cyan-600 dark:text-cyan-400 font-bold mb-6">Last updated: September 5, 2026</p>
+          <p class="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">Welcome to TypeMind Spark. These Terms & Conditions explain the rules for using the TypeMind Spark website and its available prototype features. By accessing or using the website, you agree to these Terms.</p>
+
+          <h4 class="text-[15px] font-bold text-slate-900 dark:text-white mt-8 mb-2">1. Prototype Status</h4>
+          <p class="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">TypeMind Spark is not currently a finished commercial product. Some features shown on the website are demonstrations rather than fully integrated production features. Interfaces showing applications such as WhatsApp, LinkedIn, Gmail, Calendar, or other services may be simulated interfaces. Features may change, be redesigned, delayed, or removed as development continues.</p>
+
+          <h4 class="text-[15px] font-bold text-slate-900 dark:text-white mt-8 mb-2">2. AI Features & Appropriate Use</h4>
+          <p class="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">The website currently provides certain features that use external AI services. AI-generated results can sometimes be inaccurate. You are responsible for reviewing AI-generated content before relying on it. You must not intentionally use the website to break applicable laws, attack/damage the website, attempt unauthorized access, introduce malware, abuse AI testing features, interfere with others, or impersonate TypeMind Spark.</p>
+
+          <h4 class="text-[15px] font-bold text-slate-900 dark:text-white mt-8 mb-2">3. Intellectual Property</h4>
+          <p class="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">The TypeMind Spark project includes original branding, visual design, written material, interfaces, and code. These materials remain the property of their respective owner. You may not use the TypeMind Spark name or logo in a way that suggests you own the project, created the official product, or have received endorsement.</p>
+
+          <h4 class="text-[15px] font-bold text-slate-900 dark:text-white mt-8 mb-2">4. Limitations & Third-Party Services</h4>
+          <p class="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">TypeMind Spark may depend on third-party services. We are not responsible for failures or changes originating from third-party services. To the maximum extent permitted by applicable law, TypeMind Spark and its creator will not be responsible for indirect or consequential losses arising from your use of, or inability to use, the website or prototype.</p>
+
+          <p class="text-[11px] font-mono text-slate-500 mt-12 border-t border-slate-200 dark:border-white/10 pt-4">© 2026 TypeMind Spark. All rights reserved.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
   <!-- ================= MASTER CHOREOGRAPHY & VOLUMETRIC ENGINE ================= -->
   <script>
     // --- Initialize Lenis Smooth Scrolling ---
@@ -1647,6 +1733,71 @@ const tidalHeadings = document.querySelectorAll('.tidal-heading');
 
       window.addEventListener('resize', () => drawWires(null));
       drawWires(null);
+    
+    // --- LEGAL MODAL & NOTIFICATION BUBBLE LOGIC ---
+      const legalModal = document.getElementById('legal-modal');
+      const legalModalScale = document.getElementById('legal-modal-scale');
+      const legalTitle = document.getElementById('legal-title');
+      const privacyContent = document.getElementById('privacy-content');
+      const termsContent = document.getElementById('terms-content');
+      const legalBubble = document.getElementById('legal-reminder-bubble');
+      const closeBubbleBtn = document.getElementById('close-legal-bubble');
+      let hasBubbleShown = false;
+
+      // Function to open the Modal
+      window.openLegalModal = function(type) {
+        if (type === 'privacy') {
+          legalTitle.textContent = 'Privacy Policy';
+          privacyContent.classList.remove('hidden');
+          termsContent.classList.add('hidden');
+        } else {
+          legalTitle.textContent = 'Terms & Conditions';
+          privacyContent.classList.add('hidden');
+          termsContent.classList.remove('hidden');
+        }
+        
+        legalModal.classList.remove('pointer-events-none');
+        gsap.to(legalModal, { opacity: 1, duration: 0.4, ease: "power2.out" });
+        gsap.fromTo(legalModalScale, { scale: 0.95, y: 30 }, { scale: 1, y: 0, duration: 0.5, ease: "back.out(1.5)" });
+        if (typeof lenis !== 'undefined') lenis.stop(); 
+        
+        // Hide the bubble if they clicked it to open the modal
+        if (legalBubble && !legalBubble.classList.contains('pointer-events-none')) {
+          closeBubbleBtn.click();
+        }
+      };
+
+      // Function to close the Modal
+      window.closeLegalModal = function() {
+        gsap.to(legalModal, { opacity: 0, duration: 0.3, ease: "power2.in", onComplete: () => {
+          legalModal.classList.add('pointer-events-none');
+          if (typeof lenis !== 'undefined') lenis.start(); 
+        }});
+        gsap.to(legalModalScale, { scale: 0.95, y: 15, duration: 0.3, ease: "power2.in" });
+      };
+
+      // Trigger the Bubble when scrolling to the Footer
+      ScrollTrigger.create({
+        trigger: "#site-footer",
+        start: "top 95%", // When the footer enters the bottom 5% of the screen
+        onEnter: () => {
+          if (!hasBubbleShown && legalBubble) {
+            hasBubbleShown = true;
+            legalBubble.classList.remove('pointer-events-none');
+            gsap.to(legalBubble, { y: 0, opacity: 1, duration: 0.6, ease: "back.out(1.5)" });
+          }
+        }
+      });
+
+      // Close the Bubble
+      if (closeBubbleBtn) {
+        closeBubbleBtn.addEventListener('click', () => {
+          gsap.to(legalBubble, { 
+            y: 30, opacity: 0, scale: 0.95, duration: 0.3, ease: "power2.in", 
+            onComplete: () => { legalBubble.classList.add('pointer-events-none'); }
+          });
+        });
+      }
 
     });
   </script>
