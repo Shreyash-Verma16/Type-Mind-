@@ -1,12 +1,31 @@
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
+  // Allow CORS / preflight requests if needed
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, message: 'Method Not Allowed' });
   }
 
-  const { email, platform, plan_tier } = req.body;
+  const { email, platform, plan_tier } = req.body || {};
 
   if (!email) {
     return res.status(400).json({ success: false, message: 'Email is required' });
+  }
+
+  const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
+  if (!accessKey) {
+    return res.status(500).json({ success: false, message: 'Access key is not configured in Vercel' });
   }
 
   try {
@@ -17,7 +36,7 @@ export default async function handler(req, res) {
         'Accept': 'application/json'
       },
       body: JSON.stringify({
-        access_key: process.env.WEB3FORMS_ACCESS_KEY,
+        access_key: accessKey,
         email: email,
         platform: platform || 'Not specified',
         plan_tier: plan_tier || 'General Early Access',
@@ -31,4 +50,4 @@ export default async function handler(req, res) {
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
-}
+};
