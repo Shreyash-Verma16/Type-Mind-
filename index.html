@@ -3385,7 +3385,8 @@
 
 
       // =========================================================
-// 11. WAITLIST MODAL & SERVERLESS EMAIL SUBMISSION
+// =========================================================
+// 11. WAITLIST MODAL & DIRECT EMAIL SUBMISSION
 // =========================================================
 const waitlistModal = document.getElementById('waitlist-modal');
 const closeWaitlistBtn = document.getElementById('close-waitlist-modal');
@@ -3396,7 +3397,6 @@ const waitlistTierInput = document.getElementById('waitlist-tier-input');
 const waitlistSubmitBtn = document.getElementById('waitlist-submit-btn');
 const waitlistError = document.getElementById('waitlist-error');
 
-// Paste your key from Step 1 here
 const WEB3FORMS_ACCESS_KEY = "52fee982-1561-47fe-bb14-2725b4e386ca";
 
 window.triggerWaitlistFlow = function(planName, actionName) {
@@ -3447,13 +3447,15 @@ window.handleWaitlistSubmit = async function(e) {
 
   try {
     const payload = {
+      access_key: WEB3FORMS_ACCESS_KEY,
       email: emailInput.value.trim(),
       platform: platformInput ? platformInput.value : 'Not specified',
-      plan_tier: tierValue
+      plan_tier: tierValue,
+      from_name: "TypeMind Spark Waitlist",
+      subject: `New Early Access Request: ${emailInput.value.trim()}`
     };
 
-    // Calls your hidden Vercel serverless function
-    const response = await fetch("/api/waitlist", {
+    const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -3485,7 +3487,6 @@ window.handleWaitlistSubmit = async function(e) {
     }
   }
 };
-
 
       // =========================================================
       // 12. LEGAL MODAL LOGIC (PRIVACY POLICY & TERMS)
