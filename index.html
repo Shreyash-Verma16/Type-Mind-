@@ -108,6 +108,15 @@
       background-color: #000000 !important;
     }
 
+        .brand-logo-circle {
+      width: 100%;
+      height: 100%;
+      border-radius: 9999px !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      aspect-ratio: 1 / 1 !important;
+      display: block;
+    }
     .tactile-grain { position: relative; }
     .tactile-grain::after {
       content: ""; position: absolute; inset: 0; width: 100%; height: 100%;
@@ -701,10 +710,10 @@
     /* CURVED BRACKET ARC ( ON LHS, ) ON RHS AS REQUESTED BY USER */
     @media (min-width: 1024px) {
       /* Left side bracket arc: ( */
-      .arc-left-0 { transform: translateX(36px); }   /* Adaptive Persona (indented) */
+      .arc-left-0 { transform: translateX(36px); }   /* Help Me Rewrite (indented) */
       .arc-left-1 { transform: translateX(12px); }   /* Live Context */
       .arc-left-2 { transform: translateX(-28px); }  /* Personal AI Memory (outer peak) */
-      .arc-left-3 { transform: translateX(-44px); }  /* Goal-Based Writing (apex outer peak) */
+      .arc-left-3 { transform: translateX(-44px); }  /* Thought Completion (apex outer peak) */
       .arc-left-4 { transform: translateX(-18px); }  /* Personal AI Studio */
       .arc-left-5 { transform: translateX(18px); }   /* Cross-App AI Actions */
       .arc-left-6 { transform: translateX(42px); }   /* Clone Agent (indented) */
@@ -803,8 +812,8 @@
         
         <!-- Left Brand Pill -->
         <a href="#top" class="flex items-center gap-3 group click-shrink shrink-0" aria-label="TypeMind Spark Home">
-          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 p-[1.5px] flex items-center justify-center shadow-sm group-hover:rotate-12 transition-transform duration-500">
-            <div class="w-full h-full bg-slate-900 rounded-full flex items-center justify-center font-black text-[9px] text-cyan-300">TM</div>
+          <div class="w-8 h-8 rounded-full p-[1.5px] bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-600 shadow-[0_0_12px_rgba(56,189,248,0.4)] flex items-center justify-center shrink-0 group-hover:rotate-12 group-hover:scale-105 transition-transform duration-500 overflow-hidden">
+            <img src="https://i.ibb.co/VcCYBQ5h/Split-Tone-Metallic-TM-Emblem.png" alt="TypeMind Spark Logo" class="brand-logo-circle" />
           </div>
           <div>
             <span class="block text-text-primary font-bold tracking-tight leading-none text-sm sm:text-base">TypeMind</span>
@@ -1070,18 +1079,18 @@
           <div id="btk-left-column" class="lg:col-span-4 flex flex-col items-center lg:items-end gap-3.5 order-2 lg:order-1 opacity-0 pointer-events-none">
             <span class="w-full max-w-[280px] text-[11px] font-bold tracking-widest text-slate-500 uppercase text-left mb-1 pl-2 font-mono">🧠 UNDERSTANDS</span>
             
-            <div id="node-persona" class="pill-card arc-left-0 w-full max-w-[280px] h-[60px] rounded-full px-4 flex items-center gap-3.5 cursor-pointer text-slate-900 dark:text-white" data-id="persona" data-side="left">
+            <div id="node-rewrite" class="pill-card arc-left-0 w-full max-w-[280px] h-[60px] rounded-full px-4 flex items-center gap-3.5 cursor-pointer text-slate-900 dark:text-white" data-id="rewrite" data-side="left">
               <div class="w-8 h-8 rounded-full bg-slate-200/50 dark:bg-white/10 flex items-center justify-center flex-shrink-0 shadow-inner">
-                <i class="fa-solid fa-masks-theater text-xs text-cyan-400"></i>
+                <i class="fa-solid fa-pen-to-square text-xs text-cyan-400"></i>
               </div>
-              <span class="font-semibold text-xs sm:text-[13px] tracking-tight">Adaptive Persona</span>
+              <span class="font-semibold text-xs sm:text-[13px] tracking-tight">Help Me Rewrite</span>
             </div>
 
             <div id="node-context" class="pill-card arc-left-1 w-full max-w-[280px] h-[60px] rounded-full px-4 flex items-center gap-3.5 cursor-pointer text-slate-900 dark:text-white" data-id="context" data-side="left">
               <div class="w-8 h-8 rounded-full bg-slate-200/50 dark:bg-white/10 flex items-center justify-center flex-shrink-0 shadow-inner">
                 <i class="fa-solid fa-location-dot text-xs text-blue-400"></i>
               </div>
-              <span class="font-semibold text-xs sm:text-[13px] tracking-tight">Live Context</span>
+              <span class="font-semibold text-xs sm:text-[13px] tracking-tight">Live Context (LCD)</span>
             </div>
 
             <div id="node-memory" class="pill-card arc-left-2 w-full max-w-[280px] h-[60px] rounded-full px-4 flex items-center gap-3.5 cursor-pointer text-slate-900 dark:text-white" data-id="memory" data-side="left">
@@ -1091,11 +1100,11 @@
               <span class="font-semibold text-xs sm:text-[13px] tracking-tight">Personal AI Memory</span>
             </div>
 
-            <div id="node-goal" class="pill-card arc-left-3 w-full max-w-[280px] h-[60px] rounded-full px-4 flex items-center gap-3.5 cursor-pointer text-slate-900 dark:text-white" data-id="goal" data-side="left">
+            <div id="node-completion" class="pill-card arc-left-3 w-full max-w-[280px] h-[60px] rounded-full px-4 flex items-center gap-3.5 cursor-pointer text-slate-900 dark:text-white" data-id="completion" data-side="left">
               <div class="w-8 h-8 rounded-full bg-slate-200/50 dark:bg-white/10 flex items-center justify-center flex-shrink-0 shadow-inner">
-                <i class="fa-solid fa-bullseye text-xs text-emerald-400"></i>
+                <i class="fa-solid fa-brain text-xs text-emerald-400"></i>
               </div>
-              <span class="font-semibold text-xs sm:text-[13px] tracking-tight">Goal-Based Writing</span>
+              <span class="font-semibold text-xs sm:text-[13px] tracking-tight">Thought Completion</span>
             </div>
 
             <div id="node-studio" class="pill-card arc-left-4 w-full max-w-[280px] h-[60px] rounded-full px-4 flex items-center gap-3.5 cursor-pointer text-slate-900 dark:text-white" data-id="studio" data-side="left">
@@ -1375,15 +1384,15 @@
                 PRISM ENGINE
               </h3>
               <p class="text-slate-300 leading-relaxed font-normal text-base">
-                Designed for more demanding writing tasks, PRISM focuses on understanding broader context, interpreting communication goals, and generating responses that require more deliberate reasoning.
+                Designed for more demanding writing tasks, PRISM focuses on understanding broader context, interpreting communication intent, and generating responses that require more deliberate reasoning.
               </p>
 
               <div class="h-px bg-purple-500/25 my-6"></div>
 
               <ul class="space-y-4 text-sm sm:text-base text-slate-200 font-medium">
                 <li class="flex items-start gap-3">
-                  <i class="fa-solid fa-bullseye text-purple-400 mt-1 shrink-0"></i>
-                  <span><strong class="text-white">Goal-Oriented Composition</strong> — Structure messages around a specific objective and intended outcome.</span>
+                  <i class="fa-solid fa-wand-magic-sparkles text-purple-400 mt-1 shrink-0"></i>
+                  <span><strong class="text-white">Contextual Rewrite & Synthesis</strong> — Transform rough drafts and complete unfinished thoughts while preserving intended meaning.</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <i class="fa-solid fa-brain text-purple-400 mt-1 shrink-0"></i>
@@ -1584,15 +1593,15 @@
             <ul class="space-y-3 text-xs text-slate-200 font-medium">
               <li class="flex items-start gap-2.5">
                 <i class="fa-solid fa-check text-blue-400 mt-0.5 shrink-0"></i>
-                <span>Adaptive Persona Mode.</span>
+                <span>Help Me Rewrite & Thought Completion.</span>
               </li>
               <li class="flex items-start gap-2.5">
                 <i class="fa-solid fa-check text-blue-400 mt-0.5 shrink-0"></i>
-                <span>Advanced rewriting and tone adjustment.</span>
+                <span>Live Context Detection across apps.</span>
               </li>
               <li class="flex items-start gap-2.5">
                 <i class="fa-solid fa-check text-blue-400 mt-0.5 shrink-0"></i>
-                <span>Context-aware writing suggestions.</span>
+                <span>AI Generator Protection (standard limits).*</span>
               </li>
               <li class="flex items-start gap-2.5">
                 <i class="fa-solid fa-check text-blue-400 mt-0.5 shrink-0"></i>
@@ -1631,15 +1640,15 @@
             <ul class="space-y-3 text-xs text-white font-medium">
               <li class="flex items-start gap-2.5">
                 <i class="fa-solid fa-sparkles text-cyan-400 mt-0.5 shrink-0"></i>
-                <span>Advanced reasoning workflows.</span>
+                <span>Advanced reasoning workflows (PRISM).</span>
               </li>
               <li class="flex items-start gap-2.5">
                 <i class="fa-solid fa-sparkles text-cyan-400 mt-0.5 shrink-0"></i>
-                <span>Personalized writing preferences.</span>
+                <span>Help Me Rewrite & Thought Completion suites.</span>
               </li>
               <li class="flex items-start gap-2.5">
                 <i class="fa-solid fa-sparkles text-cyan-400 mt-0.5 shrink-0"></i>
-                <span>More complex rewriting and composition.</span>
+                <span>AI Generator Protection (advanced limits).*</span>
               </li>
               <li class="flex items-start gap-2.5">
                 <i class="fa-solid fa-sparkles text-cyan-400 mt-0.5 shrink-0"></i>
@@ -1675,15 +1684,15 @@
             <ul class="space-y-3 text-xs text-slate-200 font-medium">
               <li class="flex items-start gap-2.5">
                 <i class="fa-solid fa-check text-purple-400 mt-0.5 shrink-0"></i>
-                <span>Higher usage allowances.</span>
+                <span>Highest usage allowances & priority queues.</span>
               </li>
               <li class="flex items-start gap-2.5">
                 <i class="fa-solid fa-check text-purple-400 mt-0.5 shrink-0"></i>
-                <span>Access to advanced writing workflows.</span>
+                <span>Full Help Me Rewrite & Thought Completion suites.</span>
               </li>
               <li class="flex items-start gap-2.5">
                 <i class="fa-solid fa-check text-purple-400 mt-0.5 shrink-0"></i>
-                <span>Support for complex, multi-step tasks.</span>
+                <span>Comprehensive AI Generator Protection (maximum limits).*</span>
               </li>
               <li class="flex items-start gap-2.5">
                 <i class="fa-solid fa-check text-purple-400 mt-0.5 shrink-0"></i>
@@ -1723,25 +1732,32 @@
                 <td><i class="fa-solid fa-check text-cyan-400" aria-label="Included"></i></td>
               </tr>
               <tr>
+                <td>Live Context Detection (LCD)</td>
+                <td>Basic App Sense</td>
+                <td>Full Context Adaptation</td>
+                <td>Full Context Adaptation</td>
+                <td>Priority Real-time LCD</td>
+              </tr>
+              <tr>
+                <td>Help Me Rewrite</td>
+                <td>Essential Draft Polish</td>
+                <td>Advanced Rewrite & Tone</td>
+                <td>Full Contextual Suite</td>
+                <td>Deep Multi-step Rewrites</td>
+              </tr>
+              <tr>
+                <td>Thought Completion</td>
+                <td>Standard Autocomplete</td>
+                <td>Contextual Completion</td>
+                <td>Deep Intent Completion</td>
+                <td>Maximum Capacity</td>
+              </tr>
+              <tr>
                 <td>Grammar and refinement</td>
                 <td>Essential</td>
                 <td>Advanced</td>
                 <td>Full Suite</td>
                 <td>Full Suite</td>
-              </tr>
-              <tr>
-                <td>Adaptive Persona Mode</td>
-                <td><i class="fa-solid fa-minus text-slate-500" aria-label="Not included"></i></td>
-                <td>Standard Personas</td>
-                <td>Custom Personas</td>
-                <td>Custom Personas</td>
-              </tr>
-              <tr>
-                <td>Context-aware suggestions</td>
-                <td><i class="fa-solid fa-minus text-slate-500" aria-label="Not included"></i></td>
-                <td><i class="fa-solid fa-check text-cyan-400" aria-label="Included"></i></td>
-                <td><i class="fa-solid fa-check text-cyan-400" aria-label="Included"></i></td>
-                <td><i class="fa-solid fa-check text-cyan-400" aria-label="Included"></i></td>
               </tr>
               <tr>
                 <td>Advanced reasoning workflows (PRISM)</td>
@@ -1756,6 +1772,13 @@
                 <td>Basic</td>
                 <td>Expanded</td>
                 <td>Maximum</td>
+              </tr>
+              <tr>
+                <td>AI Generator Protection</td>
+                <td><i class="fa-solid fa-minus text-slate-500" aria-label="Not included"></i></td>
+                <td>Standard (Plan limits)*</td>
+                <td>Advanced (Tier limits)*</td>
+                <td>Comprehensive (Maximum)*</td>
               </tr>
               <tr>
                 <td>Usage allowances</td>
@@ -1774,6 +1797,9 @@
             </tbody>
           </table>
         </div>
+        <p class="text-[11px] font-mono text-slate-400 text-center mt-4">
+          * AI Generator Protection availability, usage caps, and verification limits are defined according to each tier's intended limits [Subject to final confirmation].
+        </p>
       </div>
     </div>
   </section>
@@ -1795,8 +1821,10 @@
       <div id="privacy-animation-stage" class="relative w-full min-h-[480px] flex flex-col items-center justify-center p-4 sm:p-8 overflow-visible">
         <h2 id="priv-title-question" class="text-4xl sm:text-6xl font-black text-white absolute opacity-0 scale-90 text-center px-4 drop-shadow-sm">What about Privacy?</h2>
 
-        <div id="priv-point-1" class="absolute inset-x-8 top-1/2 -translate-y-1/2 flex flex-col items-center text-center opacity-0 pointer-events-none">
-          <div class="text-2xl sm:text-4xl font-extrabold text-emerald-400 font-mono mb-4 min-h-[40px]"><span id="type-target-1" class="typing-cursor"></span></div>
+        <div id="priv-point-1" class="absolute inset-x-4 sm:inset-x-8 top-1/2 -translate-y-1/2 flex flex-col items-center text-center opacity-0 pointer-events-none max-w-4xl mx-auto">
+          <div class="flex items-center justify-center text-2xl sm:text-4xl font-extrabold text-emerald-400 font-mono mb-4 min-h-[44px] text-center flex-wrap">
+            <span id="type-target-1" class="whitespace-normal"></span><span id="priv-typing-cursor-1" class="typing-cursor" aria-hidden="true"></span>
+          </div>
           <p id="sub-target-1" class="text-lg sm:text-2xl text-slate-200 font-medium opacity-0 transform translate-y-6 transition-all duration-500">TypeMind Spark behaves like a normal keyboard.</p>
         </div>
 
@@ -1822,7 +1850,9 @@
         <div id="priv-logo-lock" class="absolute inset-0 flex flex-col items-center justify-center opacity-0 pointer-events-none z-20">
           <div id="apple-medallion-box" class="glass-panel w-40 h-40 sm:w-48 sm:h-48 rounded-[40px] p-8 flex items-center justify-center transform scale-75 opacity-0 relative">
             <div id="stage-logo-wrap" class="absolute inset-8 flex items-center justify-center transition-all duration-300">
-              <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-400 to-blue-600 p-1 flex items-center justify-center text-white font-mono font-black text-2xl shadow-md">TM</div>
+              <div class="w-20 h-20 rounded-full p-[2px] bg-gradient-to-tr from-cyan-400 to-blue-600 shadow-[0_0_25px_rgba(56,189,248,0.6)] flex items-center justify-center overflow-hidden">
+                <img src="https://i.ibb.co/VcCYBQ5h/Split-Tone-Metallic-TM-Emblem.png" alt="TypeMind Spark Logo" class="brand-logo-circle" />
+              </div>
             </div>
             <div id="stage-lock-wrap" class="absolute inset-6 flex items-center justify-center opacity-0 transform rotateY(-90deg) pointer-events-none">
               <svg viewBox="0 0 100 100" class="w-24 h-24 sm:w-28 sm:h-28 overflow-visible">
@@ -1882,7 +1912,9 @@
       <div id="download-trigger-box" class="my-6 reveal-node">
         <button id="download-trigger-btn" type="button" onclick="triggerWaitlistFlow('All-Access', 'Join the Waitlist')" class="group relative px-10 py-6 rounded-3xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 p-[2px] shadow-[0_0_50px_rgba(56,189,248,0.45)] hover:shadow-[0_0_80px_rgba(56,189,248,0.7)] transition-all transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-400">
           <div class="w-full h-full bg-slate-950 rounded-[22px] px-8 py-5 flex items-center justify-center gap-4">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-500 p-1 shrink-0 flex items-center justify-center text-white font-mono font-bold text-sm">TM</div>
+            <div class="w-11 h-11 rounded-full p-[1.5px] bg-gradient-to-tr from-cyan-400 to-blue-500 shrink-0 flex items-center justify-center shadow-[0_0_15px_rgba(56,189,248,0.5)] overflow-hidden">
+              <img src="https://i.ibb.co/VcCYBQ5h/Split-Tone-Metallic-TM-Emblem.png" alt="TypeMind Spark Logo" class="brand-logo-circle" />
+            </div>
             <span class="text-2xl sm:text-3xl font-black text-white hero-siri-shimmer tracking-tight">Join the Waitlist</span>
             <i class="fa-solid fa-arrow-pointer text-cyan-400 animate-bounce ml-2 text-lg"></i>
           </div>
@@ -1948,8 +1980,8 @@
         <!-- Col 1: Brand Info -->
         <div class="space-y-4">
           <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-400 to-blue-600 p-0.5 flex items-center justify-center text-white shadow-md">
-              <span class="font-mono text-xs font-black">TM</span>
+            <div class="w-9 h-9 rounded-full p-[1.5px] bg-gradient-to-tr from-cyan-400 to-blue-600 shadow-[0_0_12px_rgba(56,189,248,0.4)] flex items-center justify-center shrink-0 overflow-hidden">
+              <img src="https://i.ibb.co/VcCYBQ5h/Split-Tone-Metallic-TM-Emblem.png" alt="TypeMind Spark Logo" class="brand-logo-circle" />
             </div>
             <span class="font-bold text-white text-base tracking-tight">TypeMind Spark</span>
           </div>
@@ -1962,10 +1994,10 @@
         <div class="space-y-3">
           <h4 class="text-xs font-mono font-bold uppercase tracking-wider text-white">Capabilities</h4>
           <ul class="space-y-2 text-xs text-slate-400 font-medium">
-            <li><a href="#features" class="hover:text-cyan-400 transition-colors">Adaptive Persona Mode</a></li>
-            <li><a href="#features" class="hover:text-cyan-400 transition-colors">Live Context Detection</a></li>
+            <li><a href="#features" class="hover:text-cyan-400 transition-colors">Help Me Rewrite</a></li>
+            <li><a href="#features" class="hover:text-cyan-400 transition-colors">Live Context Detection (LCD)</a></li>
+            <li><a href="#features" class="hover:text-cyan-400 transition-colors">Thought Completion</a></li>
             <li><a href="#features" class="hover:text-cyan-400 transition-colors">Personal AI Memory</a></li>
-            <li><a href="#beyond-keyboard" class="hover:text-cyan-400 transition-colors">Universal Application UI</a></li>
           </ul>
         </div>
 
@@ -2009,11 +2041,11 @@
           © 2026 TypeMind Spark. All rights reserved.
         </div>
 
-        <!-- About Founder Button with portfolio link placeholder -->
+        <!-- About Founder Button -->
         <div>
-          <a href="https://shreyashverma.vercel.app/" target="_blank" rel="noopener noreferrer" id="founder-portfolio-btn" class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel hover:border-cyan-400 text-white font-sans text-xs font-semibold transition-all shadow-sm hover:scale-105 active:scale-95 group focus:outline-none focus:ring-2 focus:ring-cyan-400" title="Founder Portfolio (Replace with your link)">
+          <a href="https://shreyashverma.vercel.app/" target="_blank" rel="noopener noreferrer" id="founder-portfolio-btn" class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel hover:border-cyan-400 text-white font-sans text-xs font-semibold transition-all shadow-sm hover:scale-105 active:scale-95 group focus:outline-none focus:ring-2 focus:ring-cyan-400" title="About the Founder">
             <i class="fa-solid fa-user-astronaut text-cyan-400 group-hover:rotate-12 transition-transform"></i>
-            <span>About it's founder</span>
+            <span>About its founder</span>
             <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-cyan-400 transition-colors"></i>
           </a>
         </div>
@@ -2607,20 +2639,20 @@
         {
           num: "01",
           badge: "01 / 07",
-          category: "Adaptive Context",
-          title: "Adaptive Persona Mode",
-          desc: "Adjusts tone, formality and wording based on who you're writing to—without changing what you mean. Seamlessly calibrate between executive, team, client, and personal registers.",
-          tags: ["Executive", "Client", "Peer", "Formal Register"],
-          icon: "fa-masks-theater",
+          category: "Draft Refinement",
+          title: "Help Me Rewrite",
+          desc: "Allows users to select an existing draft and transform it into a clearer, more professional, or context-appropriate message.",
+          tags: ["Draft Selection", "Clarity Polish", "Tone Control", "Context Adaptation"],
+          icon: "fa-pen-to-square",
           accentColor: "cyan"
         },
         {
           num: "02",
           badge: "02 / 07",
           category: "Environment Sense",
-          title: "Live Context Detection",
-          desc: "Understands where you're writing and adapts suggestions to fit the application and conversational thread automatically, whether in email, chats, documents, or browsers.",
-          tags: ["WhatsApp", "Gmail", "LinkedIn", "Docs"],
+          title: "Live Context Detection (LCD)",
+          desc: "Detects the current app or writing context, such as WhatsApp, Gmail, or LinkedIn, to adapt writing suggestions, autocorrect, and Thought Completion.",
+          tags: ["WhatsApp", "Gmail", "LinkedIn", "Context Aware"],
           icon: "fa-location-dot",
           accentColor: "cyan"
         },
@@ -2637,12 +2669,12 @@
         {
           num: "04",
           badge: "04 / 07",
-          category: "Intent Direction",
-          title: "Goal-Based Writing",
-          desc: "Select what you want to achieve—such as negotiating terms, requesting approvals, declining politely, or persuading—and Spark structures the prose to achieve that objective.",
-          tags: ["Negotiate", "Decline Gracefully", "Persuade", "Request"],
-          icon: "fa-bullseye",
-          accentColor: "cyan"
+          category: "Cognitive Flow",
+          title: "Thought Completion",
+          desc: "Helps users complete unfinished thoughts naturally while typing, preserving their intended meaning.",
+          tags: ["Unfinished Thoughts", "Intent Preservation", "Fluid Typing", "Smart Autocorrect"],
+          icon: "fa-brain",
+          accentColor: "purple"
         },
         {
           num: "05",
@@ -2669,7 +2701,7 @@
           badge: "07 / 07",
           category: "Experimental Clone",
           title: "Clone AI Agent",
-          desc: "Create an adaptive persona agent designed to represent your writing style and preferences for drafts and complex synthesis while keeping you in full review control.",
+          desc: "Create an adaptive writing agent designed to mirror your personal writing style and preferences for drafts and complex synthesis while keeping you in full review control.",
           tags: ["Style Mirroring", "Draft Generation", "Custom Workflows"],
           icon: "fa-robot",
           accentColor: "amber"
@@ -3014,13 +3046,13 @@
       // 8. BEYOND THE KEYBOARD INTERACTIVE WIRE & TOOLTIP LOGIC
       // =========================================================
       const btkCapabilities = {
-        persona: { title: "Adaptive Persona", badge: "CORE CAPABILITY", tagline: "Write differently for different people.", desc: "TM Spark adjusts your tone and style based on who you're talking to — professional, friendly, casual, or concise.", demo: { contact: "Prof. Sharma (Placement Chair)", status: "online", avatar: "👨‍🏫", incoming: "Please confirm if your AI system report is ready for tomorrow's panel.", outgoing: "Respected Sir, could I please submit the placement report tomorrow morning? All core capabilities are completed.", badge: "✦ Adaptive Persona" } },
-        context: { title: "Live Context", badge: "CORE CAPABILITY", tagline: "TM Spark understands what's around your message.", desc: "It uses available context to make suggestions that fit the conversation instead of treating every sentence separately.", demo: { contact: "Dev Team Sprint", status: "online", avatar: "💻", incoming: "Where are we on dynamic SVG wire recalculations?", outgoing: "The SVG curves recalculate dynamically on resize and key animations are locked at 60fps. Ready for PR.", badge: "✦ Live Context" } },
+        rewrite: { title: "Help Me Rewrite", badge: "CORE CAPABILITY", tagline: "Transform your drafts into polished messages.", desc: "Allows users to select an existing draft and transform it into a clearer, more professional, or context-appropriate message.", demo: { contact: "Draft Assistant", status: "refining draft", avatar: "✍️", incoming: "Selected Draft: 'hey need slides quick for tomorrow'", outgoing: "✦ Help Me Rewrite: 'Hi team, could you please share the finalized presentation slides when ready? Thank you!'", badge: "✦ Help Me Rewrite" } },
+        context: { title: "Live Context Detection (LCD)", badge: "CORE CAPABILITY", tagline: "Adapts to where you are writing.", desc: "Detects the current app or writing context, such as WhatsApp, Gmail, or LinkedIn, to adapt writing suggestions, autocorrect, and Thought Completion.", demo: { contact: "Dev Team Sprint", status: "online", avatar: "💻", incoming: "Where are we on dynamic SVG wire recalculations?", outgoing: "The SVG curves recalculate dynamically on resize and key animations are locked at 60fps. Ready for PR.", badge: "✦ Live Context (LCD)" } },
         memory: { title: "Personal AI Memory", badge: "CORE CAPABILITY", tagline: "Let TM Spark remember what matters.", desc: "Save preferences like your writing style, tone, or common choices, so future suggestions feel more personal.", demo: { contact: "Personal Knowledge Base", status: "synced", avatar: "🧠", incoming: "Insert bio for College Placement Portfolio:", outgoing: "Frontend Engineer specializing in on-device AI UI, real-time keyboard interaction layers, and multimodal responsive systems.", badge: "✦ Personal AI Memory" } },
-        goal: { title: "Goal-Based Writing", badge: "CORE CAPABILITY", tagline: "Tell it what you want to achieve.", desc: "Whether you want to convince, explain, request, apologize, or sound professional, TM Spark shapes your message around that goal.", demo: { contact: "Design Agency Lead", status: "online", avatar: "🎨", incoming: "Can you deliver revisions on the client dashboard interactions tonight?", outgoing: "I can deliver the revised interactions by 8:00 PM tonight, focusing first on the floating glassmorphic panels.", badge: "✦ Goal-Based Writing" } },
+        completion: { title: "Thought Completion", badge: "CORE CAPABILITY", tagline: "Complete unfinished thoughts naturally.", desc: "Helps users complete unfinished thoughts naturally while typing, preserving their intended meaning.", demo: { contact: "Writing Flow", status: "typing active", avatar: "💡", incoming: "Unfinished Draft: 'Regarding our launch schedule, we should probably...'", outgoing: "✦ Thought Completion: '...ensure cross-app testing is complete before rolling out to beta users.'", badge: "✦ Thought Completion" } },
         studio: { title: "Personal AI Studio", badge: "CORE CAPABILITY", tagline: "Create without leaving your keyboard.", desc: "Use AI tools to create things like custom emojis, GIFs, images, or other content directly from your writing workflow.", demo: { contact: "Spark Studio Agent", status: "active runtime", avatar: "⚡", incoming: "/explain-tech vram bottlenecks in 2 lines", outgoing: "⚡ [Tech Explainer Mode]: VRAM saturation forces texture paging into system RAM, triggering latency spikes.", badge: "✦ Personal AI Studio" } },
         actions: { title: "Cross-App AI Actions", badge: "CORE CAPABILITY", tagline: "Turn your words into actions.", desc: "Ask TM Spark to help with tasks like creating reminders, opening locations, or working with supported apps — with confirmation when needed.", demo: { contact: "Project Sync", status: "online", avatar: "🔄", incoming: "Let's schedule a mock placement interview this Friday at 4 PM.", outgoing: "✦ Spark Action: Added 'Placement Mock Interview' to Google Calendar for Friday @ 4:00 PM. Event confirmed.", badge: "✦ Cross-App AI Actions" } },
-        clone: { title: "Clone Agent", badge: "EXPERIMENTAL", tagline: "Create an AI that writes more like you.", desc: "Clone Agent is designed to learn your preferences, communication style, and goals to create a more personalized AI experience.", isExp: true, demo: { contact: "Placement Alumni Group", status: "online", avatar: "🤖", incoming: "Who can attend the early morning industry keynote on Saturday?", outgoing: "[Clone Agent Sim]: I will be attending the session remotely from 9:00 AM. Please count me in.", badge: "✦ Clone Agent (Sim)" } },
+        clone: { title: "Clone Agent", badge: "EXPERIMENTAL", tagline: "Create an AI that writes more like you.", desc: "Clone Agent is designed to learn your preferences, communication style, and writing flow to create a personalized AI experience.", isExp: true, demo: { contact: "Placement Alumni Group", status: "online", avatar: "🤖", incoming: "Who can attend the early morning industry keynote on Saturday?", outgoing: "[Clone Agent Sim]: I will be attending the session remotely from 9:00 AM. Please count me in.", badge: "✦ Clone Agent (Sim)" } },
         whatsapp: { title: "WhatsApp", badge: "DESIGNED FOR", tagline: "Write better without leaving the conversation.", desc: "Rewrite messages, change your tone, get smart replies, or express what you're trying to say more clearly.", demo: { contact: "Team Chat", status: "online", avatar: "💬", incoming: "Can you send over the latest status update for the deployment?", outgoing: "The build is packaged and passing all sandbox integration checks. Deploying to production in 15 minutes.", badge: "✦ Designed for WhatsApp" } },
         gmail: { title: "Gmail", badge: "DESIGNED FOR", tagline: "From rough thought to polished email.", desc: "Compose, rewrite, shorten, or adjust the tone of your emails while keeping your original intent.", demo: { contact: "Campus Placement Cell", status: "inbox", avatar: "✉️", incoming: "Please submit your preferred interview time slots.", outgoing: "Respected Sir, I am available on Thursday and Friday afternoon between 2:00 PM and 6:00 PM. Thank you.", badge: "✦ Designed for Gmail" } },
         linkedin: { title: "LinkedIn", badge: "DESIGNED FOR", tagline: "Sound professional without sounding robotic.", desc: "Turn simple thoughts into polished messages, replies, posts, or professional conversations.", demo: { contact: "Talent Partner", status: "messaging", avatar: "💼", incoming: "Loved your interactive keyboard prototype! Are you open to frontend engineering roles?", outgoing: "Thank you for reaching out! I'm actively exploring frontend and AI engineering roles. I would love to connect.", badge: "✦ Designed for LinkedIn" } },
@@ -3290,6 +3322,7 @@
         const qTitle = document.getElementById('priv-title-question');
         const point1 = document.getElementById('priv-point-1');
         const type1 = document.getElementById('type-target-1');
+        const privCursor1 = document.getElementById('priv-typing-cursor-1');
         const sub1 = document.getElementById('sub-target-1');
         const point2 = document.getElementById('priv-point-2');
         const point3 = document.getElementById('priv-point-3');
@@ -3321,6 +3354,10 @@
         sub1.style.opacity = 0;
         sub1.style.transform = "translateY(16px)";
         type1.textContent = "";
+        if (privCursor1) {
+          privCursor1.classList.remove('cursor-done');
+          privCursor1.style.opacity = "1";
+        }
 
         const tl = gsap.timeline({
           onComplete: () => {
@@ -3335,6 +3372,7 @@
         tl.call(() => {
           gsap.to(point1, { opacity: 1, duration: 0.3 });
           typeString(type1, "1. Sensitive fields will be excluded", 26, () => {
+            if (privCursor1) privCursor1.classList.add('cursor-done');
             gsap.to(sub1, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.5)" });
           });
         }, null, "+=0.2");
